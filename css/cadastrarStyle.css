@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  font-size: 1em;
+}
+
+/* Invólucro */
+.wrapper{
+  position: relative;
+  height: auto;
+  width: 400px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 20px 100px;
+
+  background: #F9F9F9;
+}
+
+/* Titulo */
+h1{
+  margin: 0;
+  font-weight: 300;
+  color: #bbb;
+}
+
+hr{
+  border-color: #eee;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
+  margin-bottom: 2em;
+}
+/* Labels */
+label{
+  font-weight: 500;
+}
+
+/* Elementos do Form */
+input, select{
+  width: 400px;
+  margin-bottom: 2em;
+  display: block;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+
+  outline: none;
+  border: 0;
+  border-bottom: 2px solid #E1E1E1;
+  background: transparent;
+
+  font-weight: 400;
+  transition: 0.5s;
+}
+
+input:focus, select:focus{
+  border-color: #459;
+  transition: 0.5s;
+}
+
+/* Select (Gênero) */
+select{
+  border: 2px solid #eee;
+}
+
+/* Grupo de Senha */
+.pw-group{
+  padding-right: 1em;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.pw-group input{
+  width: 100%;
+}
+
+/* Botão de Enviar */
+.btn{
+  display: block;
+  max-width: 140px;
+  padding: 0.6em 0.8em;
+  box-sizing: border-box;
+  border: 1px solid #459;
+  color: #459;
+  background: transparent;
+  font-size: 0.9em;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.btn:hover{
+  background: #459;
+  color: white;
+}
+
+/* Links */
+a, a:link, a:visited, a:focus{
+  text-decoration: none;
+  color: #4da6ff;
+  font-weight: 300;
+}
+
+a:hover{
+  color: #0073e6;
+}
+
+/* Erro */
+.erro{
+  display: none;
+  width: 400px;
+  background: #459;
+  padding: 0.6em 0.6em;
+  box-sizing: border-box;
+  position: relative;
+  top: -1.8em;
+  text-align: center;
+  font-weight: 300;
+  color: white;
+}
