@@ -1,4 +1,8 @@
 <?php
+  // sessão
+  session_start();
+  $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
+  if($email) header("url=index.php");
   // Requerindo DB
   require_once 'incl/database.php';
   // Importando Classe Usuário

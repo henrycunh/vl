@@ -21,7 +21,7 @@ function autenticar(){
   pwerro.slideUp(500)
 
   // post data
-  let userdata = {op:'usuario/email', email: email.val()}
+  let userdata = {op:'usuario/autenticar', email: email.val(), senha: pw.val()}
 
   // Autenticate
   $.ajax({
@@ -30,26 +30,28 @@ function autenticar(){
     data: userdata,
     dataType: 'json',
     beforeSend: () => {$("#preloader").fadeIn(100)},
+    error: (e,x,s) => {
+      console.log(s)
+      console.log(e)
+      console.log(x)
+    },
     success: data => {
-      if(!data) {
-        // User doesn't exist
-        emailerro.html("Não existe um usuário com esse e-mail")
-        emailerro.slideDown(500)
+      if(data.emailFound) {
+        // Email encontrado
+        if(data.success){
+          // Senha confere
+          window.location.replace('index.php')
+        } else {
+          // Senha não confere
+          pwerro.html("Senha incorreta")
+          pwerro.slideDown(500)
+        }
       } else {
-        emailerro.slideUp(500)
-        // Authentication Data
-        let auth = {op: 'usuario/autenticar', id: data.idUsuario, senha: pw.val()}
-        $.post('api/usuario.php', auth, _data => {
-          if(_data.success){
-            // senha correta
-            window.location.replace("index.php");
-          } else {
-            // senha incorreta
-            pwerro.html("Senha Incorreta")
-            pwerro.slideDown(500)
-          }
-        })
+        // Email não encontrado
+        emailerro.html("E-mail não encontrado")
+        emailerro.slideDown(500)
       }
+
       $("#preloader").fadeOut(100)
     }
 })

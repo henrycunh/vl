@@ -12,13 +12,13 @@
     $usuario = new Usuario(
       $dados['nomecompleto'],
       $dados['email'],
-      date("Y-m-d", strtotime($dados['datanasc'])),
-      $dados['genero'],
-      $dados['cpf'],
-      $dados['rg'],
-      $dados['endereco'],
-      $dados['cep'],
-      $dados['telefone'],
+      date("Y-m-d"),
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
       $dados['pw'],
       date("Y-m-d")
     );
@@ -43,44 +43,22 @@
     <?php header("Refresh: 1.5; url=index.php"); else: ?>
     <form action="cadastrar.php" method='post'>
       <label for="nomecompleto">Nome Completo</label>
-      <input type="text" name="nomecompleto" required>
+      <input type="text" id='nome' name="nomecompleto">
+      <div class="erro" id='nome-erro'></div>
+
 
       <label for="email">E-mail</label>
-      <input type="email" name="email" required>
-
-      <label for="datanasc">Data de Nascimento</label>
-      <input type="date" name="datanasc" required >
-
-      <label for="genero">Gênero</label>
-      <select name='genero'>
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-      </select>
-
-      <label for="cpf">CPF</label>
-      <input type="text" name="cpf" id='cpf' oninput="checkCPF()" required>
-      <div class="erro"></div>
-
-      <label for="rg">RG</label>
-      <input type="text" id='rg' name="rg" >
-
-      <label for="endereco">Endereço</label>
-      <input type="text" name="endereco" required>
-
-      <label for="cep">CEP</label>
-      <input type="text" id='cep' name="cep" required>
-
-      <label for="telefone">Telefone</label>
-      <input type="text" id='telefone' name="telefone" required>
+      <input type="email" id='email' name="email">
+      <div class="erro" id='email-erro'></div>
 
       <div class="pw-group">
         <label for="pw">Senha</label>
-        <input type="password" name="pw" oninput='checkPW()' required>
+        <input type="password" name="pw" oninput='checkPW()'>
       </div><!--
 
   --><div class="pw-group">
         <label for="confirm-pw">Confirmar Senha</label>
-        <input type="password" name="confirm-pw" oninput='checkPW()' required>
+        <input type="password" name="confirm-pw" oninput='checkPW()'>
       </div>
       <div class="erro" id='pw-erro'></div>
 

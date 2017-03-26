@@ -1,17 +1,14 @@
 $(()=>{
   // Atribuindo evento ao botão
   $("#desconectar").on('click', e => {
+    $("#desconectar").html("Saindo...")
     $.ajax({
       url: "api/usuario.php",
-      type: 'post',
+      method: 'POST',
       dataType: 'json',
       data: {op:'usuario/desconectar'},
-      beforeSend: () => {
-        $("#preloader").fadeIn(100)
-      },
       success: data => {
         window.location.replace('index.php')
-
       }
     })
     e.preventDefault()

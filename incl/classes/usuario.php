@@ -80,7 +80,9 @@
         $stmt->bindParam(':dataCriacao', $this->dataCriacao);
 
         // Executando Statement
-        $stmt->execute();
+        if(!$stmt->execute()){
+          print_r($stmt->errorInfo());
+        }
     }
 
 

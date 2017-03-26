@@ -115,4 +115,15 @@ a:hover{
 }
 
 /* Erro */
-|
+.erro{
+  display: none;
+  width: 400px;
+  background: #459;
+  padding: 0.6em 0.6em;
+  box-sizing: border-box;
+  position: relative;
+  top: -1.8em;
+  text-align: center;
+  font-weight: 300;
+  color: white;
+}
