@@ -1,8 +1,5 @@
 <?php
-/* "INSERT INTO usuario(nomeCompleto, email, dataNascimento, genero,
-  cpf, rg, endereco, cep, telefone, senha, dataCriacao) VALUES(
-  :nomeCompleto, :email, :dataNascimento, :genero, :cpf, :rg, :endereco, :cep, :telefone, :senha
-)" */
+
   class Usuario{
     private $nomeCompleto;
     private $email;
@@ -31,6 +28,24 @@
       $this->telefone = $telefone;
       $this->senha = $senha;
       $this->dataCriacao = $dataCriacao;
+    }
+
+    // Pegar Usuário pelo ID
+    public static function getUsuarioById($conn, $id){
+      $result = $conn->query("SELECT * FROM usuario WHERE idUsuario = $id");
+      if(!$result)
+        return $result;
+      else
+        return $result->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Pegar Usuário pelo E-mail
+    public static function getUsuarioByEmail($conn, $email){
+      $result = $conn->query("SELECT * FROM usuario WHERE email = '$email'");
+      if($result)
+        return $result->fetch(PDO::FETCH_ASSOC);
+      else
+      return $result;
     }
 
     // Insere o Usuário com os dados armazenados no DB

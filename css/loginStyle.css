@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  background: #459;
+}
+
+/* Titulo */
+h1{
+  width: 528px;
+  padding: 0 4em;
+  margin: 0.1em auto;
+
+  font-weight: 300;
+  font-size: 4em;
+  color: #fff;
+}
+
+/* Wrapper */
+.wrapper{
+  background: #fff;
+
+  margin: 0 auto;
+  width: 400px;
+  height: 200px;
+  padding: 4em;
+  vertical-align: bottom;
+}
+
+/* Labels */
+label{
+  font-weight: 500;
+}
+
+/* Elementos do Form */
+input{
+  width: 400px;
+  margin-bottom: 2em;
+  display: block;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+
+  outline: none;
+  border: 0;
+  border-bottom: 2px solid #E1E1E1;
+  background: transparent;
+
+  color: #666;
+  font-weight: 400;
+  transition: 0.5s;
+}
+
+input:focus{
+  border-color: #459;
+  transition: 0.5s;
+}
+
+/* Butões*/
+.btns{
+  text-align: right;
+}
+
+/* Botão */
+.btn{
+  text-decoration: none;
+  display: inline-block;
+  width: 100px;
+  padding: 0.6em 0.8em;
+  text-align: center;
+  box-sizing: border-box;
+
+  border: 1px solid #459;
+  color: #459;
+  background: transparent;
+  font-size: 1em;
+
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.btn:hover{
+  background: #459;
+  color: white;
+}
+
+/* Erro */
+.erro{
+  display: none;
+  width: 400px;
+  background: #459;
+  padding: 0.6em 0.6em;
+  box-sizing: border-box;
+  position: relative;
+  top: -1.8em;
+  text-align: center;
+  font-weight: 300;
+  color: white;
+}
+
+/* Preloader */
+#preloader{
+  bottom: 2.3em;
+  left: 37%;
+  position: relative;
+  display: none;
+  width: 32px;
+  height: 32px;
+  background: url('../imgs/loading.gif');
+}
