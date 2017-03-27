@@ -40,7 +40,10 @@
     <hr>
     <?php if($post): ?>
     Usuário cadastrado com sucesso.
-    <?php header("Refresh: 1.5; url=index.php"); else: ?>
+    <script type="text/javascript">
+      setTimeout(2000, () => { window.location.replace("index.php") })
+    </script>
+    <?php else: ?>
     <form action="cadastrar.php" method='post'>
       <label for="nomecompleto">Nome Completo</label>
       <input type="text" id='nome' name="nomecompleto">
