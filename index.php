@@ -14,7 +14,7 @@
       <a href="login.php">Login</a>
       <a href="cadastrar.php">Cadastrar-se</a>
     <?php else: ?>
-      <a href="#">Meu Painel</a>
+      <a href="painel.php">Meu Painel</a>
       <a href="#">Editais</a>
       <a href="#" id='desconectar'>Desconectar</a>
     <?php endif; ?>

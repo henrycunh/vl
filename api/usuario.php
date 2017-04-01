@@ -17,6 +17,41 @@
       echo $json;
     }
 
+    // Update User
+    if($data['op'] == 'usuario/atualizar'){
+      $user = $data['user'];
+      $email = $data['email'];
+      $usuario = new Usuario(
+        $user['nomeCompleto'],
+        $user['email'],
+        $user['dataNascimento'],
+        $user['genero'],
+        $user['cpf'],
+        $user['rg'],
+        $user['endereco'],
+        $user['cep'],
+        $user['telefone'],
+        "",
+        ""
+      );
+      $usuario->update($conn, $email);
+      $_SESSION['email'] = $user['email'];
+      $json = json_encode(['success' => 'true']);
+      echo $json;
+    }
+
+    // Mudar Senha
+    if($data['op'] == 'usuario/mudarsenha'){
+      $email = $data['email'];
+      $pw = $data['pw'];
+      $usuario = new Usuario();
+      $usuario->email = $email;
+      $usuario->senha = $pw;
+      $usuario->changePassword($conn);
+      $json = json_encode(['success' => 'true']);
+      echo $json;
+    }
+
     // Autenticate User
     if($data['op'] == 'usuario/autenticar'){
       $candSenha = $data['senha'];

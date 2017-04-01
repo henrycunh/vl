@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+main{
+  float: left;
+  width: 80%;
+  background-color: #f9f9f9;
+}
+
+aside{
+  float: right;
+  width: 20%;
+  background-color: #f1f1f1;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+main h1, aside h1{
+  font-weight: 400;
+  margin: 0;
+  padding: 10px 1.2em;
+  font-size: 1.5em;
+  color: #505088;
+}
+
+/* Painel Lateral */
+aside .info a{
+  display: block;
+  padding: 0.5em 0;
+  padding-left: 0.8em;
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 1.2em;
+  background-color: #e4e4e6;
+  color: #251c6f;
+  border-bottom: 2px solid transparent;
+  transition: 0.5s;
+}
+
+#desconectar{
+  border-bottom: 0;
+}
+
+aside .info a:hover{
+  background-color: #f1f1f1;
+  border-bottom: 2px solid #251c6f;
+}
+
+#desconectar:hover{
+  color: #b30000;
+  border-bottom: 0;
+}
+
+#desconectar:hover .icon{
+  color: #b30000;
+}
+
+aside .info a .icon{
+  color: #8181a7;
+  font-size: 1em;
+  position: relative;
+  padding: 0.4em;
+  background-color: rgba(163, 163, 183, 0.11);
+  transition: 0.5s;
+}

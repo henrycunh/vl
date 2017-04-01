@@ -30,6 +30,7 @@
       $this->dataCriacao = $dataCriacao;
     }
 
+
     // Pegar Usuário pelo ID
     public static function getUsuarioById($conn, $id){
       $result = $conn->query("SELECT * FROM usuario WHERE idUsuario = $id");
@@ -83,6 +84,48 @@
         if(!$stmt->execute()){
           print_r($stmt->errorInfo());
         }
+    }
+
+    // Atualiza o Usuário com os dados armazenados
+    public function update($conn, $email){
+      $query =
+        "UPDATE usuario SET nomeCompleto=:nomeCompleto, email=:email,
+        dataNascimento=:dataNascimento, genero=:genero, cpf=:cpf, rg=:rg,
+        endereco=:endereco, cep=:cep, telefone=:telefone
+        WHERE email='$email'";
+      $stmt = $conn->prepare($query);
+
+      // Atribuindo Parametros
+      $stmt->bindParam(':nomeCompleto', $this->nomeCompleto);
+      $stmt->bindParam(':email', $this->email);
+      $stmt->bindParam(':dataNascimento', $this->dataNascimento);
+      $stmt->bindParam(':genero', $this->genero);
+      $stmt->bindParam(':cpf', $this->cpf);
+      $stmt->bindParam(':rg', $this->rg);
+      $stmt->bindParam(':endereco', $this->endereco);
+      $stmt->bindParam(':cep', $this->cep);
+      $stmt->bindParam(':telefone', $this->telefone);
+
+      // Executando Statement
+      if(!$stmt->execute()){
+        print_r($stmt->errorInfo());
+      }
+    }
+
+    // Muda senha usuário
+    public function changePassword($conn){
+      $query =
+        "UPDATE usuario SET senha=:senha WHERE email='". $this->email."'";
+      $stmt = $conn->prepare($query);
+
+      // Criptografando Senha
+      $senha = password_hash($this->senha, PASSWORD_BCRYPT);
+      $stmt->bindParam(':senha', $senha);
+
+      // Executando Statement
+      if(!$stmt->execute()){
+        print_r($stmt->errorInfo());
+      }
     }
 
 

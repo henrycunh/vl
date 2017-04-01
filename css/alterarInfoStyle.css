@@ -19,7 +19,7 @@ body{
 /* Invólucro */
 .wrapper{
   position: relative;
-  height: 100%;
+  height: auto;
   width: 400px;
   bottom: 0;
   left: 0;
@@ -76,7 +76,29 @@ select{
   border: 2px solid #eee;
 }
 
+/* Aviso senha */
+h3{
+  font-size: 1em;
+  text-align: center;
+  font-weight: 300;
+  background-color: #ececec;
+  border-bottom: 2px solid #dcdcdc;
+  padding: 0.5em;
+}
+
 /* Grupo de Senha */
+#showpw{
+  font-size: 1.2em;
+  text-align: left;
+  font-weight: 400;
+  color: #2274a9;
+  cursor: pointer;
+}
+
+.alterarSenha{
+  display: none;
+}
+
 .pw-group{
   padding-right: 1em;
   display: inline-block;
@@ -97,6 +119,7 @@ select{
   box-sizing: border-box;
   border: 1px solid #459;
   color: #459;
+  margin-bottom: 0.5em;
   background: transparent;
   font-size: 0.9em;
   transition: 0.5s;
@@ -117,6 +140,12 @@ a, a:link, a:visited, a:focus{
 
 a:hover{
   color: #0073e6;
+}
+
+#voltar{
+  display: block;
+  text-align: center;
+  font-size: 1.4em;
 }
 
 /* Erro */
