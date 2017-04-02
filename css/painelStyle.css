@@ -12,7 +12,11 @@ body{
 main{
   float: left;
   width: 80%;
-  background-color: #f9f9f9;
+  bottom: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #697a9e;
 }
 
 aside{
@@ -31,6 +35,122 @@ main h1, aside h1{
   padding: 10px 1.2em;
   font-size: 1.5em;
   color: #505088;
+}
+
+/* Área do Currículo */
+main h1{
+  color: #F1F1F1;
+}
+
+.curriculo{
+  padding: 1em 2em;
+  margin: 1em;
+  border: 2px solid #ccc;
+  background-color: #F1F1F1;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+/* Curriculo Modal */
+.modalOuter{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 13, 49, 0.74);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.modalInner{
+  height: 100%;
+}
+
+.modal{
+  width: 40%;
+  height: 30%;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(241, 241, 241, 0.51);
+  position: relative;
+  top: 30%;
+  transform: translateY(-50%);
+  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.22);
+}
+
+.modal label{
+  position: absolute;
+  background: #ececec;
+  padding: 1em;
+  width: 50%;
+  box-sizing: border-box;
+  top: 3em;
+  margin: 0 auto;
+  left: 0;
+  cursor: pointer;
+  right: 0;
+  text-align: center;
+  color: #20267b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#curriculoSubmit{
+  position: absolute;
+  background: #ececec;
+  padding: 1em;
+  width: 50%;
+  top: 7em;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  border: 0;
+  font-size: 1em;
+  text-align: center;
+  cursor: pointer;
+  color: #20267b;
+}
+
+#closeModal{
+  position: absolute;
+  color: #23284d;
+  background: #fff;
+  font-size: 2em;
+  border-radius: 50%;
+  border: 0;
+  top: 0.3em;
+  right: 0.3em;
+  cursor: pointer;
+  outline: none;
+  transition: 0.5s;
+}
+
+#closeModal:hover{
+  color: #fff;
+  background: #23284d;
+}
+
+#fileCurriculo{
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#progress{
+  width: 50%;
+  margin: 0 auto;
+  position: absolute;
+  top: 11em;
+  left: 0;
+  right: 0;
 }
 
 /* Painel Lateral */

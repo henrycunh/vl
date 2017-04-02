@@ -60,14 +60,13 @@ function atualizarUsuario(){
     telefone: $("#telefone").val()
   }
   updateUsuario(mEmail, user, data => {
-    console.log('here')
-    $("#submit").html("Salvar")
+    $("#msg").html("Usuário atualizado.").delay(2000).fadeOut(300)
   }, ()=>{
-    $("#submit").html("Salvando...")
+    $("#msg").html("Atualizando...")
   })
   mEmail = user.email
   if($("#pw").val() != '' && checkPW()){
-    changePassword(mEmail, $("#pw").val());
+    changePassword(mEmail, $("#pw").val(), ()=>{});
   }
 }
 
@@ -103,9 +102,9 @@ $(()=>{
         } else {
           atualizarUsuario()
         }
-        $("#submit").html("Salvar")
       }, ()=>{
-        $("#submit").html("Carregando...")
+        $("#msg").html("Verificando Email...")
+        $("#msg").fadeIn(300)
       })
   })
 

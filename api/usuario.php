@@ -21,7 +21,7 @@
     if($data['op'] == 'usuario/atualizar'){
       $user = $data['user'];
       $email = $data['email'];
-      $usuario = new Usuario(
+      $usuario = Usuario::create(
         $user['nomeCompleto'],
         $user['email'],
         $user['dataNascimento'],
@@ -45,8 +45,8 @@
       $email = $data['email'];
       $pw = $data['pw'];
       $usuario = new Usuario();
-      $usuario->email = $email;
-      $usuario->senha = $pw;
+      $usuario->setEmail($email);
+      $usuario->setSenha($pw);
       $usuario->changePassword($conn);
       $json = json_encode(['success' => 'true']);
       echo $json;

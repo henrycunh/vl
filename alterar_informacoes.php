@@ -72,7 +72,8 @@
       </div>
 
       <button class='btn' id='submit'>Salvar</button>
-      <a href="index.php" id='voltar'>Voltar</a>
+      <span id='msg'>Mensagem</span>
+      <a href="painel.php" id='voltar'>Voltar</a>
   </div>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>

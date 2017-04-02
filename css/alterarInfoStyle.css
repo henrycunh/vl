@@ -113,7 +113,7 @@ h3{
 
 /* Botão de Enviar */
 .btn{
-  display: block;
+  display: inline-block;
   max-width: 140px;
   padding: 0.6em 0.8em;
   box-sizing: border-box;
@@ -129,6 +129,13 @@ h3{
 .btn:hover{
   background: #459;
   color: white;
+}
+
+#msg{
+  padding-left: 1em;
+  font-weight: 500;
+  color: rgba(43, 113, 158, 0.74);
+  display: none;
 }
 
 /* Links */

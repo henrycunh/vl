@@ -15,19 +15,36 @@
     private $idUsuario;
 
     // Construtor
-    public function __construct($nomeCompleto, $email, $dataNascimento,
+    public static function create($nomeCompleto, $email, $dataNascimento,
     $genero, $cpf, $rg, $endereco, $cep, $telefone, $senha, $dataCriacao){
-      $this->nomeCompleto = $nomeCompleto;
-      $this->email = $email;
-      $this->dataNascimento = $dataNascimento;
-      $this->genero = $genero;
-      $this->cpf = $cpf;
-      $this->rg = $rg;
-      $this->endereco = $endereco;
-      $this->cep = $cep;
-      $this->telefone = $telefone;
-      $this->senha = $senha;
-      $this->dataCriacao = $dataCriacao;
+      $instance = new self();
+      $instance->nomeCompleto = $nomeCompleto;
+      $instance->email = $email;
+      $instance->dataNascimento = $dataNascimento;
+      $instance->genero = $genero;
+      $instance->cpf = $cpf;
+      $instance->rg = $rg;
+      $instance->endereco = $endereco;
+      $instance->cep = $cep;
+      $instance->telefone = $telefone;
+      $instance->senha = $senha;
+      $instance->dataCriacao = $dataCriacao;
+      return $instance;
+    }
+
+    // Construtor
+    public function __construct(){
+      $this->nomeCompleto = "";
+      $this->email = "";
+      $this->dataNascimento = "";
+      $this->genero = "";
+      $this->cpf = "";
+      $this->rg = "";
+      $this->endereco = "";
+      $this->cep = "";
+      $this->telefone = "";
+      $this->senha = "";
+      $this->dataCriacao = "";
     }
 
 
@@ -130,6 +147,295 @@
 
 
 
-  }
+
+    /**
+     * Get the value of Nome Completo
+     *
+     * @return mixed
+     */
+    public function getNomeCompleto()
+    {
+        return $this->nomeCompleto;
+    }
+
+    /**
+     * Set the value of Nome Completo
+     *
+     * @param mixed nomeCompleto
+     *
+     * @return self
+     */
+    public function setNomeCompleto($nomeCompleto)
+    {
+        $this->nomeCompleto = $nomeCompleto;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Email
+     *
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of Email
+     *
+     * @param mixed email
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Data Nascimento
+     *
+     * @return mixed
+     */
+    public function getDataNascimento()
+    {
+        return $this->dataNascimento;
+    }
+
+    /**
+     * Set the value of Data Nascimento
+     *
+     * @param mixed dataNascimento
+     *
+     * @return self
+     */
+    public function setDataNascimento($dataNascimento)
+    {
+        $this->dataNascimento = $dataNascimento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Genero
+     *
+     * @return mixed
+     */
+    public function getGenero()
+    {
+        return $this->genero;
+    }
+
+    /**
+     * Set the value of Genero
+     *
+     * @param mixed genero
+     *
+     * @return self
+     */
+    public function setGenero($genero)
+    {
+        $this->genero = $genero;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Cpf
+     *
+     * @return mixed
+     */
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    /**
+     * Set the value of Cpf
+     *
+     * @param mixed cpf
+     *
+     * @return self
+     */
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Rg
+     *
+     * @return mixed
+     */
+    public function getRg()
+    {
+        return $this->rg;
+    }
+
+    /**
+     * Set the value of Rg
+     *
+     * @param mixed rg
+     *
+     * @return self
+     */
+    public function setRg($rg)
+    {
+        $this->rg = $rg;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Endereco
+     *
+     * @return mixed
+     */
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    /**
+     * Set the value of Endereco
+     *
+     * @param mixed endereco
+     *
+     * @return self
+     */
+    public function setEndereco($endereco)
+    {
+        $this->endereco = $endereco;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Cep
+     *
+     * @return mixed
+     */
+    public function getCep()
+    {
+        return $this->cep;
+    }
+
+    /**
+     * Set the value of Cep
+     *
+     * @param mixed cep
+     *
+     * @return self
+     */
+    public function setCep($cep)
+    {
+        $this->cep = $cep;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Telefone
+     *
+     * @return mixed
+     */
+    public function getTelefone()
+    {
+        return $this->telefone;
+    }
+
+    /**
+     * Set the value of Telefone
+     *
+     * @param mixed telefone
+     *
+     * @return self
+     */
+    public function setTelefone($telefone)
+    {
+        $this->telefone = $telefone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Senha
+     *
+     * @return mixed
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * Set the value of Senha
+     *
+     * @param mixed senha
+     *
+     * @return self
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Data Criacao
+     *
+     * @return mixed
+     */
+    public function getDataCriacao()
+    {
+        return $this->dataCriacao;
+    }
+
+    /**
+     * Set the value of Data Criacao
+     *
+     * @param mixed dataCriacao
+     *
+     * @return self
+     */
+    public function setDataCriacao($dataCriacao)
+    {
+        $this->dataCriacao = $dataCriacao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Id Usuario
+     *
+     * @return mixed
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    /**
+     * Set the value of Id Usuario
+     *
+     * @param mixed idUsuario
+     *
+     * @return self
+     */
+    public function setIdUsuario($idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+
+        return $this;
+    }
+
+}
 
  ?>

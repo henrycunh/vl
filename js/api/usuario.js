@@ -44,7 +44,11 @@ function changePassword(email, pw, callback, before){
     dataType: 'json',
     data: {op: 'usuario/mudarsenha', email: email, pw: pw},
     beforeSend: before,
-    error: (e,x,s) => {console.log(e,x,s)},
+    error: (e,x,s) => {
+      console.log(s)
+      console.log(e)
+      console.log(x)
+    },
     success: data => {
       callback(data)
     }

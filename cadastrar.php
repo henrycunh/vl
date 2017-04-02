@@ -9,7 +9,7 @@
     // Passando informações recebidas para array mais acessível
     $dados = $_POST;
     // Criando um Objeto de Usuário
-    $usuario = new Usuario(
+    $usuario = Usuario::create(
       $dados['nomecompleto'],
       $dados['email'],
       date("Y-m-d"),
