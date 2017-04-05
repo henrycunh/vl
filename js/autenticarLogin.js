@@ -18,6 +18,7 @@ function autenticar(){
     return false
   }
   // closing errors
+  emailerro.slideUp(500)
   pwerro.slideUp(500)
 
   // post data
@@ -29,7 +30,7 @@ function autenticar(){
     url: 'api/usuario.php',
     data: userdata,
     dataType: 'json',
-    beforeSend: () => {$("#preloader").fadeIn(100)},
+    beforeSend: () => {$("#entrar").html("Validando...")},
     error: (e,x,s) => {
       console.log(s)
       console.log(e)
@@ -44,17 +45,24 @@ function autenticar(){
         } else {
           // Senha não confere
           pwerro.html("Senha incorreta")
+          $("#entrar").html("Entrar")
           pwerro.slideDown(500)
         }
       } else {
         // Email não encontrado
         emailerro.html("E-mail não encontrado")
+        $("#entrar").html("Entrar")
         emailerro.slideDown(500)
       }
 
-      $("#preloader").fadeOut(100)
     }
 })
-
-
 }
+
+
+$(()=>{
+  $("#email").focus(()=>{ $("#emaillabel").show(500) })
+  $("#email").focusout(()=>{ $("#emaillabel").hide(500) })
+  $("#pw").focus(()=>{ $("#pwlabel").show(500) })
+  $("#pw").focusout(()=>{ $("#pwlabel").hide(500) })
+})

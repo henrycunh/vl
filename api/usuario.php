@@ -17,6 +17,13 @@
       echo $json;
     }
 
+    // Pegar usuário pelo CPF
+    if($data['op'] == 'usuario/cpf') {
+      $cpf = $data['cpf'];
+      $result = $conn->query("SELECT * FROM usuario WHERE cpf = '$cpf'")->fetch(PDO::FETCH_ASSOC);
+      echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+
     // Update User
     if($data['op'] == 'usuario/atualizar'){
       $user = $data['user'];

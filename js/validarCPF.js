@@ -4,10 +4,24 @@ function checkCPF(){
   let erro = $("#cpf").next();
   // validando
   if(validarCPF()){
-    erro.slideUp(500)
+    getUsuarioByCpf($("#cpf").val(), user => {
+      if(user){
+        erro.html("Já existe um usuário com esse CPF.")
+        erro.slideDown(500)
+        return false;
+      } else {
+        erro.slideUp(500)
+        return true;
+      }
+    }, ()=>{
+      erro.html("Verificando CPF...")
+      erro.slideDown()
+    })
+    return true;
   } else {
     erro.html("CPF Inválido")
     erro.slideDown(500)
+    return false;
   }
 }
 

@@ -39,26 +39,21 @@ $(()=>{
     }
     $("#email-erro").slideUp(500)
     // Checando se o e-mail já forá cadastrado
-    $.ajax({
-      url:'api/usuario.php',
-      method: 'post',
-      dataType: 'json',
-      data: {op: 'usuario/email', email: $("#email").val()},
-      error: (e,x,s) => {console.log(e,x,s)},
-      success: data => {
-        if(data){
-          $("#email-erro").html("Já existe um usuário com esse e-mail.")
-          $("#email-erro").slideDown(500)
-        } else if(checkPW()) {
-          $("form").submit()
-        }
+    getUsuarioByEmail($("#email").val(), data=>{
+      if(data){
+        $("#email-erro").html("Já existe um usuário com esse e-mail.")
+        $("#email-erro").slideDown(500)
+      } else if(checkPW() && checkCPF()) {
+        $("form").submit()
       }
+    }, ()=>{
+      $("#email-erro").html("Validando e-mail...")
     })
 
   })
 
   // Máscaras de Form
-  // $("#cpf").mask('000.000.000-00')
+  $("#cpf").mask('000.000.000-00')
   // $("#cep").mask('00000-000')
   // $("#telefone").mask('(00) 00000-0000')
 })

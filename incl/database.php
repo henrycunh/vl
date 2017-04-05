@@ -1,7 +1,7 @@
 <?php
   // Conectividade ao Banco de Dados
   $user = 'root';
-  $pw = '';
+  $pw = '2811';
   $host = 'localhost';
   $db = 'validadorlattes';
 

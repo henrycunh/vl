@@ -17,23 +17,22 @@
     <title>Login / Validador Lattes</title>
   </head>
   <body>
-    <h1>Login</h1>
+    <h1>Validador <b>Lattes</b></h1>
     <div class="wrapper">
-      <label for="email">E-mail</label>
-      <input type="email" id='email' name='email'>
+      <label for="email" id='emaillabel'>E-mail</label>
+      <input type="email" id='email' name='email' placeholder="E-mail">
       <div class="erro" id='emailerro'></div>
 
-      <label for="pw">Senha</label>
-      <input type="password" id='pw' name='pw'>
+      <label for="pw" id='pwlabel'>Senha</label>
+      <input type="password" id='pw' name='pw' placeholder="Senha">
       <div class="erro" id='senhaerro'></div>
 
       <div class="btns">
-        <a class='btn' onclick='autenticar()'>Entrar</a>
-        <a href="cadastrar.php" class='btn'>Cadastrar</a>
+        <a class='btn' id='entrar' onclick='autenticar()'>Entrar</a>
       </div>
-
-      <div id="preloader"></div>
+      <span class='signuplabel'>Não possui uma conta? <a href="cadastro.php">Criar Conta</a></span>
     </div>
+    <a href="index.php" class='back'>Voltar</a>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/autenticarLogin.js" charset="utf-8"></script>
