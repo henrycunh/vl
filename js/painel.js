@@ -40,6 +40,7 @@ $(()=>{
         $("#label").html(file.name)
       })
 
+      /* Envia o arquivo para ser efetuado o Parsing */
       $("#curriculoSubmit").click(()=>{
         $("#fileCurriculo").upload("processar_curriculo.php", success=>{
           console.log(success)
