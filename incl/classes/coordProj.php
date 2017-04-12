@@ -1,6 +1,6 @@
 <?php
     $nome = '';
-  class CoordProjeto{
+  class CoordProjeto extends IC{
     /*Declaração de atributos*/
     //ATUACAO-PROFISSIONAL -> @attributes
     public $nomeInstituicao;
@@ -16,6 +16,7 @@
     public $equipe;
 
     public function __construct(){
+      parent::__construct();
       $this->nomeInstituicao = '';
       $this->anoInicio = '';
       $this->anoFim = '';

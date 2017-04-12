@@ -1,5 +1,5 @@
 <?php
-  class CorpoEditorial{
+  class CorpoEditorial extends IC{
     //DADOS-GERAIS > ATUACOES-PROFISSIONAIS > ATUACAO-PROFISSIONAL > VINCULOS > OUTRO-VINCULO-INFORMADO: "Membro de corpo editorial"
     //@attributes
     public $nomeInstituicao; //NOME-INSTITUICAO
@@ -10,6 +10,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->nomeInstituicao = '';
       $this->codInstituicao = '';
       $this->dataInicio = '';

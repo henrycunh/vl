@@ -1,5 +1,5 @@
 <?php
-  class Marca{
+  class Marca extends IC{
     /*Declaração de atributos*/
     //DADOS-BASICOS-DA-MARCA
     public $titulo;
@@ -18,6 +18,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->titulo = '';
       $this->ano = '';
       $this->natureza = '';

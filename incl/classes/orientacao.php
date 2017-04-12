@@ -1,5 +1,5 @@
 <?php
-  class Orientacao{
+  class Orientacao extends IC{
     public $natureza;
     // 1 - IC; 2 - Graduação; 3 - Especialização; 4 - Mestrado; 5 - Doutorado; 6 - Pós-Doutorado;
     public $tipo;
@@ -14,6 +14,7 @@
     public $nomeCurso;
 
     public function __construct(){
+      parent::__construct();
       $this->natureza = '';
       $this->tipo = '';
       $this->titulo = '';

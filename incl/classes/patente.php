@@ -1,5 +1,5 @@
 <?php
-  class Patente{
+  class Patente extends IC{
     /*Declaração de atributos*/
     //DADOS-BASICOS-DA-PATENTE -> attributes
     public $titulo;
@@ -20,6 +20,7 @@
 
     //Construtor
       public function __construct(){
+        parent::__construct();
         $this->titulo = '';
         $this->ano = '';
         $this->homepage = '';

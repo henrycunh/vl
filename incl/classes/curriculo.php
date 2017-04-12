@@ -14,7 +14,7 @@
     public $marcas;
     public $corposEditoriais;
     public $coordProjs;
-    
+
     // Construtor
     public function __construct(){
       $this->titulacao = '';
@@ -49,6 +49,8 @@
       return $curriculo;
     }
 
+    //
+
     // Pegar um curriculo a partir de um e-mail
     public static function getCurriculoByEmail($conn, $email){
       $result = $conn->query("SELECT curriculoId FROM curriculo
@@ -56,9 +58,14 @@
       return $result;
     }
 
+    public function insertIntoDB($conn){
+      
+    }
+
   }
 
   // Importando ICs
+  require 'ic.php';
   require 'utils.php';
   require 'titulacao.php';
   require 'artigo.php';

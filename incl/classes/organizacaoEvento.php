@@ -1,5 +1,5 @@
 <?php
-  class OrganizacaoEvento{
+  class OrganizacaoEvento extends IC{
     /*Declaração de atributos*/
     //DADOS-BASICOS-DA-ORGANIZACAO-DE-EVENTO -> $attributes
     public $tipo;
@@ -18,6 +18,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->tipo = '';
       $this->natureza = '';
       $this->titulo = '';

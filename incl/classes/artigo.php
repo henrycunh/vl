@@ -1,6 +1,6 @@
 <?php
 
-  class Artigo{
+  class Artigo extends IC{
     public $titulo;
     public $ano;
     public $tituloPeriodico;
@@ -12,6 +12,7 @@
     public $autores;
 
     public function __construct(){
+      parent::__construct();
       $this->titulo = '';
       $this->ano = '';
       $this->tituloPeriodico = '';

@@ -1,5 +1,5 @@
 <?php
-  class TrabEvento{
+  class TrabEvento extends IC{
     // 1 - Resumo Nacional, 2 - Resumo Internacional,
     // 3 - Completo Nacional, 4 - Completo Internacional
     public $tipoClass;
@@ -25,6 +25,7 @@
     public $autores;
 
     public function __construct(){
+      parent::__construct();
       $this->tipoClass = '';
       $this->tipoPais = '';
       $this->natureza = '';

@@ -1,5 +1,5 @@
 <?php
-  class Software{
+  class Software extends IC{
     /*Declaração de atributos*/
     //DADOS-BASICOS-DO-SOFTWARE
     public $natureza;
@@ -17,6 +17,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->natureza = '';
       $this->titulo = '';
       $this->ano = '';
@@ -62,7 +63,7 @@
         $software_->ambiente = $details['AMBIENTE'];
         //autores
         $software_->autores = getAutores($autores);
-    
+
 
         //Atribuição da classe temporária no Array
         array_push($softwares, $software_);

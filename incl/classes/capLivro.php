@@ -1,5 +1,5 @@
 <?php
-  class CapLivro{
+  class CapLivro extends IC{
     /* Declaração de atributos */
     //DADOS-BASICOS-DO-CAPITULO
     public $tipo;
@@ -18,6 +18,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->tipo = '';
       $this->tituloCap = '';
       $this->ano = '';

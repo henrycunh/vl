@@ -1,5 +1,5 @@
 <?php
-  class Banca{
+  class Banca extends IC{
     public $tipo;
     public $natureza;
     public $tipoBanca;
@@ -13,6 +13,7 @@
     public $participantes;
 
     public function __construct(){
+      parent::__construct();
       $this->tipo = '';
       $this->natureza = '';
       $this->tipoBanca = '';

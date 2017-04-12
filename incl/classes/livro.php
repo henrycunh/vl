@@ -1,5 +1,5 @@
 <?php
-  class Livro{
+  class Livro extends IC{
     /*Declaração de atributos*/
     //DADOS-BASICOS-DO-LIVRO
     public $tipo;
@@ -18,6 +18,7 @@
 
     //Construtor
     public function __construct(){
+      parent::__construct();
       $this->tipo = '';
       $this->titulo = '';
       $this->ano = '';

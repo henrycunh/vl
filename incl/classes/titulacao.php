@@ -1,6 +1,6 @@
 <?php
 // Titulação (Graduação, Especialista, Mestrado, Doutorado)
-class Titulacao{
+class Titulacao extends IC{
   public $titulo;
   public $nomeCurso;
   public $instituicao;
@@ -10,6 +10,7 @@ class Titulacao{
   public $tipo; // 1 - esp, 2 - mest, 3 - doutorado, 4 - graduacao
 
   public function __construct(){
+    parent::__construct();
     $this->titulo = "";
     $this->nomeCurso = "";
     $this->instituicao = "";
