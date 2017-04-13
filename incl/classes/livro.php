@@ -1,7 +1,6 @@
 <?php
   class Livro extends IC{
     /*Declaração de atributos*/
-    //DADOS-BASICOS-DO-LIVRO
     public $tipo;
     public $titulo;
     public $ano;
@@ -10,13 +9,11 @@
     public $idioma;
     public $pais;
     public $meio;
-    //DETALHAMENTO-DO-LIVRO
     public $isbn;
     public $numPags;
-    //AUTORES
     public $autores;
 
-    //Construtor
+    // Construtor vazio
     public function __construct(){
       parent::__construct();
       $this->tipo = '';
@@ -32,7 +29,7 @@
       $this->autores = array();
     }
 
-    //Pegar array de livros
+    // Pegar array de livros
     public static function getLivros($data){
       //Declaração array de livros
       $livros = array();
@@ -69,6 +66,30 @@
       endif;
 
       return $livros;
+    }
+
+    // Insere os dados no DB
+    public function insertIntoDB($conn, $curriculoId){
+      $autores = json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_livro (
+          tipo, titulo, ano, homepage, doi, idioma, pais, meio, isbn, numPags,
+          autores, curriculoId
+        ) VALUES (
+          '$this->tipo', '$this->titulo', '$this->ano', '$this->homepage',
+          '$this->doi', '$this->idioma', '$this->pais', '$this->meio',
+          '$this->isbn', '$this->numPags', '$autores', $curriculoId
+        )";
+      // Executando
+      $query = $conn->query($SQL);
+      // Checando erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
     }
   }
 

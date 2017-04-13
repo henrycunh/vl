@@ -76,6 +76,10 @@
       $capLivrosQuery = $this->insertCapLivrosIntoDB($conn);
       // Inserindo coordenação de projetos
       $coordProjsQuery = $this->insertCoordProjsIntoDB($conn);
+      // Inserindo coordenação de projetos
+      $corpoEditorialQuery = $this->insertCorposEditoriaisIntoDB($conn);
+      // Inserindo livros
+      $livroQuery = $this->insertLivrosIntoDB($conn);
     }
 
     // Envia todos os artigos para o DB
@@ -110,6 +114,22 @@
       return true;
     }
 
+    // Envia todas os capitulos de livros para o DB
+    public function insertCorposEditoriaisIntoDB($conn){
+      foreach ($this->corposEditoriais as $corpoEditorial) {
+        if(!$corpoEditorial->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
+    // Envia todas os capitulos de livros para o DB
+    public function insertLivrosIntoDB($conn){
+      foreach ($this->livros as $livro) {
+        if(!$livro->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
     // Deleta todos os ICs vinculados a esse curriculo
     public function deleteICs($conn){
       // Deletando artigos
@@ -120,6 +140,11 @@
       $capLivroQuery = $conn->query("DELETE FROM ic_capLivro WHERE curriculoId=$this->curriculoId");
       // Deletando coordenação de projetos
       $coordProjQuery = $conn->query("DELETE FROM ic_coordProj WHERE curriculoId=$this->curriculoId");
+      // Deletando participações em corpos editoriais
+      $corpoEditorialQuery = $conn->query("DELETE FROM ic_corpoEditorial WHERE curriculoId=$this->curriculoId");
+      // Deletando livros
+      $livroQuery = $conn->query("DELETE FROM ic_livro WHERE curriculoId=$this->curriculoId");
+
     }
 
   }
