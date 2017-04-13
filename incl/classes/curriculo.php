@@ -14,6 +14,7 @@
     public $marcas;
     public $corposEditoriais;
     public $coordProjs;
+    public $curriculoId;
 
     // Construtor
     public function __construct(){
@@ -29,10 +30,11 @@
       $this->marcas = '';
       $this->corposEditoriais = '';
       $this->coordProjs = '';
+      $this->curriculoId = '';
     }
 
     // Função para instanciar e buscar todas as informações
-    public static function getCurriculo($data){
+    public static function getCurriculo($data, $curriculoId){
       $curriculo = new self();
       $curriculo->titulacao = Titulacao::getTitulacao($data);
       $curriculo->artigos = Artigo::getArtigos($data);
@@ -46,6 +48,7 @@
       $curriculo->marcas = Marca::getMarcas($data);
       $curriculo->corposEditoriais = CorpoEditorial::getCorposEditoriais($data);
       $curriculo->coordProjs = CoordProjeto::getCoordProjs($data);
+      $curriculo->curriculoId = $curriculoId;
       return $curriculo;
     }
 
@@ -58,7 +61,29 @@
       return $result;
     }
 
-    public function insertIntoDB($conn){
+    // Envia todos os dados do objeto para o DB
+    public function insertAllIntoDB($conn){
+      // Deletando ICs, para então inserir
+      $this->deleteICs($conn);
+
+      /* INSERÇÃO DE ICS */
+      // Inserindo artigos
+      $artigosQuery = $this->insertArtigosIntoDB($conn);
+    }
+
+    // Envia todos os artigos para o DB
+    public function insertArtigosIntoDB($conn){
+      foreach ($this->artigos as $artigo) {
+        if(!$artigo->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
+    // Deleta todos os ICs vinculados a esse curriculo
+    public function deleteICs($conn){
+      // Deletando artigos
+      $artigosQuery = $conn->query("DELETE FROM ic_artigo WHERE curriculoId=$this->curriculoId");
+      // Deletando bancas
       
     }
 

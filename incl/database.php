@@ -7,7 +7,7 @@
 
   // Tentar conectar
   try {
-    $conn = new PDO("mysql:host=$host;dbname=$db;", $user, $pw);
+    $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8;", $user, $pw);
   } catch (Exception $e) {
     die("Erro na conexão: " . $e->getMessage() );
   }

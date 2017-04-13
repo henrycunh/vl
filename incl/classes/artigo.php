@@ -1,6 +1,8 @@
 <?php
 
+
   class Artigo extends IC{
+    // Atributos da classe
     public $titulo;
     public $ano;
     public $tituloPeriodico;
@@ -11,6 +13,7 @@
     public $idioma;
     public $autores;
 
+    // Construtor vazio da classe
     public function __construct(){
       parent::__construct();
       $this->titulo = '';
@@ -24,6 +27,7 @@
       $this->autores = array();
     }
 
+    // Função que retorna um array com os artigos de um pesquisador a partir de seu XML
     public static function getArtigos($data){
       // array vazio a fim de ser retornado no final
       $artigos = array();
@@ -56,6 +60,29 @@
       return $artigos;
     }
 
+    // Função que insere os dados do artigo atual no DB
+    public function insertIntoDB($conn, $curriculoId){
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_artigo(
+          titulo, ano, tituloPeriodico, issn, paginaInicial, paginaFinal,
+          pais, idioma, autores, curriculoId
+        ) VALUES (
+          '$this->titulo', '$this->ano', '$this->tituloPeriodico',
+          '$this->issn', '$this->paginaInicial', '$this->paginaFinal',
+          '$this->pais', '$this->idioma', '". json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "',
+          $curriculoId
+        )";
+      // Executando comando
+      $query = $conn->query($SQL);
+      // Checando erros
+      if($query)
+        return true;
+      else{
+        print_r($conn->errorInfo());
+        return false;
+      }
+    }
 
   }
 
