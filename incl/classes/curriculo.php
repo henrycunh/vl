@@ -74,6 +74,8 @@
       $bancasQuery = $this->insertBancasIntoDB($conn);
       // Inserindo capitulos de livros
       $capLivrosQuery = $this->insertCapLivrosIntoDB($conn);
+      // Inserindo coordenação de projetos
+      $coordProjsQuery = $this->insertCoordProjsIntoDB($conn);
     }
 
     // Envia todos os artigos para o DB
@@ -100,6 +102,14 @@
       return true;
     }
 
+    // Envia todas os capitulos de livros para o DB
+    public function insertCoordProjsIntoDB($conn){
+      foreach ($this->coordProjs as $coordProj) {
+        if(!$coordProj->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
     // Deleta todos os ICs vinculados a esse curriculo
     public function deleteICs($conn){
       // Deletando artigos
@@ -108,7 +118,8 @@
       $bancasQuery = $conn->query("DELETE FROM ic_banca WHERE curriculoId=$this->curriculoId");
       // Deletando capitulos de livros
       $capLivroQuery = $conn->query("DELETE FROM ic_capLivro WHERE curriculoId=$this->curriculoId");
-
+      // Deletando coordenação de projetos
+      $coordProjQuery = $conn->query("DELETE FROM ic_coordProj WHERE curriculoId=$this->curriculoId");
     }
 
   }
