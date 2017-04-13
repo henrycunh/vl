@@ -67,8 +67,13 @@
       $this->deleteICs($conn);
 
       /* INSERÇÃO DE ICS */
+
       // Inserindo artigos
       $artigosQuery = $this->insertArtigosIntoDB($conn);
+      // Inserindo bancas
+      $bancasQuery = $this->insertBancasIntoDB($conn);
+      // Inserindo capitulos de livros
+      $capLivrosQuery = $this->insertCapLivrosIntoDB($conn);
     }
 
     // Envia todos os artigos para o DB
@@ -79,12 +84,31 @@
       return true;
     }
 
+    // Envia todas as bancas para o DB
+    public function insertBancasIntoDB($conn){
+      foreach ($this->bancas as $banca) {
+        if(!$banca->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
+    // Envia todas os capitulos de livros para o DB
+    public function insertCapLivrosIntoDB($conn){
+      foreach ($this->capLivros as $capLivro) {
+        if(!$capLivro->insertIntoDB($conn,$this->curriculoId)) return false;
+      }
+      return true;
+    }
+
     // Deleta todos os ICs vinculados a esse curriculo
     public function deleteICs($conn){
       // Deletando artigos
       $artigosQuery = $conn->query("DELETE FROM ic_artigo WHERE curriculoId=$this->curriculoId");
       // Deletando bancas
-      
+      $bancasQuery = $conn->query("DELETE FROM ic_banca WHERE curriculoId=$this->curriculoId");
+      // Deletando capitulos de livros
+      $capLivroQuery = $conn->query("DELETE FROM ic_capLivro WHERE curriculoId=$this->curriculoId");
+
     }
 
   }

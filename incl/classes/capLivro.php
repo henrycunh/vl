@@ -1,6 +1,6 @@
 <?php
   class CapLivro extends IC{
-    /* Declaração de atributos */
+    // Atributos
     //DADOS-BASICOS-DO-CAPITULO
     public $tipo;
     public $tituloCap;
@@ -16,7 +16,7 @@
     //AUTORES
     public $autores;
 
-    //Construtor
+    // Construtor vazio
     public function __construct(){
       parent::__construct();
       $this->tipo = '';
@@ -32,7 +32,7 @@
       $this->autores = array();
     }
 
-    //Pegar lista de capítulos no curríCurriculo
+    // Função que retorna array de capitulos de livro a partir do XML
     public static function getCapLivros($data){
       $capLivros = array();
 
@@ -73,5 +73,31 @@
       //retornar a lista de todos os capítulos
       return $capLivros;
     }
+
+    // Função que insere o capitulo de livro no DB
+    public function insertIntoDB($conn, $curriculoId){
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_capLivro(
+          tipo, tituloCap, ano, homepage, doi, tituloLivro, pagInicial, pagFinal,
+          isbn, organizadores, autores, curriculoId
+        ) VALUES (
+          '$this->tipo', '$this->tituloCap', '$this->ano', '$this->homepage',
+          '$this->doi', '$this->tituloLivro', '$this->pagInicial',
+          '$this->pagFinal', '$this->isbn', '$this->organizadores',
+          '" . json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "',
+          $curriculoId
+        )";
+      // Executando comando
+      $query = $conn->query($SQL);
+      // Checando por erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
+    }
+
   }
  ?>

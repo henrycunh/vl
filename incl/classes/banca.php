@@ -1,5 +1,6 @@
 <?php
   class Banca extends IC{
+    // Atributos
     public $tipo;
     public $natureza;
     public $tipoBanca;
@@ -12,6 +13,7 @@
     public $nomeCurso;
     public $participantes;
 
+    // Construtor vazio
     public function __construct(){
       parent::__construct();
       $this->tipo = '';
@@ -27,6 +29,7 @@
       $this->participantes = array();
     }
 
+    // Função que retorna todas as bancas em um array a partir de um XML
     public static function getBancas($data){
       $bancas = array();
       // Checando se existem bancas de graduação
@@ -64,9 +67,34 @@
 
       return $bancas;
     }
-  }
 
-  //
+    public function insertIntoDB($conn, $curriculoId){
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_banca(
+          tipo, natureza, tipoBanca, titulo, ano, homepage, doi, nomeCandidato,
+          nomeInstituicao, nomeCurso, participantes, curriculoId
+        ) VALUES (
+          '$this->tipo', '$this->natureza', '$this->tipoBanca', '$this->titulo',
+          '$this->ano', '$this->homepage', '$this->doi', '$this->nomeCandidato',
+          '$this->nomeInstituicao', '$this->nomeCurso',
+          '" . json_encode($this->participantes, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT). "',
+          $curriculoId
+        )";
+      // Executando comando
+      $query = $conn->query($SQL);
+      // Checando erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
+    }
+
+    }
+
+  // Função para extrair dados de uma banca a partir de um array de bancas
   function getBanca($bancaRaw, $value){
       $banca = new Banca();
       $dadosB = attr($bancaRaw['DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-' . $value]);
@@ -94,6 +122,7 @@
       return $banca;
   }
 
+  // Função para organizar o armazenamento dos participantes
   function getParticipantes($parts){
     $participantes = array();
     if(count($parts) <= 1)
