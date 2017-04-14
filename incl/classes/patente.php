@@ -86,18 +86,33 @@
           titulo, ano, homepage, categoria, tipo, codigo, tituloPatente,
           instituicaoDeposito, nomeTitular, dataConcessao, autores, curriculoId
         ) VALUES (
-          '$this->titulo', '$this->ano', '$this->homepage', '$this->categoria',
-          '$this->tipo', '$this->codigo', '$this->tituloPatente',
-          '$this->instituicaoDeposito', '$this->nomeTitular', '$this->dataConcessao',
-          '$autores', $curriculoId
+          :titulo, :ano, :homepage, :categoria,
+          :tipo, :codigo, :tituloPatente,
+          :instituicaoDeposito, :nomeTitular, :dataConcessao,
+          :autores, :curriculoId
         )";
-      // Executando Comando
-      $query = $conn->query($SQL);
+      // Preparando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':titulo',$this->titulo);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':homepage',$this->homepage);
+      $stmt->bindParam(':categoria',$this->categoria);
+      $stmt->bindParam(':tipo',$this->tipo);
+      $stmt->bindParam(':codigo',$this->codigo);
+      $stmt->bindParam(':tituloPatente',$this->tituloPatente);
+      $stmt->bindParam(':instituicaoDeposito',$this->instituicaoDeposito);
+      $stmt->bindParam(':nomeTitular',$this->nomeTitular);
+      $stmt->bindParam(':dataConcessao',$this->dataConcessao);
+      $stmt->bindParam(':autores',$autores);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando por erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

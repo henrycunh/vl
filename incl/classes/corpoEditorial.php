@@ -56,16 +56,24 @@
        "INSERT INTO ic_corpoEditorial(
          nomeInstituicao, codInstituicao, dataInicio, dataFim, curriculoId
        ) VALUES (
-         '$this->nomeInstituicao', '$this->codInstituicao', '$this->dataInicio',
-         '$this->dataFim', $curriculoId
+         :nomeInstituicao, :codInstituicao, :dataInicio,
+         :dataFim, :curriculoId
        )";
-       // Executando Comando
-       $query = $conn->query($SQL);
+       // Criando statement
+       $stmt = $conn->prepare($SQL);
+       // Ligando parametros
+       $stmt->bindParam(':nomeInstituicao',$this->nomeInstituicao);
+       $stmt->bindParam(':codInstituicao',$this->codInstituicao);
+       $stmt->bindParam(':dataInicio',$this->dataInicio);
+       $stmt->bindParam(':dataFim',$this->dataFim);
+       $stmt->bindParam(':curriculoId',$curriculoId);
+       // Executando
+       $query = $stmt->execute();
        // Checando erros
        if($query){
          return true;
        } else {
-         print_r($conn->errorInfo());
+         print_r($stmt->errorInfo());
          return false;
        }
     }

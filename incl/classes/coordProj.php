@@ -55,17 +55,30 @@
           nomeInstituicao, anoInicio, anoFim, nomeProj, situacao, natureza,
           descricao, responsavel, equipe, curriculoId
         ) VALUES (
-          '$this->nomeInstituicao', '$this->anoInicio', '$this->anoFim',
-          '$this->nomeProj', '$this->situacao', '$this->natureza', '$this->descricao',
-          $resp, '$equipe', $curriculoId
+          :nomeInstituicao, :anoInicio, :anoFim,
+          :nomeProj, :situacao, :natureza, :descricao,
+          :responsavel, :equipe, :curriculoId
         )";
-      // Executando Comando
-      $query = $conn->query($SQL);
+      // Criando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':nomeInstituicao',$this->nomeInstituicao);
+      $stmt->bindParam(':anoInicio',$this->anoInicio);
+      $stmt->bindParam(':anoFim',$this->anoFim);
+      $stmt->bindParam(':nomeProj',$this->nomeProj);
+      $stmt->bindParam(':situacao',$this->situacao);
+      $stmt->bindParam(':natureza',$this->natureza);
+      $stmt->bindParam(':descricao',$this->descricao);
+      $stmt->bindParam(':responsavel',$resp);
+      $stmt->bindParam(':equipe',$equipe);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

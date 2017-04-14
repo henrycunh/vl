@@ -1,6 +1,6 @@
 <?php
-// Titulação (Graduação, Especialista, Mestrado, Doutorado)
 class Titulacao extends IC{
+  // Atributos
   public $titulo;
   public $nomeCurso;
   public $instituicao;
@@ -9,6 +9,7 @@ class Titulacao extends IC{
   public $anoConclusao;
   public $tipo; // 1 - esp, 2 - mest, 3 - doutorado, 4 - graduacao
 
+  // Construtor vazio
   public function __construct(){
     parent::__construct();
     $this->titulo = "";
@@ -19,6 +20,7 @@ class Titulacao extends IC{
     $this->anoConclusao = "";
   }
 
+  // Pega a maior titulação a partir do XML
   public static function getTitulacao($data){
     $titulacao = new self();
 
@@ -94,6 +96,39 @@ class Titulacao extends IC{
       $titulacao->anoConclusao = $titulo['ANO-DE-CONCLUSAO'];
     }
     return $titulacao;
+  }
+
+  // Insere os dados no DB
+  public function insertIntoDB($conn, $curriculoId){
+    // Comando SQL
+    $SQL =
+      "INSERT INTO ic_titulacao (
+        titulo, nomeCurso, instituicao, orientador, anoInicio, anoConclusao,
+        tipo, curriculoId
+      ) VALUES (
+        :titulo, :nomeCurso, :instituicao, :orientador,
+        :anoInicio, :anoConclusao, :tipo, :curriculoId
+      )";
+    // Criando statement
+    $stmt = $conn->prepare($SQL);
+    // Ligando parametros
+    $stmt->bindParam(':titulo',$this->titulo);
+    $stmt->bindParam(':nomeCurso',$this->nomeCurso);
+    $stmt->bindParam(':instituicao',$this->instituicao);
+    $stmt->bindParam(':orientador',$this->orientador);
+    $stmt->bindParam(':anoInicio',$this->anoInicio);
+    $stmt->bindParam(':anoConclusao',$this->anoConclusao);
+    $stmt->bindParam(':tipo',$this->tipo);
+    $stmt->bindParam(':curriculoId',$curriculoId);
+    // Executando
+    $query = $stmt->execute();
+    // Checando por erros
+    if($query){
+      return true;
+    } else {
+      print_r($stmt->errorInfo());
+      return false;
+    }
   }
 }
 ?>

@@ -69,25 +69,40 @@
     }
 
     public function insertIntoDB($conn, $curriculoId){
+      $participantes = json_encode($this->participantes, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       // Comando SQL
       $SQL =
         "INSERT INTO ic_banca(
           tipo, natureza, tipoBanca, titulo, ano, homepage, doi, nomeCandidato,
           nomeInstituicao, nomeCurso, participantes, curriculoId
         ) VALUES (
-          '$this->tipo', '$this->natureza', '$this->tipoBanca', '$this->titulo',
-          '$this->ano', '$this->homepage', '$this->doi', '$this->nomeCandidato',
-          '$this->nomeInstituicao', '$this->nomeCurso',
-          '" . json_encode($this->participantes, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT). "',
-          $curriculoId
+          :tipo, :natureza, :tipoBanca, :titulo,
+          :ano, :homepage, :doi, :nomeCandidato,
+          :nomeInstituicao, :nomeCurso,
+          :participantes, :curriculoId
         )";
-      // Executando comando
-      $query = $conn->query($SQL);
+      // Criando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':tipo',$this->tipo);
+      $stmt->bindParam(':natureza',$this->natureza);
+      $stmt->bindParam(':tipoBanca',$this->tipoBanca);
+      $stmt->bindParam(':titulo',$this->titulo);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':homepage',$this->homepage);
+      $stmt->bindParam(':doi',$this->doi);
+      $stmt->bindParam(':nomeCandidato',$this->nomeCandidato);
+      $stmt->bindParam(':nomeInstituicao',$this->nomeInstituicao);
+      $stmt->bindParam(':nomeCurso',$this->nomeCurso);
+      $stmt->bindParam(':participantes',$participantes);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

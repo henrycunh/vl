@@ -76,25 +76,40 @@
 
     // Função que insere o capitulo de livro no DB
     public function insertIntoDB($conn, $curriculoId){
+      $autores = json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       // Comando SQL
       $SQL =
         "INSERT INTO ic_capLivro(
           tipo, tituloCap, ano, homepage, doi, tituloLivro, pagInicial, pagFinal,
           isbn, organizadores, autores, curriculoId
         ) VALUES (
-          '$this->tipo', '$this->tituloCap', '$this->ano', '$this->homepage',
-          '$this->doi', '$this->tituloLivro', '$this->pagInicial',
-          '$this->pagFinal', '$this->isbn', '$this->organizadores',
-          '" . json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "',
-          $curriculoId
+          :tipo, :tituloCap, :ano, :homepage,
+          :doi, :tituloLivro, :pagInicial,
+          :pagFinal, :isbn, :organizadores,
+          :autores, :curriculoId
         )";
-      // Executando comando
-      $query = $conn->query($SQL);
+      // Criando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':tipo',$this->tipo);
+      $stmt->bindParam(':tituloCap',$this->tituloCap);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':homepage',$this->homepage);
+      $stmt->bindParam(':doi',$this->doi);
+      $stmt->bindParam(':tituloLivro',$this->tituloLivro);
+      $stmt->bindParam(':pagInicial',$this->pagInicial);
+      $stmt->bindParam(':pagFinal',$this->pagFinal);
+      $stmt->bindParam(':isbn',$this->isbn);
+      $stmt->bindParam(':organizadores',$this->organizadores);
+      $stmt->bindParam(':autores',$autores);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando por erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

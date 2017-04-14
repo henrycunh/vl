@@ -1,6 +1,4 @@
 <?php
-
-
   class Artigo extends IC{
     // Atributos da classe
     public $titulo;
@@ -62,24 +60,38 @@
 
     // Função que insere os dados do artigo atual no DB
     public function insertIntoDB($conn, $curriculoId){
+      $autores = json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       // Comando SQL
       $SQL =
         "INSERT INTO ic_artigo(
           titulo, ano, tituloPeriodico, issn, paginaInicial, paginaFinal,
           pais, idioma, autores, curriculoId
         ) VALUES (
-          '$this->titulo', '$this->ano', '$this->tituloPeriodico',
-          '$this->issn', '$this->paginaInicial', '$this->paginaFinal',
-          '$this->pais', '$this->idioma', '". json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "',
-          $curriculoId
+          :titulo, :ano, :tituloPeriodico,
+          :issn, :paginaInicial, :paginaFinal,
+          :pais, :idioma, :autores,
+          :curriculoId
         )";
-      // Executando comando
-      $query = $conn->query($SQL);
+      // Criando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':titulo',$this->titulo);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':tituloPeriodico',$this->tituloPeriodico);
+      $stmt->bindParam(':issn',$this->issn);
+      $stmt->bindParam(':paginaInicial',$this->paginaInicial);
+      $stmt->bindParam(':paginaFinal',$this->paginaFinal);
+      $stmt->bindParam(':pais',$this->pais);
+      $stmt->bindParam(':idioma',$this->idioma);
+      $stmt->bindParam(':autores',$autores);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando erros
       if($query)
         return true;
       else{
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

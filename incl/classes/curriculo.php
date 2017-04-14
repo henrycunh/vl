@@ -35,7 +35,7 @@
       $this->curriculoId = '';
     }
 
-    // Função para instanciar e buscar todas as informações
+    // Função para instanciar e buscar todas as informações a partir de XML
     public static function getCurriculo($data, $curriculoId){
       $curriculo = new self();
       $curriculo->titulacao = Titulacao::getTitulacao($data);
@@ -55,8 +55,6 @@
       return $curriculo;
     }
 
-    //
-
     // Pegar um curriculo a partir de um e-mail
     public static function getCurriculoByEmail($conn, $email){
       $result = $conn->query("SELECT curriculoId FROM curriculo
@@ -71,9 +69,10 @@
 
       // Array com os dados
       $dataIC = array(
-        $this->artigos, $this->bancas, $this->livros, $this->coordProjs,
+        $this->artigos, $this->bancas, $this->capLivros, $this->coordProjs,
         $this->corposEditoriais, $this->livros, $this->marcas,
-        $this->organizacaoEventos, $this->orientacoes, $this->patentes
+        $this->organizacaoEventos, $this->orientacoes, $this->patentes,
+        $this->softwares, array($this->titulacao), $this->trabEventos
       );
       // Array que vai armazenar os resultados dos queries
       $queries = array();
@@ -95,7 +94,8 @@
     public function deleteICs($conn){
       $keysIC = array(
         "artigo", "banca", "capLivro", "coordProj", "corpoEditorial", "livro",
-        "marca", "organizacaoEvento", "orientacao", "patente"
+        "marca", "organizacaoEvento", "orientacao", "patente", "software", "titulacao",
+        "trabEvento"
       );
       // array que armazena resultados dos queries
       $queries = array();

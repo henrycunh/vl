@@ -79,18 +79,33 @@
           homepage, doi, instituicaoPromotora, cidade,
           autores, curriculoId
         ) VALUES (
-          '$this->tipo', '$this->natureza', '$this->titulo',
-          '$this->ano', '$this->idioma', '$this->pais',
-          '$this->homepage', '$this->doi', '$this->instituicaoPromotora',
-          '$this->cidade', '$autores', $curriculoId
+          :tipo, :natureza, :titulo,
+          :ano, :idioma, :pais,
+          :homepage, :doi, :instituicaoPromotora,
+          :cidade, :autores, :curriculoId
         )";
-      // Executando Comando
-      $query = $conn->query($SQL);
+      // Preparando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':tipo', $this->tipo);
+      $stmt->bindParam(':natureza', $this->natureza);
+      $stmt->bindParam(':titulo', $this->titulo);
+      $stmt->bindParam(':ano', $this->ano);
+      $stmt->bindParam(':idioma', $this->idioma);
+      $stmt->bindParam(':pais', $this->pais);
+      $stmt->bindParam(':homepage', $this->homepage);
+      $stmt->bindParam(':doi', $this->doi);
+      $stmt->bindParam(':instituicaoPromotora', $this->instituicaoPromotora);
+      $stmt->bindParam(':cidade', $this->cidade);
+      $stmt->bindParam(':autores', $autores);
+      $stmt->bindParam(':curriculoId', $curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

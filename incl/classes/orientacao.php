@@ -1,8 +1,8 @@
 <?php
   class Orientacao extends IC{
     // Atributos
-    public $natureza;
     // 1 - IC; 2 - Graduação; 3 - Especialização; 4 - Mestrado; 5 - Doutorado; 6 - Pós-Doutorado;
+    public $natureza;
     public $tipo;
     public $titulo;
     public $ano;
@@ -138,18 +138,33 @@
             natureza, tipo, titulo, ano, idioma, pais, homepage, doi,
             nomeOrientado, nomeInstituicao, nomeCurso, curriculoId
         ) VALUES (
-          '$this->natureza', '$this->tipo', '$this->titulo', '$this->ano',
-          '$this->idioma', '$this->pais', '$this->homepage', '$this->doi',
-          '$this->nomeOrientado', '$this->nomeInstituicao', '$this->nomeCurso',
-          $curriculoId
+          :natureza, :tipo, :titulo, :ano,
+          :idioma, :pais, :homepage, :doi,
+          :nomeOrientado, :nomeInstituicao, :nomeCurso,
+          :curriculoId
         )";
-      // Executando Comando
-      $query = $conn->query($SQL);
+      // Preparando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':natureza',$this->natureza);
+      $stmt->bindParam(':tipo',$this->tipo);
+      $stmt->bindParam(':titulo',$this->titulo);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':idioma',$this->idioma);
+      $stmt->bindParam(':pais',$this->pais);
+      $stmt->bindParam(':homepage',$this->homepage);
+      $stmt->bindParam(':doi',$this->doi);
+      $stmt->bindParam(':nomeOrientado',$this->nomeOrientado);
+      $stmt->bindParam(':nomeInstituicao',$this->nomeInstituicao);
+      $stmt->bindParam(':nomeCurso',$this->nomeCurso);
+      $stmt->bindParam(':curriculoId',$curriculoId);
+      // Executando
+      $query = $stmt->execute();
       // Checando erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }

@@ -77,17 +77,32 @@
           tipo, titulo, ano, homepage, doi, idioma, pais, meio, isbn, numPags,
           autores, curriculoId
         ) VALUES (
-          '$this->tipo', '$this->titulo', '$this->ano', '$this->homepage',
-          '$this->doi', '$this->idioma', '$this->pais', '$this->meio',
-          '$this->isbn', '$this->numPags', '$autores', $curriculoId
+          :tipo, :titulo, :ano, :homepage,
+          :doi, :idioma, :pais, :meio,
+          :isbn, :numPags, :autores, :curriculoId
         )";
+      // Criando statement
+      $stmt = $conn->prepare($SQL);
+      // Ligando parametros
+      $stmt->bindParam(':tipo',$this->tipo);
+      $stmt->bindParam(':titulo',$this->titulo);
+      $stmt->bindParam(':ano',$this->ano);
+      $stmt->bindParam(':homepage',$this->homepage);
+      $stmt->bindParam(':doi',$this->doi);
+      $stmt->bindParam(':idioma',$this->idioma);
+      $stmt->bindParam(':pais',$this->pais);
+      $stmt->bindParam(':meio',$this->meio);
+      $stmt->bindParam(':isbn',$this->isbn);
+      $stmt->bindParam(':numPags',$this->numPags);
+      $stmt->bindParam(':autores',$autores);
+      $stmt->bindParam(':curriculoId',$curriculoId);
       // Executando
-      $query = $conn->query($SQL);
+      $query = $stmt->execute();
       // Checando erros
       if($query){
         return true;
       } else {
-        print_r($conn->errorInfo());
+        print_r($stmt->errorInfo());
         return false;
       }
     }
