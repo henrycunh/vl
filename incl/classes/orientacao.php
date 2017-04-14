@@ -1,5 +1,6 @@
 <?php
   class Orientacao extends IC{
+    // Atributos
     public $natureza;
     // 1 - IC; 2 - Graduação; 3 - Especialização; 4 - Mestrado; 5 - Doutorado; 6 - Pós-Doutorado;
     public $tipo;
@@ -13,6 +14,7 @@
     public $nomeInstituicao;
     public $nomeCurso;
 
+    // Construtor Vazio
     public function __construct(){
       parent::__construct();
       $this->natureza = '';
@@ -28,9 +30,11 @@
       $this->nomeCurso = '';
     }
 
+    // Retorna um array com as orientações a partir do XML
     public static function getOrientacoes($data){
       $orientacoes = array();
-      if(isset($data['OUTRA-PRODUCAO']['ORIENTACOES-CONCLUIDAS'])):
+
+      if(isset($data['OUTRA-PRODUCAO']['ORIENTACOES-CONCLUIDAS'])){
         $orientacoesRaw = $data['OUTRA-PRODUCAO']['ORIENTACOES-CONCLUIDAS'];
         //Caso possua apenas um tipo de orientação
         if(array_keys($orientacoesRaw)[0] === '@attributes')
@@ -43,6 +47,7 @@
           if(array_keys($orientMest)[0] === '@attributes')
             $orientMest = array($orientMest);
         }
+
         // Checando por orientações de pos-doc
         if(isset($orientacoesRaw['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])){
           $orientPosDoc = $orientacoesRaw['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'];
@@ -50,6 +55,7 @@
           if(array_keys($orientPosDoc)[0] === '@attributes')
             $orientPosDoc = array($orientPosDoc);
         }
+
         // Checando por orientações de ic, esp, ou grad
         if(isset($orientacoesRaw['OUTRAS-ORIENTACOES-CONCLUIDAS'])){
           $outrasOrient = $orientacoesRaw['OUTRAS-ORIENTACOES-CONCLUIDAS'];
@@ -58,11 +64,12 @@
             $outrasOrient = array($outrasOrient);
         }
 
+        if(isset($orientPosDoc))
         foreach ($orientPosDoc as $orientPosDoc1) {
           $orientPosDoc1_ = new Orientacao();
 
           $orientPosDoc1_->natureza = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['NATUREZA'];
-          $orientPosDoc1_->tipo = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['TIPO'];
+          // $orientPosDoc1_->tipo = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['TIPO'];
           $orientPosDoc1_->titulo = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['TITULO'];
           $orientPosDoc1_->ano = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['ANO'];
           $orientPosDoc1_->idioma = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['IDIOMA'];
@@ -77,7 +84,8 @@
           array_push($orientacoes, $orientPosDoc1_);
         }
 
-        foreach ($orientMest as $orientMest1) {
+        if(isset($orientMest)){
+          foreach ($orientMest as $orientMest1) {
           $orientMest1_ = new Orientacao();
 
           $orientMest1_->natureza = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['NATUREZA'];
@@ -93,10 +101,13 @@
           $orientMest1_->nomeInstituicao = attr($orientMest1['DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['NOME-DA-INSTITUICAO'];
           $orientMest1_->nomeCurso = attr($orientMest1['DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['NOME-DO-CURSO'];
 
+
           array_push($orientacoes, $orientMest1_);
         }
+        }
 
-        foreach ($outrasOrient as $outrasOrient1) {
+        if(isset($outrasOrient)){
+          foreach ($outrasOrient as $outrasOrient1) {
           $outrasOrient1_ = new Orientacao();
 
           $outrasOrient1_->natureza = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['NATUREZA'];
@@ -114,9 +125,33 @@
 
           array_push($orientacoes, $outrasOrient1_);
         }
-
-      endif;
+        }
+      }
       return $orientacoes;
+    }
+
+    // Insere os dados no DB
+    public function insertIntoDB($conn, $curriculoId){
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_orientacao(
+            natureza, tipo, titulo, ano, idioma, pais, homepage, doi,
+            nomeOrientado, nomeInstituicao, nomeCurso, curriculoId
+        ) VALUES (
+          '$this->natureza', '$this->tipo', '$this->titulo', '$this->ano',
+          '$this->idioma', '$this->pais', '$this->homepage', '$this->doi',
+          '$this->nomeOrientado', '$this->nomeInstituicao', '$this->nomeCurso',
+          $curriculoId
+        )";
+      // Executando Comando
+      $query = $conn->query($SQL);
+      // Checando erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
     }
   }
  ?>

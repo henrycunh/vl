@@ -84,6 +84,15 @@
           '$this->homepage', '$this->doi', '$this->instituicaoPromotora',
           '$this->cidade', '$autores', $curriculoId
         )";
+      // Executando Comando
+      $query = $conn->query($SQL);
+      // Checando erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
     }
   }
 

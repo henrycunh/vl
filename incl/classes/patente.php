@@ -1,26 +1,20 @@
 <?php
-  class Patente extends IC{
+  class Patente{
     /*Declaração de atributos*/
-    //DADOS-BASICOS-DA-PATENTE -> attributes
     public $titulo;
     public $ano;
     public $homepage;
-    //DETALHAMENTO-DA-PATENTE
-      //attributes
-      public $categoria;
-      //REGISTRO-OU-PATENTE -> attributes
-      public $tipo;
-      public $codigo;
-      public $tituloPatente;
-      public $instituicaoDeposito;
-      public $nomeTitular;
-      public $dataConcessao;
-    //AUTORES
+    public $categoria;
+    public $tipo;
+    public $codigo;
+    public $tituloPatente;
+    public $instituicaoDeposito;
+    public $nomeTitular;
+    public $dataConcessao;
     public $autores;
 
-    //Construtor
-      public function __construct(){
-        parent::__construct();
+    // Construtor Vazio
+    public function __construct(){
         $this->titulo = '';
         $this->ano = '';
         $this->homepage = '';
@@ -34,14 +28,14 @@
         $this->autores = array();
       }
 
-      //Pegar lista de patentes
-      public static function getPatentes($data){
-        //array que será retornado
-        $patentes = array();
+    // Retorna as patentes a partir de um XML
+    public static function getPatentes($data){
+      //array que será retornado
+      $patentes = array();
 
-        //Caso possua patentes
-        if(isset($data['PRODUCAO-TECNICA']['PATENTE'])):
-          $patentesRaw = $data['PRODUCAO-TECNICA']['PATENTE'];
+      //Caso possua patentes
+      if(isset($data['PRODUCAO-TECNICA']['PATENTE'])){
+        $patentesRaw = $data['PRODUCAO-TECNICA']['PATENTE'];
 
         //Caso possua apenas um registro
         if(array_keys($patentesRaw)[0] === '@attributes')
@@ -78,8 +72,35 @@
           //Atribuição da classe no Array
           array_push($patentes, $patente_);
         }
-      endif;
-      return $patentes;
       }
+      return $patentes;
+    }
+
+    // Insere os dados no DB
+    public function insertIntoDB($conn, $curriculoId){
+      // Encoding dos autores em string JSON
+      $autores = json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+      // Comando SQL
+      $SQL =
+        "INSERT INTO ic_patente(
+          titulo, ano, homepage, categoria, tipo, codigo, tituloPatente,
+          instituicaoDeposito, nomeTitular, dataConcessao, autores, curriculoId
+        ) VALUES (
+          '$this->titulo', '$this->ano', '$this->homepage', '$this->categoria',
+          '$this->tipo', '$this->codigo', '$this->tituloPatente',
+          '$this->instituicaoDeposito', '$this->nomeTitular', '$this->dataConcessao',
+          '$autores', $curriculoId
+        )";
+      // Executando Comando
+      $query = $conn->query($SQL);
+      // Checando por erros
+      if($query){
+        return true;
+      } else {
+        print_r($conn->errorInfo());
+        return false;
+      }
+    }
+
   }
  ?>
