@@ -59,8 +59,18 @@ function autenticar(){
 })
 }
 
+function hitEnter(e){
+  let code = (e.keyCode ? e.keyCode : e.which);
+  if (code == 13){
+    e.preventDefault()
+    autenticar()
+  }
+}
 
 $(()=>{
+  $("#email").bind("keypress", {}, hitEnter);
+  $("#pw").bind("keypress", {}, hitEnter);
+
   $("#email").focus(()=>{ $("#emaillabel").show(500) })
   $("#email").focusout(()=>{ $("#emaillabel").hide(500) })
   $("#pw").focus(()=>{ $("#pwlabel").show(500) })

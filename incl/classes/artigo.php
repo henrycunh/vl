@@ -9,6 +9,7 @@
     public $paginaFinal;
     public $pais;
     public $idioma;
+    public $volume;
     public $autores;
     public $idArtigo;
 
@@ -22,6 +23,7 @@
       $this->paginaFinal = '';
       $this->paginaInicial = '';
       $this->idioma = '';
+      $this->volume = '';
       $this->pais = '';
       $this->artigoId = '';
       $this->autores = array();
@@ -73,6 +75,7 @@
 
           $artigo_->tituloPeriodico = $details['TITULO-DO-PERIODICO-OU-REVISTA'];
           $artigo_->issn = $details['ISSN'];
+          $artigo_->volume = $details['VOLUME'];
           $artigo_->paginaFinal = $details['PAGINA-FINAL'];
           $artigo_->paginaInicial = $details['PAGINA-INICIAL'];
           $artigo_->autores = getAutores($autores);
@@ -90,11 +93,11 @@
       $SQL =
         "INSERT INTO ic_artigo(
           titulo, ano, tituloPeriodico, issn, paginaInicial, paginaFinal,
-          pais, idioma, autores, curriculoId
+          pais, idioma, volume, autores, curriculoId
         ) VALUES (
           :titulo, :ano, :tituloPeriodico,
           :issn, :paginaInicial, :paginaFinal,
-          :pais, :idioma, :autores,
+          :pais, :idioma, :volume, :autores,
           :curriculoId
         )";
       // Criando statement
@@ -108,6 +111,7 @@
       $stmt->bindParam(':paginaFinal',$this->paginaFinal);
       $stmt->bindParam(':pais',$this->pais);
       $stmt->bindParam(':idioma',$this->idioma);
+      $stmt->bindParam(':volume',$this->volume);
       $stmt->bindParam(':autores',$autores);
       $stmt->bindParam(':curriculoId',$curriculoId);
       // Executando

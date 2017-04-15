@@ -1,3 +1,4 @@
+
 <?php
   // requirements
   session_start();
@@ -9,6 +10,7 @@
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
   $nome = $usuario->getNome();
+  $id = Curriculo::getIDByEmail($conn, $email);
   if(!$email):
  ?>
  <script type="text/javascript">
@@ -21,6 +23,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/painelStyle.css">
+    <link rel="stylesheet" href="css/curriculoStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.css">
     <title>Painel / Validador Lattes</title>
   </head>
@@ -42,7 +45,7 @@
       <h1>Currículo</h1>
       <div class="curriculo">
       <?php
-      if(Curriculo::getIDByEmail($conn, $email))
+      if($id)
           require 'incl/curriculo_display.php';
       else
         echo 'Este usuário ainda não enviou um currículo. <br>Use a barre lateral para enviar o seu Currículo Lattes.';
@@ -54,4 +57,5 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
+  <script src="js/curriculo.js" charset="utf-8"></script>
 </html>

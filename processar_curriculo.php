@@ -31,14 +31,10 @@
   $curriculoId = Curriculo::getIDByEmail($conn, $_SESSION['email']);
   // Criando o objeto Curriculo a partir do XML
   $curriculo = Curriculo::getCurriculo($data, $curriculoId);
-
   // Inserindo no DB
   $curriculo->insertAllIntoDB($conn);
 
-  $currFromDB = Curriculo::getCurriculoByID($conn, 1);
-  echo json_encode($currFromDB, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+  // echo json_encode($currFromDB, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
   // Objeto de retorno ao request
-  // echo json_encode($curriculo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-
+  echo json_encode($curriculo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>

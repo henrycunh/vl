@@ -51,6 +51,7 @@
       $curriculo->corposEditoriais = CorpoEditorial::getCorposEditoriais($data);
       $curriculo->coordProjs = CoordProjeto::getCoordProjs($data);
       $curriculo->orientacoes = Orientacao::getOrientacoes($data);
+      $curriculo->nomeCompleto = $data['DADOS-GERAIS']['@attributes']['NOME-COMPLETO'];
       $curriculo->curriculoId = $curriculoId;
       return $curriculo;
     }
@@ -97,11 +98,21 @@
       return $curriculo;
     }
 
+    public static function getNomeCompleto($conn, $id){
+      return $conn->query("SELECT nomeCompleto FROM curriculo WHERE curriculoId=$id")->fetch(PDO::FETCH_ASSOC)['nomeCompleto'];
+    }
+
     // Envia todos os dados do objeto para o DB
     public function insertAllIntoDB($conn){
       // Deletando ICs, para então inserir
       $this->deleteICs($conn);
-
+      // Armazenando nomeCompleto
+      $stmt = $conn->prepare(
+        "UPDATE curriculo SET nomeCompleto = :nomeCompleto WHERE curriculoId = :curriculoId"
+      );
+      $stmt->bindParam(':nomeCompleto', $this->nomeCompleto);
+      $stmt->bindParam(':curriculoId', $this->curriculoId);
+      $stmt->execute();
       // Array com os dados
       $dataIC = array(
         $this->artigos, $this->bancas, $this->capLivros, $this->coordProjs,

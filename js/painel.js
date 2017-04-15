@@ -17,7 +17,8 @@ $(()=>{
   })
 
   // Ao clicar, abrir popup para upload de currículo
-  $("#enviarcurriculo").click(()=>{
+  $("#enviarcurriculo").click(e=>{
+    e.preventDefault()
     if(!$("#curriculoModal").length){
       let modalHtml =`
         <div id='curriculoModal' class='modalOuter'>
@@ -42,10 +43,74 @@ $(()=>{
 
       /* Envia o arquivo para ser efetuado o Parsing */
       $("#curriculoSubmit").click(()=>{
+        $(".modalMsg").html('Processando...')
         $("#fileCurriculo").upload("processar_curriculo.php", success=>{
-          console.log(success)
+            let d = success
+            $(".modal").animate({"height":"400px", "background" : "rgba(241, 241, 241, 0.81)"}, 1000)
+            let relatorio = `
+              <h1>Foram processados e armazenados:</h1>
+              <table>
+                <tr>
+                <td>${d.artigos.length}</td>
+                <td>Artigos</td>
+                </tr>
+                <tr>
+                <td>${d.bancas.length}</td>
+                <td>Bancas</td>
+                </tr>
+                <tr>
+                <td>${d.capLivros.length}</td>
+                <td>Capítulos de Livro</td>
+                </tr>
+                <tr>
+                <td>${d.coordProjs.length}</td>
+                <td>Coordenação de Projetos</td>
+                </tr>
+                <tr>
+                <td>${d.corposEditoriais.length}</td>
+                <td>Participações em Corpo Editorial</td>
+                </tr>
+                <tr>
+                <td>${d.livros.length}</td>
+                <td>Livros</td>
+                </tr>
+                <tr>
+                <td>${d.marcas.length}</td>
+                <td>Marcas</td>
+                </tr>
+                <tr>
+                <td>${d.organizacaoEventos.length}</td>
+                <td>Organização de Eventos</td>
+                </tr>
+                <tr>
+                <td>${d.orientacoes.length}</td>
+                <td>Orientações</td>
+                </tr>
+                <tr>
+                <td>${d.patentes.length}</td>
+                <td>Patentes</td>
+                </tr>
+                <tr>
+                <td>${d.softwares.length}</td>
+                <td>Softwares</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Titulação</td>
+                </tr>
+                <tr>
+                <td>${d.trabEventos.length}</td>
+                <td>Trabalhos em Eventos</td>
+                </tr>
+              </table>
+            `
+            $(".modal").html(relatorio)
+          setTimeout(()=>{
+            window.location.replace('painel.php')
+          }, 4000)
         },$("#progress"))
       })
+
 
     } else {
       $("#curriculoModal").fadeIn(500)

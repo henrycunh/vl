@@ -74,34 +74,6 @@ main h1{
   font-weight: 400;
 }
 
-.curriculo{
-  padding: 0.3em;
-  margin: 0.3em;
-  border: 2px solid #ccc;
-  background-color: #F1F1F1;
-  font-size: 1em;
-  font-weight: 300;
-  color: #303040;
-}
-
-.curriculo h1 {
-  display: block;
-  background: #303040;
-  color: #eee;
-  padding: 0;
-  height: auto;
-  padding: 0.5em;
-  font-size: 1.3em;
-}
-
-.ic_wrapper {
-  padding: 0.5em;
-}
-
-.ic_wrapper p{
-  margin: 0.3em 0;
-}
-
 /* Curriculo Modal */
 .modalOuter{
   display: none;
@@ -149,6 +121,38 @@ main h1{
   color: #20267b;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.modal h1{
+  text-shadow: 0px 2px 5px #333;
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+  padding-top: 0.5em;
+  font-size: 1.5em;
+}
+
+.modal table{
+  text-shadow: 0px 2px 5px #333;
+  color: #fff;
+  display: block;
+  margin: 0 auto;
+  width: 65%;
+  border-collapse: collapse;
+}
+
+.modal table td{
+  width: 80%;
+}
+
+.modal table tr td:first-child{
+  text-align: right;
+  width: 20%;
+  padding-right: 1em;
+}
+
+.modal table td{
+  padding-bottom: 0.3em;
 }
 
 #curriculoSubmit{
@@ -202,6 +206,21 @@ main h1{
   top: 11em;
   left: 0;
   right: 0;
+}
+
+.modalMsg{
+  position: absolute;
+  box-sizing: border-box;
+  width: 50%;
+  top: 13em;
+  margin: 0 auto;
+  left: 0;
+  cursor: pointer;
+  right: 0;
+  text-align: center;
+  color: #ececec;
+  text-shadow: 0 1px 3px #333;
+
 }
 
 /* Painel Lateral */
