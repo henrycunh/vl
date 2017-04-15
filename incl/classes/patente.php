@@ -12,6 +12,7 @@
     public $nomeTitular;
     public $dataConcessao;
     public $autores;
+    public $idPatente;
 
     // Construtor Vazio
     public function __construct(){
@@ -26,7 +27,33 @@
         $this->nomeTitular = '';
         $this->dataConcessao = '';
         $this->autores = array();
+        $this->idPatente = '';
       }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $patentes = array();
+      // Pegando do DB
+      $patentesRaw = $conn->query("SELECT * FROM ic_patente WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($patentesRaw as $patente) {
+        $patente_ = new self();
+        $patente_->titulo = $patente['titulo'];
+        $patente_->ano = $patente['ano'];
+        $patente_->homepage = $patente['homepage'];
+        $patente_->categoria = $patente['categoria'];
+        $patente_->tipo = $patente['tipo'];
+        $patente_->codigo = $patente['codigo'];
+        $patente_->tituloPatente = $patente['tituloPatente'];
+        $patente_->instituicaoDeposito = $patente['instituicaoDeposito'];
+        $patente_->nomeTitular = $patente['nomeTitular'];
+        $patente_->dataConcessao = $patente['dataConcessao'];
+        $patente_->autores = json_decode($patente['autores'], true);
+        $patente_->idPatente = $patente['idPatente'];
+        array_push($patentes, $patente_);
+      }
+      return $patentes;
+    }
 
     // Retorna as patentes a partir de um XML
     public static function getPatentes($data){

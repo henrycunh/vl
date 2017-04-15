@@ -8,6 +8,7 @@ class Titulacao extends IC{
   public $anoInicio;
   public $anoConclusao;
   public $tipo; // 1 - esp, 2 - mest, 3 - doutorado, 4 - graduacao
+  public $idTitulacao;
 
   // Construtor vazio
   public function __construct(){
@@ -18,6 +19,24 @@ class Titulacao extends IC{
     $this->orientador = "";
     $this->anoInicio = "";
     $this->anoConclusao = "";
+    $this->idTitulacao = "";
+  }
+
+  // Função que retorna array com artigos a partir do DB
+  public static function selectFromDB($conn, $curriculoId){
+    // Pegando do DB
+    $titulacaoRaw = $conn->query("SELECT * FROM ic_titulacao WHERE curriculoId=$curriculoId")->fetch(PDO::FETCH_ASSOC);
+    // Iterando
+      $titulacao = new self();
+      $titulacao->titulo = $titulacaoRaw['titulo'];
+      $titulacao->nomeCurso = $titulacaoRaw['nomeCurso'];
+      $titulacao->instituicao = $titulacaoRaw['instituicao'];
+      $titulacao->orientador = $titulacaoRaw['orientador'];
+      $titulacao->anoInicio = $titulacaoRaw['anoInicio'];
+      $titulacao->anoConclusao = $titulacaoRaw['anoConclusao'];
+      $titulacao->tipo = $titulacaoRaw['tipo'];
+      $titulacao->idTitulacao = $titulacaoRaw['idTitulacao'];
+    return $titulacao;
   }
 
   // Pega a maior titulação a partir do XML

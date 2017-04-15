@@ -13,6 +13,7 @@
     public $nomeOrientado;
     public $nomeInstituicao;
     public $nomeCurso;
+    public $idOrientacao;
 
     // Construtor Vazio
     public function __construct(){
@@ -28,6 +29,32 @@
       $this->nomeOrientado = '';
       $this->nomeInstituicao = '';
       $this->nomeCurso = '';
+      $this->idOrientacao = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $orientacoes = array();
+      // Pegando do DB
+      $orientacoesRaw = $conn->query("SELECT * FROM ic_orientacao WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($orientacoesRaw as $orientacao) {
+        $orientacao_ = new self();
+        $orientacao_->natureza = $orientacao['natureza'];
+        $orientacao_->tipo = $orientacao['tipo'];
+        $orientacao_->titulo = $orientacao['titulo'];
+        $orientacao_->ano = $orientacao['ano'];
+        $orientacao_->idioma = $orientacao['idioma'];
+        $orientacao_->pais = $orientacao['pais'];
+        $orientacao_->homepage = $orientacao['homepage'];
+        $orientacao_->doi = $orientacao['doi'];
+        $orientacao_->nomeOrientado = $orientacao['nomeOrientado'];
+        $orientacao_->nomeInstituicao = $orientacao['nomeInstituicao'];
+        $orientacao_->nomeCurso = $orientacao['nomeCurso'];
+        $orientacao_->idOrientacao = $orientacao['idOrientacao'];
+        array_push($orientacoes, $orientacao_);
+      }
+      return $orientacoes;
     }
 
     // Retorna um array com as orientações a partir do XML

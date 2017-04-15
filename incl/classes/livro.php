@@ -12,6 +12,7 @@
     public $isbn;
     public $numPags;
     public $autores;
+    public $idLivro;
 
     // Construtor vazio
     public function __construct(){
@@ -27,6 +28,32 @@
       $this->pais = '';
       $this->meio = '';
       $this->autores = array();
+      $this->idLivro = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $livros = array();
+      // Pegando do DB
+      $livrosRaw = $conn->query("SELECT * FROM ic_livro WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($livrosRaw as $livro) {
+        $livro_ = new self();
+        $livro_->tipo = $livro['tipo'];
+        $livro_->titulo = $livro['titulo'];
+        $livro_->ano = $livro['ano'];
+        $livro_->homepage = $livro['homepage'];
+        $livro_->doi = $livro['doi'];
+        $livro_->idioma = $livro['idioma'];
+        $livro_->pais = $livro['pais'];
+        $livro_->meio = $livro['meio'];
+        $livro_->isbn = $livro['isbn'];
+        $livro_->numPags = $livro['numPags'];
+        $livro_->autores = json_decode($livro['autores'], true);
+        $livro_->idLivro = $livro['idLivro'];
+        array_push($livros, $livro_);
+      }
+      return $livros;
     }
 
     // Pegar array de livros

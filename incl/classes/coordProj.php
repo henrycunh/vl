@@ -11,6 +11,7 @@
     public $descricao;
     public $responsavel;
     public $equipe;
+    public $idCoordProj;
 
     // Construtor vazio
     public function __construct(){
@@ -24,6 +25,7 @@
       $this->descricao = '';
       $this->responsavel = '';
       $this->equipe = array();
+      $this->idCoordProj = '';
     }
 
     // Função para retornar todas as coordenação de projetos
@@ -39,6 +41,29 @@
         foreach ($atuacaoProfs as $atuacaoProf) {
           $coordProjs = array_merge($coordProjs, getProjetos($atuacaoProf, $nome));
         }
+      }
+      return $coordProjs;
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $coordProjs = array();
+      // Pegando do DB
+      $coordProjsRaw = $conn->query("SELECT * FROM ic_coordProj WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($coordProjsRaw as $coordProj) {
+        $coordProj_ = new self();
+        $coordProj_->nomeInstituicao = $coordProj['nomeInstituicao'];
+        $coordProj_->anoInicio = $coordProj['anoInicio'];
+        $coordProj_->anoFim = $coordProj['anoFim'];
+        $coordProj_->nomeProj = $coordProj['nomeProj'];
+        $coordProj_->situacao = $coordProj['situacao'];
+        $coordProj_->natureza = $coordProj['natureza'];
+        $coordProj_->descricao = $coordProj['descricao'];
+        $coordProj_->responsavel = $coordProj['responsavel'];
+        $coordProj_->equipe = json_decode($coordProj['equipe'], true);
+        $coordProj_->idCoordProj = $coordProj['idCoordProj'];
+        array_push($coordProjs, $coordProj_);
       }
       return $coordProjs;
     }

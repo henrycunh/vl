@@ -12,6 +12,7 @@
     public $instituicaoPromotora;
     public $cidade;
     public $autores;
+    public $idOrganizacaoEvento;
 
     // Construtor Vazio
     public function __construct(){
@@ -27,6 +28,32 @@
       $this->instituicaoPromotora = '';
       $this->cidade = '';
       $this->autores = array();
+      $this->idOrganizacaoEvento = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $organizacaoEventos = array();
+      // Pegando do DB
+      $organizacaoEventosRaw = $conn->query("SELECT * FROM ic_organizacaoEvento WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($organizacaoEventosRaw as $organizacaoEvento) {
+        $organizacaoEvento_ = new self();
+        $organizacaoEvento_->tipo = $organizacaoEvento['tipo'];
+        $organizacaoEvento_->natureza = $organizacaoEvento['natureza'];
+        $organizacaoEvento_->titulo = $organizacaoEvento['titulo'];
+        $organizacaoEvento_->ano = $organizacaoEvento['ano'];
+        $organizacaoEvento_->idioma = $organizacaoEvento['idioma'];
+        $organizacaoEvento_->pais = $organizacaoEvento['pais'];
+        $organizacaoEvento_->homepage = $organizacaoEvento['homepage'];
+        $organizacaoEvento_->doi = $organizacaoEvento['doi'];
+        $organizacaoEvento_->instituicaoPromotora = $organizacaoEvento['instituicaoPromotora'];
+        $organizacaoEvento_->cidade = $organizacaoEvento['cidade'];
+        $organizacaoEvento_->autores = json_decode($organizacaoEvento['autores'], true);
+        $organizacaoEvento_->idOrganizacaoEvento = $organizacaoEvento['idOrganizacaoEvento'];
+        array_push($organizacaoEventos, $organizacaoEvento_);
+      }
+      return $organizacaoEventos;
     }
 
     // Retorna um array com as organizaçções de evento a partir de um XML
@@ -69,6 +96,7 @@
       return $organizacaoEventos;
     }
 
+    // Insere dados no DB
     public function insertIntoDB($conn, $curriculoId){
       // Enconding os autores para string JSON
       $autores = json_encode($this->autores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

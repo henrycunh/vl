@@ -57,9 +57,44 @@
 
     // Pegar um curriculo a partir de um e-mail
     public static function getCurriculoByEmail($conn, $email){
-      $result = $conn->query("SELECT curriculoId FROM curriculo
+      $id = Curriculo::getIDByEmail($conn, $email);
+      if($id){
+        $curriculo = Curriculo::getCurriculoByID($conn, $id);
+      } else {
+        return false;
+      }
+      return $curriculo;
+    }
+
+    // Pega o curriculoId a partir de um email
+    public static function getIDByEmail($conn,$email){
+      $id = $conn->query("SELECT curriculoId FROM curriculo
         WHERE email = '$email'")->fetch(PDO::FETCH_ASSOC);
-      return $result;
+
+      if($id)
+        return $id['curriculoId'];
+      else
+        return false;
+    }
+
+    // Cria um objeto curriculo com todos os ICs a partir de um ID
+    public static function getCurriculoByID($conn, $id){
+      $curriculo = new self();
+      $curriculo->curriculoId = $id;
+      $curriculo->artigos = Artigo::selectFromDB($conn, $id);
+      $curriculo->bancas = Banca::selectFromDB($conn, $id);
+      $curriculo->capLivros = CapLivro::selectFromDB($conn, $id);
+      $curriculo->coordProjs = CoordProjeto::selectFromDB($conn, $id);
+      $curriculo->corposEditoriais = CorpoEditorial::selectFromDB($conn, $id);
+      $curriculo->livros = Livro::selectFromDB($conn, $id);
+      $curriculo->marcas = Marca::selectFromDB($conn, $id);
+      $curriculo->organizacaoEventos = OrganizacaoEvento::selectFromDB($conn,$id);
+      $curriculo->orientacoes = Orientacao::selectFromDB($conn, $id);
+      $curriculo->patentes = Patente::selectFromDB($conn, $id);
+      $curriculo->softwares = Software::selectFromDB($conn, $id);
+      $curriculo->titulacao = Titulacao::selectFromDB($conn,$id);
+      $curriculo->trabEventos = TrabEvento::selectFromDB($conn,$id);
+      return $curriculo;
     }
 
     // Envia todos os dados do objeto para o DB

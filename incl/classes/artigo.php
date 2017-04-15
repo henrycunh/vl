@@ -10,6 +10,7 @@
     public $pais;
     public $idioma;
     public $autores;
+    public $idArtigo;
 
     // Construtor vazio da classe
     public function __construct(){
@@ -22,7 +23,31 @@
       $this->paginaInicial = '';
       $this->idioma = '';
       $this->pais = '';
+      $this->artigoId = '';
       $this->autores = array();
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $artigos = array();
+      // Pegando do DB
+      $artigosRaw = $conn->query("SELECT * FROM ic_artigo WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($artigosRaw as $artigo) {
+        $artigo_ = new self();
+        $artigo_->titulo = $artigo['titulo'];
+        $artigo_->ano = $artigo['ano'];
+        $artigo_->tituloPeriodico = $artigo['tituloPeriodico'];
+        $artigo_->issn = $artigo['issn'];
+        $artigo_->paginaInicial = $artigo['paginaInicial'];
+        $artigo_->paginaFinal = $artigo['paginaFinal'];
+        $artigo_->pais = $artigo['pais'];
+        $artigo_->idioma = $artigo['idioma'];
+        $artigo_->autores = json_decode($artigo['autores'], true);
+        $artigo_->idArtigo = $artigo['idArtigo'];
+        array_push($artigos, $artigo_);
+      }
+      return $artigos;
     }
 
     // Função que retorna um array com os artigos de um pesquisador a partir de seu XML

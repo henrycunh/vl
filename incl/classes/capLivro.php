@@ -15,6 +15,8 @@
     public $organizadores;
     //AUTORES
     public $autores;
+    public $idCapLivro;
+
 
     // Construtor vazio
     public function __construct(){
@@ -28,8 +30,9 @@
       $this->pagInicial = '';
       $this->pagFinal = '';
       $this->isbn = '';
-      $this->organizadores = array();
+      $this->organizadores = '';
       $this->autores = array();
+      $this->idCapLivro = '';
     }
 
     // Função que retorna array de capitulos de livro a partir do XML
@@ -71,6 +74,31 @@
         }
       endif;
       //retornar a lista de todos os capítulos
+      return $capLivros;
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $capLivros = array();
+      // Pegando do DB
+      $capLivrosRaw = $conn->query("SELECT * FROM ic_capLivro WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($capLivrosRaw as $capLivro) {
+        $capLivro_ = new self();
+        $capLivro_->tipo = $capLivro['tipo'];
+        $capLivro_->tituloCap = $capLivro['tituloCap'];
+        $capLivro_->ano = $capLivro['ano'];
+        $capLivro_->homepage = $capLivro['homepage'];
+        $capLivro_->doi = $capLivro['doi'];
+        $capLivro_->tituloLivro = $capLivro['tituloLivro'];
+        $capLivro_->pagInicial = $capLivro['pagInicial'];
+        $capLivro_->pagFinal = $capLivro['pagFinal'];
+        $capLivro_->isbn = $capLivro['isbn'];
+        $capLivro_->organizadores = $capLivro['organizadores'];
+        $capLivro_->autores = json_decode($capLivro['autores'], true);
+        $capLivro_->idCapLivro = $capLivro['idCapLivro'];
+        array_push($capLivros, $capLivro_);
+      }
       return $capLivros;
     }
 

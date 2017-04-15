@@ -10,7 +10,7 @@
     public $plataforma;
     public $ambiente;
     public $autores;
-
+    public $idSoftware;
 
     // Construtor vazio
     public function __construct(){
@@ -24,6 +24,30 @@
       $this->plataforma = '';
       $this->ambiente = '';
       $this->autores = array();
+      $this->idSoftware = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $softwares = array();
+      // Pegando do DB
+      $softwaresRaw = $conn->query("SELECT * FROM ic_software WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($softwaresRaw as $software) {
+        $software_ = new self();
+        $software_->natureza = $software['natureza'];
+        $software_->titulo = $software['titulo'];
+        $software_->ano = $software['ano'];
+        $software_->homepage = $software['homepage'];
+        $software_->doi = $software['doi'];
+        $software_->finalidade = $software['finalidade'];
+        $software_->plataforma = $software['plataforma'];
+        $software_->ambiente = $software['ambiente'];
+        $software_->autores = json_decode($software['autores'], true);
+        $software_->idSoftware = $software['idSoftware'];
+        array_push($softwares, $software_);
+      }
+      return $softwares;
     }
 
     // Retorna array de softwares a partir de XML

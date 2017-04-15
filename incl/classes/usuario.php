@@ -1,18 +1,17 @@
 <?php
 
   class Usuario{
-    private $nomeCompleto;
-    private $email;
-    private $dataNascimento;
-    private $genero;
-    private $cpf;
-    private $rg;
-    private $endereco;
-    private $cep;
-    private $telefone;
-    private $senha;
-    private $dataCriacao;
-    private $idUsuario;
+    public $nomeCompleto;
+    public $email;
+    public $dataNascimento;
+    public $genero;
+    public $cpf;
+    public $rg;
+    public $endereco;
+    public $cep;
+    public $telefone;
+    public $senha;
+    public $dataCriacao;
 
     // Construtor
     public static function create($nomeCompleto, $email, $dataNascimento,
@@ -57,6 +56,24 @@
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Retorna objeto usuário
+    public static function selectByEmail($conn, $email){
+      $res = Usuario::getUsuarioByEmail($conn, $email);
+      $usuario = new self();
+      $usuario->nomeCompleto = $res['nomeCompleto'];
+      $usuario->email = $res['email'];
+      $usuario->dataNascimento = $res['dataNascimento'];
+      $usuario->genero = $res['genero'];
+      $usuario->cpf = $res['cpf'];
+      $usuario->rg = $res['rg'];
+      $usuario->endereco = $res['endereco'];
+      $usuario->cep = $res['cep'];
+      $usuario->telefone = $res['telefone'];
+      $usuario->senha = $res['senha'];
+      $usuario->dataCriacao = $res['dataCriacao'];
+      return $usuario;
+    }
+
     // Pegar Usuário pelo E-mail
     public static function getUsuarioByEmail($conn, $email){
       $result = $conn->query("SELECT * FROM usuario WHERE email = '$email'");
@@ -64,6 +81,13 @@
         return $result->fetch(PDO::FETCH_ASSOC);
       else
       return $result;
+    }
+
+    // Pega o os dois primeiros nomes do usuário
+    public function getNome(){
+      $nome = $this->nomeCompleto;
+      $nome = explode(" ", $nome);
+      return $nome[0] . ' ' . $nome[1];
     }
 
     // Insere o Usuário com os dados armazenados no DB
@@ -143,297 +167,6 @@
       if(!$stmt->execute()){
         print_r($stmt->errorInfo());
       }
-    }
-
-
-
-
-    /**
-     * Get the value of Nome Completo
-     *
-     * @return mixed
-     */
-    public function getNomeCompleto()
-    {
-        return $this->nomeCompleto;
-    }
-
-    /**
-     * Set the value of Nome Completo
-     *
-     * @param mixed nomeCompleto
-     *
-     * @return self
-     */
-    public function setNomeCompleto($nomeCompleto)
-    {
-        $this->nomeCompleto = $nomeCompleto;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Email
-     *
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the value of Email
-     *
-     * @param mixed email
-     *
-     * @return self
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Data Nascimento
-     *
-     * @return mixed
-     */
-    public function getDataNascimento()
-    {
-        return $this->dataNascimento;
-    }
-
-    /**
-     * Set the value of Data Nascimento
-     *
-     * @param mixed dataNascimento
-     *
-     * @return self
-     */
-    public function setDataNascimento($dataNascimento)
-    {
-        $this->dataNascimento = $dataNascimento;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Genero
-     *
-     * @return mixed
-     */
-    public function getGenero()
-    {
-        return $this->genero;
-    }
-
-    /**
-     * Set the value of Genero
-     *
-     * @param mixed genero
-     *
-     * @return self
-     */
-    public function setGenero($genero)
-    {
-        $this->genero = $genero;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Cpf
-     *
-     * @return mixed
-     */
-    public function getCpf()
-    {
-        return $this->cpf;
-    }
-
-    /**
-     * Set the value of Cpf
-     *
-     * @param mixed cpf
-     *
-     * @return self
-     */
-    public function setCpf($cpf)
-    {
-        $this->cpf = $cpf;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Rg
-     *
-     * @return mixed
-     */
-    public function getRg()
-    {
-        return $this->rg;
-    }
-
-    /**
-     * Set the value of Rg
-     *
-     * @param mixed rg
-     *
-     * @return self
-     */
-    public function setRg($rg)
-    {
-        $this->rg = $rg;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Endereco
-     *
-     * @return mixed
-     */
-    public function getEndereco()
-    {
-        return $this->endereco;
-    }
-
-    /**
-     * Set the value of Endereco
-     *
-     * @param mixed endereco
-     *
-     * @return self
-     */
-    public function setEndereco($endereco)
-    {
-        $this->endereco = $endereco;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Cep
-     *
-     * @return mixed
-     */
-    public function getCep()
-    {
-        return $this->cep;
-    }
-
-    /**
-     * Set the value of Cep
-     *
-     * @param mixed cep
-     *
-     * @return self
-     */
-    public function setCep($cep)
-    {
-        $this->cep = $cep;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Telefone
-     *
-     * @return mixed
-     */
-    public function getTelefone()
-    {
-        return $this->telefone;
-    }
-
-    /**
-     * Set the value of Telefone
-     *
-     * @param mixed telefone
-     *
-     * @return self
-     */
-    public function setTelefone($telefone)
-    {
-        $this->telefone = $telefone;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Senha
-     *
-     * @return mixed
-     */
-    public function getSenha()
-    {
-        return $this->senha;
-    }
-
-    /**
-     * Set the value of Senha
-     *
-     * @param mixed senha
-     *
-     * @return self
-     */
-    public function setSenha($senha)
-    {
-        $this->senha = $senha;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Data Criacao
-     *
-     * @return mixed
-     */
-    public function getDataCriacao()
-    {
-        return $this->dataCriacao;
-    }
-
-    /**
-     * Set the value of Data Criacao
-     *
-     * @param mixed dataCriacao
-     *
-     * @return self
-     */
-    public function setDataCriacao($dataCriacao)
-    {
-        $this->dataCriacao = $dataCriacao;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Id Usuario
-     *
-     * @return mixed
-     */
-    public function getIdUsuario()
-    {
-        return $this->idUsuario;
-    }
-
-    /**
-     * Set the value of Id Usuario
-     *
-     * @param mixed idUsuario
-     *
-     * @return self
-     */
-    public function setIdUsuario($idUsuario)
-    {
-        $this->idUsuario = $idUsuario;
-
-        return $this;
     }
 
 }

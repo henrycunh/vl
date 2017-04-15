@@ -5,6 +5,7 @@
     public $codInstituicao;
     public $dataInicio;
     public $dataFim;
+    public $idCorpoEditorial;
 
     // Construtor vazio
     public function __construct(){
@@ -13,6 +14,25 @@
       $this->codInstituicao = '';
       $this->dataInicio = '';
       $this->dataFim = '';
+      $this->idCorpoEditorial = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $corposEditoriais = array();
+      // Pegando do DB
+      $corposEditoriaisRaw = $conn->query("SELECT * FROM ic_corpoEditorial WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($corposEditoriaisRaw as $corpoEditorial) {
+        $corpoEditorial_ = new self();
+        $corpoEditorial_->nomeInstituicao = $corpoEditorial['nomeInstituicao'];
+        $corpoEditorial_->codInstituicao = $corpoEditorial['codInstituicao'];
+        $corpoEditorial_->dataInicio = $corpoEditorial['dataInicio'];
+        $corpoEditorial_->dataFim = $corpoEditorial['dataFim'];
+        $corpoEditorial_->idCorpoEditorial = $corpoEditorial['idCorpoEditorial'];
+        array_push($corposEditoriais, $corpoEditorial_);
+      }
+      return $corposEditoriais;
     }
 
     // Função que retorna uma lista com as participações em corpos editoriais

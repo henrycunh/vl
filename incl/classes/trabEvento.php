@@ -3,8 +3,8 @@
     // 1 - Resumo Nacional, 2 - Resumo Internacional,
     // 3 - Completo Nacional, 4 - Completo Internacional
     public $tipoClass;
-    // 1 - Resumo Nacional, 2 - Resumo Internacional,
-    // 3 - Completo Nacional, 4 - Completo Internacional
+    // 1 - Resumo Nacional, 2 - Resumo Exterior,
+    // 3 - Completo Nacional, 4 - Completo Exterior
     public $tipoPais;
     public $natureza;
     public $titulo;
@@ -23,6 +23,7 @@
     public $pagInicial;
     public $pagFinal;
     public $autores;
+    public $idTrabEvento;
 
     // Construtor Vazio
     public function __construct(){
@@ -46,6 +47,40 @@
       $this->pagInicial = '';
       $this->pagFinal = '';
       $this->autores = array();
+      $this->idTrabEvento = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $trabEventos = array();
+      // Pegando do DB
+      $trabEventosRaw = $conn->query("SELECT * FROM ic_trabEvento WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($trabEventosRaw as $trabEvento) {
+        $trabEvento_ = new self();
+        $trabEvento_->tipoClass = $trabEvento['tipoClass'];
+        $trabEvento_->tipoPais = $trabEvento['tipoPais'];
+        $trabEvento_->natureza = $trabEvento['natureza'];
+        $trabEvento_->titulo = $trabEvento['titulo'];
+        $trabEvento_->ano = $trabEvento['ano'];
+        $trabEvento_->isbn = $trabEvento['isbn'];
+        $trabEvento_->homepage = $trabEvento['homepage'];
+        $trabEvento_->doi = $trabEvento['doi'];
+        $trabEvento_->classEvento = $trabEvento['classEvento'];
+        $trabEvento_->nomeEvento = $trabEvento['nomeEvento'];
+        $trabEvento_->cidadeEvento = $trabEvento['cidadeEvento'];
+        $trabEvento_->anoRealizacao = $trabEvento['anoRealizacao'];
+        $trabEvento_->nomeEditora = $trabEvento['nomeEditora'];
+        $trabEvento_->titulosAnais = $trabEvento['titulosAnais'];
+        $trabEvento_->pais = $trabEvento['pais'];
+        $trabEvento_->idioma = $trabEvento['idioma'];
+        $trabEvento_->pagInicial = $trabEvento['pagInicial'];
+        $trabEvento_->pagFinal = $trabEvento['pagFinal'];
+        $trabEvento_->autores = json_decode($trabEvento['autores'], true);
+        $trabEvento_->idTrabEvento = $trabEvento['idTrabEvento'];
+        array_push($trabEventos, $trabEvento_);
+      }
+      return $trabEventos;
     }
 
     // Retorna um array com os trabalhos em eventos a partir do XML

@@ -7,7 +7,8 @@
   // Definindo $email
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Definindo usuário
-  // $usuario = Usuario::getUsuarioByEmail($conn, $email);
+  $usuario = Usuario::selectByEmail($conn, $email);
+  $nome = $usuario->getNome();
   if(!$email):
  ?>
  <script type="text/javascript">
@@ -20,31 +21,35 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/painelStyle.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.css">
     <title>Painel / Validador Lattes</title>
   </head>
   <body>
-    <main>
-      <h1>Currículo</h1>
-      <div class="curriculo">
-      <?php if(Curriculo::getCurriculoByEmail($conn, $email)): ?>
-
-      <?php else: ?>
-        Este usuário ainda não enviou um currículo. <br>Use a barre lateral para enviar o seu Currículo Lattes.
-      <?php endif; ?>
-      </div>
-
-    </main>
     <aside>
-      <h1>Painel</h1>
+      <h1>Painel do Pesquisador</h1>
+      <h2><?= $nome ?></h2>
       <div class='info'>
-        <a href="alterar_informacoes.php"><span class="fa fa-user-circle icon"></span> Alterar Informações</a>
-        <a href='#' id='enviarcurriculo'><span class='fa fa-file icon'></span> Enviar Currículo</a>
-        <a href="#"><span class='fa fa-folder icon'></span> Enviar Documento</a>
-        <a href='#' id='desconectar'><span class='fa fa-sign-out icon'></span> Desconectar</a>
+        <a href="alterar_informacoes.php"><span class="typcn typcn-zoom icon"></span>Procurar Editais</a>
+        <a href="alterar_informacoes.php"><span class="typcn typcn-th-list icon"></span>Meus Editais</a>
+        <a href="alterar_informacoes.php"><span class="typcn typcn-user icon"></span> Alterar Informações</a>
+        <a href='#' id='enviarcurriculo'><span class='typcn typcn-cloud-storage icon'></span> Enviar Currículo</a>
+        <a href="#"><span class='typcn typcn-export icon'></span> Enviar Documento</a>
+        <a href='#' id='desconectar'><span class='typcn typcn-times icon'></span> Desconectar</a>
 
       </div>
     </aside>
+    <main>
+      <h1>Currículo</h1>
+      <div class="curriculo">
+      <?php
+      if(Curriculo::getIDByEmail($conn, $email))
+          require 'incl/curriculo_display.php';
+      else
+        echo 'Este usuário ainda não enviou um currículo. <br>Use a barre lateral para enviar o seu Currículo Lattes.';
+      ?>
+      </div>
+
+    </main>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>

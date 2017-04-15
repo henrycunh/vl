@@ -23,18 +23,20 @@
   $data = json_decode($json, TRUE);
 
   // Pegando curriculoId a partir do e-mail na sessão
-  $curriculoId = Curriculo::getCurriculoByEmail($conn, $_SESSION['email']);
+  $curriculoId = Curriculo::getIDByEmail($conn, $_SESSION['email']);
   // Caso não exista um, vincula um curriculo para esse usuário
   if(!$curriculoId)
     $conn->query("INSERT INTO curriculo(email) VALUES('" . $_SESSION['email'] . "')");
   // Repete o query
-  $curriculoId = Curriculo::getCurriculoByEmail($conn, $_SESSION['email'])['curriculoId'];
+  $curriculoId = Curriculo::getIDByEmail($conn, $_SESSION['email']);
   // Criando o objeto Curriculo a partir do XML
   $curriculo = Curriculo::getCurriculo($data, $curriculoId);
 
   // Inserindo no DB
   $curriculo->insertAllIntoDB($conn);
 
+  $currFromDB = Curriculo::getCurriculoByID($conn, 1);
+  echo json_encode($currFromDB, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
   // Objeto de retorno ao request
   // echo json_encode($curriculo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 

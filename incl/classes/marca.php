@@ -10,6 +10,7 @@
     public $dataConcessao;
     public $instDeposito;
     public $autores;
+    public $idMarca;
 
     // Construtor Vazio
     public function __construct(){
@@ -23,6 +24,30 @@
       $this->instDeposito = '';
       $this->dataConcessao = '';
       $this->autores = array();
+      $this->idMarca = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $marcas = array();
+      // Pegando do DB
+      $marcasRaw = $conn->query("SELECT * FROM ic_marca WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($marcasRaw as $marca) {
+        $marca_ = new self();
+        $marca_->titulo = $marca['titulo'];
+        $marca_->ano = $marca['ano'];
+        $marca_->natureza = $marca['natureza'];
+        $marca_->tipo = $marca['tipo'];
+        $marca_->codigo = $marca['codigo'];
+        $marca_->tituloPatente = $marca['tituloPatente'];
+        $marca_->instDeposito = $marca['instDeposito'];
+        $marca_->dataConcessao = $marca['dataConcessao'];
+        $marca_->autores = json_decode($marca['autores'], true);
+        $marca_->idMarca = $marca['idMarca'];
+        array_push($marcas, $marca_);
+      }
+      return $marcas;
     }
 
     // Retorna as marcas a partir do XML

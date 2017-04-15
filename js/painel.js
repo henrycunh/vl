@@ -23,8 +23,8 @@ $(()=>{
         <div id='curriculoModal' class='modalOuter'>
           <div class='modalInner'>
             <div class="modal">
-            <button id='closeModal'><i class="fa fa-times-circle"></i></button>
-            <label id='label' for="fileCurriculo"><i class="fa fa-upload"></i> Escolha um arquivo...</label>
+            <button id='closeModal'><i class="typcn typcn-times"></i></button>
+            <label id='label' for="fileCurriculo"><i class="typcn typcn-upload"></i> Escolha um arquivo...</label>
             <input type='file' id='fileCurriculo' name='curriculo'>
             <button id='curriculoSubmit'>Enviar</button>
             <progress id='progress' value='0' min='0' max='100'></progress>

@@ -11,6 +11,7 @@
     public $nomeCandidato;
     public $nomeInstituicao;
     public $nomeCurso;
+    public $idBanca;
     public $participantes;
 
     // Construtor vazio
@@ -27,6 +28,32 @@
       $this->nomeInstituicao = '';
       $this->nomeCurso = '';
       $this->participantes = array();
+      $this->idBanca = '';
+    }
+
+    // Função que retorna array com artigos a partir do DB
+    public static function selectFromDB($conn, $curriculoId){
+      $bancas = array();
+      // Pegando do DB
+      $bancasRaw = $conn->query("SELECT * FROM ic_banca WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      // Iterando
+      foreach ($bancasRaw as $banca) {
+        $banca_ = new self();
+        $banca_->tipo = $banca['tipo'];
+        $banca_->natureza = $banca['natureza'];
+        $banca_->tipoBanca = $banca['tipoBanca'];
+        $banca_->titulo = $banca['titulo'];
+        $banca_->ano = $banca['ano'];
+        $banca_->homepage = $banca['homepage'];
+        $banca_->doi = $banca['doi'];
+        $banca_->nomeCandidato = $banca['nomeCandidato'];
+        $banca_->nomeInstituicao = $banca['nomeInstituicao'];
+        $banca_->nomeCurso = $banca['nomeCurso'];
+        $banca_->participantes = json_decode($banca['participantes'], true);
+        $banca_->idBanca = $banca['idBanca'];
+        array_push($bancas, $banca_);
+      }
+      return $bancas;
     }
 
     // Função que retorna todas as bancas em um array a partir de um XML
