@@ -4,9 +4,11 @@ function toggle(elem){
   $("#"+el).fadeToggle(300)
 }
 
-$(()=>{
-  // Artigo Search
 
+
+$(document).ready(()=>{
+  $("#load").hide()
+  $(".curriculoContent").fadeIn(500);
 })
 
 function search(elem){

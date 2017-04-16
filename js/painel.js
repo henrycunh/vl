@@ -43,7 +43,7 @@ $(()=>{
 
       /* Envia o arquivo para ser efetuado o Parsing */
       $("#curriculoSubmit").click(()=>{
-        $(".modalMsg").html('Processando...')
+        $(".modalMsg").html('Enviando...')
         $("#fileCurriculo").upload("processar_curriculo.php", success=>{
             let d = success
             $(".modal").animate({"height":"400px", "background" : "rgba(241, 241, 241, 0.81)"}, 1000)
@@ -108,7 +108,11 @@ $(()=>{
           setTimeout(()=>{
             window.location.replace('painel.php')
           }, 4000)
-        },$("#progress"))
+        }, progress=>{
+          $("#progress").val((progress.loaded / progress.total) * 100)
+          if((progress.loaded / progress.total) * 100 == 100)
+            $(".modalMsg").html("Processando...")
+        })
       })
 
 

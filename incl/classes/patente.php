@@ -1,5 +1,5 @@
 <?php
-  class Patente{
+  class Patente extends IC{
     /*Declaração de atributos*/
     public $titulo;
     public $ano;

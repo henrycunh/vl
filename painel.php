@@ -1,4 +1,3 @@
-
 <?php
   // requirements
   session_start();

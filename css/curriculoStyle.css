@@ -10,6 +10,17 @@
   max-height: 85%;
 }
 
+.curriculoContent{
+  display: none;
+}
+
+#load{
+    width: 20%;
+    display: block;
+    margin: 0 auto;
+    padding: 5em;
+}
+
 .curriculo h1 {
   display: block;
   background: #303040;
@@ -118,6 +129,7 @@
 }
 
 .itens li{
+  font-size: 0.9em;
   padding-bottom: 1em;
   padding-left: 1.2em;
   border-left: 2px solid #b3b3dc;
