@@ -30,7 +30,7 @@
       <div class="btns">
         <a class='btn' id='entrar' onclick='autenticar()'>Entrar</a>
       </div>
-      <span class='signuplabel'>Não possui uma conta? <a href="cadastro.php">Criar Conta</a></span>
+      <span class='signuplabel'>Não possui uma conta? <a href="cadastrar.php">Criar Conta</a></span>
     </div>
     <a href="index.php" class='back'>Voltar</a>
   </body>

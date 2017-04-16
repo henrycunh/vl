@@ -1,6 +1,7 @@
 function toggle(elem){
+  $(elem).html($(elem).html() == 'Esconder' ? 'Mostrar' : 'Esconder')
   let el = $(elem).attr('ic')
-  $("#"+el).fadeToggle(500)
+  $("#"+el).fadeToggle(300)
 }
 
 $(()=>{

@@ -70,9 +70,11 @@
 }
 
 .ic_wrapper {
+  display: none;
   padding: 0.5em;
   border: 2px solid hsla(240, 14%, 57%, 1);
   border-top: 0;
+  margin-bottom: 0.5em;
 }
 
 .ic_wrapper p{
@@ -148,4 +150,13 @@ div.number {
 .number.level-3 {
     margin-left: -2.65em;
     left: -0.4em;
+}
+
+.itens li a{
+  text-decoration: none;
+  color: hsla(206, 69%, 50%, 1);
+}
+
+.itens li a:hover{
+  color: hsla(206, 80%, 60%, 1);
 }
