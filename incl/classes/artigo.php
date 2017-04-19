@@ -25,7 +25,7 @@
       $this->idioma = '';
       $this->volume = '';
       $this->pais = '';
-      $this->artigoId = '';
+      $this->idArtigo = '';
       $this->autores = array();
     }
 
@@ -37,12 +37,14 @@
       // Iterando
       foreach ($artigosRaw as $artigo) {
         $artigo_ = new self();
+        $artigo_->setVal($artigo);
         $artigo_->titulo = $artigo['titulo'];
         $artigo_->ano = $artigo['ano'];
         $artigo_->tituloPeriodico = $artigo['tituloPeriodico'];
         $artigo_->issn = $artigo['issn'];
         $artigo_->paginaInicial = $artigo['paginaInicial'];
         $artigo_->paginaFinal = $artigo['paginaFinal'];
+        $artigo_->volume = $artigo['volume'];
         $artigo_->pais = $artigo['pais'];
         $artigo_->idioma = $artigo['idioma'];
         $artigo_->autores = json_decode($artigo['autores'], true);

@@ -12,6 +12,20 @@ class IC{
     $this->validado = '';
     $this->comprovante = '';
   }
+
+  public function cleanVal(){
+    $this->idValidador = '';
+    $this->dataValidacao = '';
+    $this->validado = '';
+    $this->comprovante = '';
+  }
+
+  public function setVal($values){
+    $this->idValidador = $values['idValidador'];
+    $this->dataValidacao = $values['dataValidacao'];
+    $this->validado = $values['validado'];
+    $this->comprovante = $values['comprovante'];
+  }
 }
 
  ?>

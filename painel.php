@@ -57,4 +57,5 @@
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
   <script src="js/curriculo.js" charset="utf-8"></script>
+  <script src="js/api/curriculo.js" charset="utf-8"></script>
 </html>

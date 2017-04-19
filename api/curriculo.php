@@ -17,6 +17,12 @@ if(!empty($_POST)):
     echo json_encode(Curriculo::getCurriculoByEmail($conn, $email));
   }
 
+  if($data['op'] == 'curriculo/comprovante'){
+    $filename = $data['filename'];
+    $_SESSION['filename'] = $filename;
+    echo json_encode(['success' => true]);
+  }
+
 
 
 

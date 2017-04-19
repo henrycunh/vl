@@ -9,32 +9,25 @@
 <h1>Titulação</h1>
 <div class="hswrap"><button class='hide-show' onclick="toggle(this)" ic='titulacao'>Esconder</button></div>
 <div class="ic_wrapper" id='titulacao'>
+  <?php $titulacao = $curriculo->titulacao; ?>
   <!-- <tipo> em <nomeCurso> (<anoInicio> - <anoConclusao>)  -->
-  <b><?= $titulacaoType[$curriculo->titulacao->tipo] ?></b> em <?= $curriculo->titulacao->nomeCurso ?>
-  (<b><?= $curriculo->titulacao->anoInicio ?></b> - <b><?= $curriculo->titulacao->anoConclusao?></b>)
+  <b><?= $titulacaoType[$titulacao->tipo] ?></b> em <?= $titulacao->nomeCurso ?>
+  (<b><?= $titulacao->anoInicio ?></b> - <b><?= $titulacao->anoConclusao?></b>)
   <!-- Instituição: <instituicao> -->
   <p>
-    <b>Instituição:</b> <?= $curriculo->titulacao->instituicao ?>
+    <b>Instituição:</b> <?= $titulacao->instituicao ?>
   </p>
   <!-- Orientador: <orientador> -->
   <p>
-    <b>Orientador:</b> <?= $curriculo->titulacao->orientador ?>
+    <b>Orientador:</b> <?= $titulacao->orientador ?>
   </p>
   <!-- Titulo: <titulo> -->
   <!-- Orientador: <orientador> -->
   <p>
-    <b>Titulo:</b> <?= $curriculo->titulacao->titulo ?>
+    <b>Titulo:</b> <?= $titulacao->titulo ?>
   </p>
-  <div class='val-area'>
-    <?php if(!$curriculo->titulacao->validado): ?>
-    <!-- NÃO VALIDADO // ENVIAR COMPROVANTE  -->
-    <div class="col nao-validado">Não Validado</div>
-    <div class="col nao-validado"><a href="#">Enviar Comprovante</a></div>
-    <?php else: ?>
-    <!-- VALIDADO // DATA VALIDACAO // VALIDADO POR (NOME VALIDADOR) // VER COMPROVANTE //  ALTERAR COMPROVANTE  -->
-
-    <?php endif; ?>
-  </div>
+  <!-- Área de Validação -->
+  <?= areaVal($titulacao->comprovante, $titulacao->validado, 'titulacao', $id, $titulacao->idTitulacao) ?>
 </div>
 <!-- TITULAÇÃO END -->
 
@@ -67,7 +60,7 @@
           ", " . $artigo->ano
         ?>
         <!-- Área de Validação -->
-        <?= areaVal($artigo->validado) ?>
+        <?= areaVal($artigo->comprovante,$artigo->validado, 'artigo', $id, $artigo->idArtigo) ?>
       </li>
   <?php endforeach; ?>
   </ul>
@@ -109,7 +102,7 @@
           $tipos[$banca->tipo] . " em " . $banca->nomeCurso . " - " . $banca->nomeInstituicao
         ?>
         <!-- Área de Validação -->
-        <?= areaVal($banca->validado) ?>
+        <?= areaVal($banca->comprovante,$banca->validado, 'banca', $id, $banca->idBanca) ?>
       </li>
   <?php endforeach; ?>
   </ul>
@@ -144,7 +137,7 @@
         <!-- ISBN -->
         <?= "ISBN: " . $capLivro->isbn?><br>
         <!-- Área de Validação -->
-        <?= areaVal($capLivro->validado) ?>
+        <?= areaVal($capLivro->comprovante,$capLivro->validado, 'capLivro', $id, $capLivro->idCapLivro) ?>
       </li>
   <?php endforeach; ?>
   </ul>
@@ -181,7 +174,7 @@
         <!-- Nomes de Citação -->
         <?= "<b>Integrantes:</b> " . equipeToString($coordProj->equipe, $nome, $coordProj->responsavel) ?><br>
         <!-- Área de Validação -->
-        <?= areaVal($coordProj->validado) ?>
+        <?= areaVal($coordProj->comprovante,$coordProj->validado, 'coordProj', $id, $coordProj->idCoordProj) ?>
       </li>
   <?php endforeach; ?>
   </ul>
@@ -211,7 +204,7 @@
         <!-- Natureza -->
         <!-- Nomes de Citação -->
         <!-- Área de Validação -->
-        <?= areaVal($corpoEditorial->validado) ?>
+        <?= areaVal($corpoEditorial->comprovante,$corpoEditorial->validado, 'corpoEditorial', $id, $corpoEditorial->idCorpoEditorial) ?>
       </li>
   <?php endforeach; ?>
   </ul>
@@ -248,7 +241,7 @@
           <!-- ISBN -->
           <?= "ISBN: " . $livro->isbn?><br>
           <!-- Área de Validação -->
-          <?= areaVal($livro->validado) ?>
+          <?= areaVal($livro->comprovante,$livro->validado, 'livro', $id, $livro->idLivro) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -284,7 +277,7 @@
           <!-- instDeposito -->
           <?= "Instituição de Registro: " . $marca->instDeposito?>.<br>
           <!-- Área de Validação -->
-          <?= areaVal($marca->validado) ?>
+          <?= areaVal($marca->comprovante,$marca->validado, 'marca', $id, $marca->idMarca) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -318,7 +311,7 @@
           <!-- Cidade -->
           <?= $organizacaoEvento->cidade ?>.
           <!-- Área de Validação -->
-          <?= areaVal($organizacaoEvento->validado) ?>
+          <?= areaVal($organizacaoEvento->comprovante,$organizacaoEvento->validado, 'organizacaoEvento', $id, $organizacaoEvento->idOrganizacaoEvento) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -362,7 +355,7 @@
           <!-- Pais -->
           <?= $orientacao->pais ?>.
           <!-- Área de Validação -->
-          <?= areaVal($orientacao->validado) ?>
+          <?= areaVal($orientacao->comprovante,$orientacao->validado, 'orientacao', $id, $orientacao->idOrientacao) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -398,7 +391,7 @@
           <!-- instDeposito -->
           <?= "Instituição de Registro: " . $patente->instituicaoDeposito?>.<br>
           <!-- Área de Validação -->
-          <?= areaVal($patente->validado) ?>
+          <?= areaVal($patente->comprovante,$patente->validado, 'patente', $id, $patente->idPatente) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -429,7 +422,7 @@
           <!-- Ano -->
           <?= $software->ano ?>.<br>
           <!-- Área de Validação -->
-          <?= areaVal($software->validado) ?>
+          <?= areaVal($software->comprovante,$software->validado, 'software', $id, $software->idSoftware) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -471,7 +464,7 @@
           <!-- Páginas -->
           <?= "p. " . $trabEvento->pagInicial . "-" . $trabEvento->pagFinal ?>.
           <!-- Área de Validação -->
-          <?= areaVal($trabEvento->validado) ?>
+          <?= areaVal($trabEvento->comprovante,$trabEvento->validado, "trabEvento", $id, $trabEvento->idTrabEvento) ?>
         </li>
     <?php endforeach; ?>
   </ul>
@@ -481,12 +474,12 @@
 </div>
 <?php
   // Funções de Utilidade
-  function areaVal($flag){ ?>
+  function areaVal($comprovante, $flag, $ic, $curriculoId, $icId){ ?>
     <div class="val-area">
     <?php if(!$flag): ?>
     <!-- NÃO VALIDADO // ENVIAR COMPROVANTE  -->
     <div class="col nao-validado">Não Validado</div>
-    <div class="col nao-validado"><a href="#">Enviar Comprovante</a></div>
+    <div class="col nao-validado"><a href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= "$ic-$curriculoId-$icId" ?>'>Enviar Comprovante</a></div>
     <?php else: ?>
     <!-- VALIDADO // DATA VALIDACAO // VALIDADO POR (NOME VALIDADOR) // VER COMPROVANTE //  ALTERAR COMPROVANTE  -->
 
@@ -501,6 +494,8 @@
     }
     return rtrim($string, " / ");
   }
+
+
 
   function autoresToString($autores, $nome){
     $string = '';
