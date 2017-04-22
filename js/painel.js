@@ -1,3 +1,4 @@
+
 $(()=>{
   // Ao clicar, destruir sessão e redirecionar para o Índice
   $("#desconectar").click(e=>{
@@ -26,7 +27,7 @@ $(()=>{
             <div class="modal">
             <button id='closeModal'><i class="typcn typcn-times"></i></button>
             <label id='label' for="fileCurriculo"><i class="typcn typcn-upload"></i> Escolha um arquivo...</label>
-            <input type='file' id='fileCurriculo' accept="text/pdf" name='curriculo'>
+            <input type='file' id='fileCurriculo' accept="text/xml" name='curriculo'>
             <button id='curriculoSubmit'>Enviar</button>
             <progress id='progress' value='0' min='0' max='100'></progress>
             <div class='modalMsg'></div>
@@ -50,7 +51,7 @@ $(()=>{
           $(".modalMsg").html('Enviando...')
           $("#fileCurriculo").upload("processar_curriculo.php", success=>{
               console.log(success)
-              let d = success.novo
+              let d = success
               $(".modal").animate({"height":"400px", "background" : "rgba(241, 241, 241, 0.81)"}, 1000)
               let relatorio = `
                 <h1>Foram processados e armazenados:</h1>
@@ -128,5 +129,26 @@ $(()=>{
     $("#closeModal").click(()=>{
       $("#curriculoModal").fadeOut(500)
     })
+  })
+
+  $("#deletarcurriculo").click(e=>{
+    e.preventDefault()
+    $.ajax({
+      type: "POST",
+      dataType: "text",
+      url: 'api/curriculo.php',
+      data: {op:'curriculo/deletar'},
+      success: data => {
+        console.log(data)
+        window.location.replace('painel.php')
+      },
+      error: (e,x,s) => {
+        console.log(s)
+        console.log(e)
+        console.log(x)
+
+      }
+    })
+
   })
 })

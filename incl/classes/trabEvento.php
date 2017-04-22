@@ -54,7 +54,7 @@
     public static function selectFromDB($conn, $curriculoId){
       $trabEventos = array();
       // Pegando do DB
-      $trabEventosRaw = $conn->query("SELECT * FROM ic_trabEvento WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $trabEventosRaw = $conn->query("SELECT * FROM ic_trabEvento WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($trabEventosRaw as $trabEvento) {
         $trabEvento_ = new self();
@@ -64,6 +64,7 @@
         $trabEvento_->titulo = $trabEvento['titulo'];
         $trabEvento_->ano = $trabEvento['ano'];
         $trabEvento_->isbn = $trabEvento['isbn'];
+        $trabEvento_->setVal($trabEvento);
         $trabEvento_->homepage = $trabEvento['homepage'];
         $trabEvento_->doi = $trabEvento['doi'];
         $trabEvento_->classEvento = $trabEvento['classEvento'];

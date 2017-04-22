@@ -34,7 +34,7 @@
     public static function selectFromDB($conn, $curriculoId){
       $patentes = array();
       // Pegando do DB
-      $patentesRaw = $conn->query("SELECT * FROM ic_patente WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $patentesRaw = $conn->query("SELECT * FROM ic_patente WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($patentesRaw as $patente) {
         $patente_ = new self();
@@ -42,6 +42,7 @@
         $patente_->ano = $patente['ano'];
         $patente_->homepage = $patente['homepage'];
         $patente_->categoria = $patente['categoria'];
+        $patente_->setVal($patente);
         $patente_->tipo = $patente['tipo'];
         $patente_->codigo = $patente['codigo'];
         $patente_->tituloPatente = $patente['tituloPatente'];

@@ -31,12 +31,13 @@
     public static function selectFromDB($conn, $curriculoId){
       $softwares = array();
       // Pegando do DB
-      $softwaresRaw = $conn->query("SELECT * FROM ic_software WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $softwaresRaw = $conn->query("SELECT * FROM ic_software WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($softwaresRaw as $software) {
         $software_ = new self();
         $software_->natureza = $software['natureza'];
         $software_->titulo = $software['titulo'];
+        $software_->setVal($software);
         $software_->ano = $software['ano'];
         $software_->homepage = $software['homepage'];
         $software_->doi = $software['doi'];

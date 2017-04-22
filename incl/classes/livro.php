@@ -35,12 +35,13 @@
     public static function selectFromDB($conn, $curriculoId){
       $livros = array();
       // Pegando do DB
-      $livrosRaw = $conn->query("SELECT * FROM ic_livro WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $livrosRaw = $conn->query("SELECT * FROM ic_livro WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($livrosRaw as $livro) {
         $livro_ = new self();
         $livro_->tipo = $livro['tipo'];
         $livro_->titulo = $livro['titulo'];
+        $livro_->setVal($livro);
         $livro_->ano = $livro['ano'];
         $livro_->homepage = $livro['homepage'];
         $livro_->doi = $livro['doi'];

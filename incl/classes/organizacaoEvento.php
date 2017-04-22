@@ -35,13 +35,14 @@
     public static function selectFromDB($conn, $curriculoId){
       $organizacaoEventos = array();
       // Pegando do DB
-      $organizacaoEventosRaw = $conn->query("SELECT * FROM ic_organizacaoEvento WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $organizacaoEventosRaw = $conn->query("SELECT * FROM ic_organizacaoEvento WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($organizacaoEventosRaw as $organizacaoEvento) {
         $organizacaoEvento_ = new self();
         $organizacaoEvento_->tipo = $organizacaoEvento['tipo'];
         $organizacaoEvento_->natureza = $organizacaoEvento['natureza'];
         $organizacaoEvento_->titulo = $organizacaoEvento['titulo'];
+        $organizacaoEvento_->setVal($organizacaoEvento);
         $organizacaoEvento_->ano = $organizacaoEvento['ano'];
         $organizacaoEvento_->idioma = $organizacaoEvento['idioma'];
         $organizacaoEvento_->pais = $organizacaoEvento['pais'];

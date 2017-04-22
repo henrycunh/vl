@@ -2,7 +2,7 @@
   // Classe principal
   class Curriculo{
     // ICs
-    public $titulacao;
+    public $titulacoes;
     public $artigos;
     public $livros;
     public $trabEventos;
@@ -19,7 +19,7 @@
 
     // Construtor
     public function __construct(){
-      $this->titulacao = '';
+      $this->titulacoes = '';
       $this->artigos = '';
       $this->livros = '';
       $this->trabEventos = '';
@@ -39,7 +39,7 @@
     // Função para instanciar e buscar todas as informações a partir de XML
     public static function getCurriculo($data, $curriculoId){
       $curriculo = new self();
-      $curriculo->titulacao = Titulacao::getTitulacao($data);
+      $curriculo->titulacoes = Titulacao::getTitulacoes($data);
       $curriculo->artigos = Artigo::getArtigos($data);
       $curriculo->livros = Livro::getLivros($data);
       $curriculo->trabEventos = TrabEvento::getTrabEventos($data);
@@ -79,6 +79,10 @@
         return false;
     }
 
+    public function deleteCurriculo($conn){
+      $conn->query("DELETE FROM curriculo WHERE curriculoId=$this->curriculoId");
+    }
+
     // Cria um objeto curriculo com todos os ICs a partir de um ID
     public static function getCurriculoByID($conn, $id){
       $curriculo = new self();
@@ -94,7 +98,7 @@
       $curriculo->orientacoes = Orientacao::selectFromDB($conn, $id);
       $curriculo->patentes = Patente::selectFromDB($conn, $id);
       $curriculo->softwares = Software::selectFromDB($conn, $id);
-      $curriculo->titulacao = Titulacao::selectFromDB($conn,$id);
+      $curriculo->titulacoes = Titulacao::selectFromDB($conn,$id);
       $curriculo->trabEventos = TrabEvento::selectFromDB($conn,$id);
       return $curriculo;
     }
@@ -109,19 +113,36 @@
       // Criando cópias profundas dos objetos de referência
       $clAtual = unserialize(serialize($cA));
       $clNovo = unserialize(serialize($cN));
-      // Atribuindo o Id para o objeto de resultado
+      // Criando um array contendo todas as propriedades do obj. curriculo
+      $prop = get_object_vars(new Curriculo);
+      // Removendo todos os ICs que não possuem comprovante
+      foreach ($prop as $ic => $v) {
+        if($ic != 'curriculoId' )
+        $clAtual->{$ic} = array_filter($clAtual->{$ic}, function ($x){
+          return $x->comprovante != NULL;
+        });
+      }
+      // Removendo os dados de ID dos ICs
+      $clAtual->limparDadosRelativos();
+      // Tirando a diferença entre o curriculo submetido e o atual
+      foreach ($prop as $ic => $v) {
+        if($ic != 'curriculoId')
+        $curriculo->{$ic} = array_udiff($clNovo->{$ic}, $clAtual->{$ic},
+          function ($obj_a, $obj_b) {
+            return strcmp(json_encode($obj_a), json_encode($obj_b));
+          }
+        );
+      }
       $curriculo->curriculoId = $clAtual->curriculoId;
-      // Limpar dados relativos
-      $clAtual = limparDadosRelativos($clAtual);
-      // Tirando a diferença entre os ICs
-      $curriculo->artigos = cmpArray($clNovo->artigos, $clAtual->artigos);
       return $curriculo;
     }
 
     // Envia todos os dados do objeto para o DB
     public function insertAllIntoDB($conn){
       // Deletando ICs, para então inserir
-      $this->deleteICs($conn);
+      $this->deleteCurrICs($conn);
+      // Tirar a diferenças dos curriculos já existentes
+
       // Armazenando nomeCompleto
       $stmt = $conn->prepare(
         "UPDATE curriculo SET nomeCompleto = :nomeCompleto WHERE curriculoId = :curriculoId"
@@ -134,7 +155,7 @@
         $this->artigos, $this->bancas, $this->capLivros, $this->coordProjs,
         $this->corposEditoriais, $this->livros, $this->marcas,
         $this->organizacaoEventos, $this->orientacoes, $this->patentes,
-        $this->softwares, array($this->titulacao), $this->trabEventos
+        $this->softwares, $this->titulacoes, $this->trabEventos
       );
       // Array que vai armazenar os resultados dos queries
       $queries = array();
@@ -165,81 +186,89 @@
       foreach ($keysIC as $ic)
         $queries[$ic] = $conn->query("DELETE FROM ic_$ic WHERE curriculoId=$this->curriculoId");
     }
+
+    public function deleteCurrICs($conn){
+      $keysIC = array(
+        "artigo", "banca", "capLivro", "coordProj", "corpoEditorial", "livro",
+        "marca", "organizacaoEvento", "orientacao", "patente", "software", "titulacao",
+        "trabEvento"
+      );
+      // array que armazena resultados dos queries
+      $queries = array();
+      // percorrendo as tabelas e removendo
+      foreach ($keysIC as $ic)
+        $queries[$ic] = $conn->query("DELETE FROM ic_$ic WHERE curriculoId=$this->curriculoId AND comprovante IS NULL");
+    }
+
+    public function limparDadosRelativos(){
+      // artigos
+      foreach ($this->artigos as $i=>$v){
+        $this->artigos[$i]->idArtigo = '';
+        $this->artigos[$i]->cleanVal();
+      }
+      // bancas
+      foreach ($this->bancas as $i=>$v){
+        $this->bancas[$i]->idBanca = '';
+        $this->bancas[$i]->cleanVal();
+      }
+      // capLivros
+      foreach ($this->capLivros as $i=>$v){
+        $this->capLivros[$i]->idCapLivro = '';
+        $this->capLivros[$i]->cleanVal();
+      }
+      // coordProjs
+      foreach ($this->coordProjs as $i=>$v){
+        $this->coordProjs[$i]->idCoordProj = '';
+        $this->coordProjs[$i]->cleanVal();
+      }
+      // corposEditoriais
+      foreach ($this->corposEditoriais as $i=>$v){
+        $this->corposEditoriais[$i]->idCorpoEditorial = '';
+        $this->corposEditoriais[$i]->cleanVal();
+      }
+      // livros
+      foreach ($this->livros as $i=>$v){
+        $this->livros[$i]->idLivros = '';
+        $this->livros[$i]->cleanVal();
+      }
+      // marcas
+      foreach ($this->marcas as $i=>$v){
+        $this->marcas[$i]->idMarca = '';
+        $this->marcas[$i]->cleanVal();
+       }
+      // organizacaoEventos
+      foreach ($this->organizacaoEventos as $i=>$v){
+        $this->organizacaoEventos[$i]->idOrganizacaoEvento = '';
+        $this->organizacaoEventos[$i]->cleanVal();
+      }
+      // orientacoes
+      foreach ($this->orientacoes as $i=>$v){
+        $this->orientacoes[$i]->idOrientacao = '';
+        $this->orientacoes[$i]->cleanVal();
+      }
+      // patentes
+      foreach ($this->patentes as $i=>$v){
+        $this->patentes[$i]->idPatente = '';
+        $this->patentes[$i]->cleanVal();
+      }
+      // softwares
+      foreach ($this->softwares as $i=>$v){
+        $this->softwares[$i]->idSoftware = '';
+        $this->softwares[$i]->cleanVal();
+      }
+      // titulacao
+      foreach ($this->titulacoes as $i=>$v){
+        $this->titulacoes[$i]->idTitulacao = '';
+        $this->titulacoes[$i]->cleanVal();
+      }
+      // trabEventos
+      foreach ($this->trabEventos as $i=>$v){
+        $this->trabEventos[$i]->idTrabEventos = '';
+        $this->trabEventos[$i]->cleanVal();
+      }
+    }
   }
 
-  function limparDadosRelativos($clAtual){
-    // artigos
-    foreach ($clAtual->artigos as $i=>$v){
-      $clAtual->artigos[$i]->idArtigo = '';
-      $clAtual->artigos[$i]->cleanVal();
-    }
-    // bancas
-    foreach ($clAtual->bancas as $i=>$v){
-      $clAtual->bancas[$i]->idBanca = '';
-      $clAtual->bancas[$i]->cleanVal();
-    }
-    // capLivros
-    foreach ($clAtual->capLivros as $i=>$v){
-      $clAtual->capLivros[$i]->idCapLivro = '';
-      $clAtual->capLivros[$i]->cleanVal();
-    }
-    // coordProjs
-    foreach ($clAtual->coordProjs as $i=>$v){
-      $clAtual->coordProjs[$i]->idCoordProj = '';
-      $clAtual->coordProjs[$i]->cleanVal();
-    }
-    // corposEditoriais
-    foreach ($clAtual->corposEditoriais as $i=>$v){
-      $clAtual->corposEditoriais[$i]->idCorpoEditorial = '';
-      $clAtual->corposEditoriais[$i]->cleanVal();
-    }
-    // livros
-    foreach ($clAtual->livros as $i=>$v){
-      $clAtual->livros[$i]->idLivros = '';
-      $clAtual->livros[$i]->cleanVal();
-    }
-    // marcas
-    foreach ($clAtual->marcas as $i=>$v){
-      $clAtual->marcas[$i]->idMarca = '';
-      $clAtual->marcas[$i]->cleanVal();
-     }
-    // organizacaoEventos
-    foreach ($clAtual->organizacaoEventos as $i=>$v){
-      $clAtual->organizacaoEventos[$i]->idOrganizacaoEvento = '';
-      $clAtual->organizacaoEventos[$i]->cleanVal();
-    }
-    // orientacoes
-    foreach ($clAtual->orientacoes as $i=>$v){
-      $clAtual->orientacoes[$i]->idOrientacao = '';
-      $clAtual->orientacoes[$i]->cleanVal();
-    }
-    // patentes
-    foreach ($clAtual->patentes as $i=>$v){
-      $clAtual->patentes[$i]->idPatente = '';
-      $clAtual->patentes[$i]->cleanVal();
-    }
-    // softwares
-    foreach ($clAtual->softwares as $i=>$v){
-      $clAtual->softwares[$i]->idSoftware = '';
-      $clAtual->softwares[$i]->cleanVal();
-    }
-    // titulacao
-    $clAtual->titulacao->idTitulacao = '';
-    $clAtual->titulacao->cleanVal();
-    // trabEventos
-    foreach ($clAtual->trabEventos as $i=>$v){
-      $clAtual->trabEventos[$i]->idTrabEventos = '';
-      $clAtual->trabEventos[$i]->cleanVal();
-    }
-    return $clAtual;
-  }
-
-  function cmpArray($array1, $array2){
-    return array_udiff($array2, $array1, function($a, $b){
-      echo md5(json_encode($a)) . " - " . md5(json_encode($b)) . "\n";
-      return -1;
-    });
-  }
   // Importando ICs
   require 'ic.php';
   require 'utils.php';

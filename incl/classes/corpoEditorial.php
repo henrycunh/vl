@@ -21,10 +21,11 @@
     public static function selectFromDB($conn, $curriculoId){
       $corposEditoriais = array();
       // Pegando do DB
-      $corposEditoriaisRaw = $conn->query("SELECT * FROM ic_corpoEditorial WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $corposEditoriaisRaw = $conn->query("SELECT * FROM ic_corpoEditorial WHERE curriculoId=$curriculoId ORDER BY dataInicio DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($corposEditoriaisRaw as $corpoEditorial) {
         $corpoEditorial_ = new self();
+        $corpoEditorial_->setVal($corpoEditorial);
         $corpoEditorial_->nomeInstituicao = $corpoEditorial['nomeInstituicao'];
         $corpoEditorial_->codInstituicao = $corpoEditorial['codInstituicao'];
         $corpoEditorial_->dataInicio = $corpoEditorial['dataInicio'];

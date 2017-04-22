@@ -36,7 +36,7 @@
     public static function selectFromDB($conn, $curriculoId){
       $orientacoes = array();
       // Pegando do DB
-      $orientacoesRaw = $conn->query("SELECT * FROM ic_orientacao WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $orientacoesRaw = $conn->query("SELECT * FROM ic_orientacao WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($orientacoesRaw as $orientacao) {
         $orientacao_ = new self();
@@ -45,6 +45,7 @@
         $orientacao_->titulo = $orientacao['titulo'];
         $orientacao_->ano = $orientacao['ano'];
         $orientacao_->idioma = $orientacao['idioma'];
+        $orientacao_->setVal($orientacao);
         $orientacao_->pais = $orientacao['pais'];
         $orientacao_->homepage = $orientacao['homepage'];
         $orientacao_->doi = $orientacao['doi'];

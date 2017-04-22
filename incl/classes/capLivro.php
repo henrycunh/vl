@@ -81,12 +81,13 @@
     public static function selectFromDB($conn, $curriculoId){
       $capLivros = array();
       // Pegando do DB
-      $capLivrosRaw = $conn->query("SELECT * FROM ic_capLivro WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $capLivrosRaw = $conn->query("SELECT * FROM ic_capLivro WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($capLivrosRaw as $capLivro) {
         $capLivro_ = new self();
         $capLivro_->tipo = $capLivro['tipo'];
         $capLivro_->tituloCap = $capLivro['tituloCap'];
+        $capLivro_->setVal($capLivro);
         $capLivro_->ano = $capLivro['ano'];
         $capLivro_->homepage = $capLivro['homepage'];
         $capLivro_->doi = $capLivro['doi'];

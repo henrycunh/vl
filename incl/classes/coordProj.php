@@ -49,10 +49,11 @@
     public static function selectFromDB($conn, $curriculoId){
       $coordProjs = array();
       // Pegando do DB
-      $coordProjsRaw = $conn->query("SELECT * FROM ic_coordProj WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $coordProjsRaw = $conn->query("SELECT * FROM ic_coordProj WHERE curriculoId=$curriculoId ORDER BY anoInicio DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($coordProjsRaw as $coordProj) {
         $coordProj_ = new self();
+        $coordProj_->setVal($coordProj);
         $coordProj_->nomeInstituicao = $coordProj['nomeInstituicao'];
         $coordProj_->anoInicio = $coordProj['anoInicio'];
         $coordProj_->anoFim = $coordProj['anoFim'];

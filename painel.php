@@ -35,7 +35,7 @@
         <a href="alterar_informacoes.php"><span class="typcn typcn-th-list icon"></span>Meus Editais</a>
         <a href="alterar_informacoes.php"><span class="typcn typcn-user icon"></span> Alterar Informações</a>
         <a href='#' id='enviarcurriculo'><span class='typcn typcn-cloud-storage icon'></span> Enviar Currículo</a>
-        <a href="#"><span class='typcn typcn-export icon'></span> Enviar Documento</a>
+        <a href="#" id='deletarcurriculo'><span class='typcn typcn-delete icon'></span> Deletar Currículo</a>
         <a href='#' id='desconectar'><span class='typcn typcn-times icon'></span> Desconectar</a>
 
       </div>
@@ -57,5 +57,6 @@
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
   <script src="js/curriculo.js" charset="utf-8"></script>
+  <script src="js/jquery.pseudo.js" charset="utf-8"></script>
   <script src="js/api/curriculo.js" charset="utf-8"></script>
 </html>

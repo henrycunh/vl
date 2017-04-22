@@ -31,13 +31,14 @@
     public static function selectFromDB($conn, $curriculoId){
       $marcas = array();
       // Pegando do DB
-      $marcasRaw = $conn->query("SELECT * FROM ic_marca WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $marcasRaw = $conn->query("SELECT * FROM ic_marca WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($marcasRaw as $marca) {
         $marca_ = new self();
         $marca_->titulo = $marca['titulo'];
         $marca_->ano = $marca['ano'];
         $marca_->natureza = $marca['natureza'];
+        $marca_->setVal($marca);
         $marca_->tipo = $marca['tipo'];
         $marca_->codigo = $marca['codigo'];
         $marca_->tituloPatente = $marca['tituloPatente'];

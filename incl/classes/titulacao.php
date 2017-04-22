@@ -7,7 +7,7 @@ class Titulacao extends IC{
   public $orientador;
   public $anoInicio;
   public $anoConclusao;
-  public $tipo; // 1 - esp, 2 - mest, 3 - doutorado, 4 - graduacao
+  public $tipo; // 1 - grad, 2 - esp, 3 - mest, 4 - dot, 5 - pos.doc
   public $idTitulacao;
 
   // Construtor vazio
@@ -24,97 +24,98 @@ class Titulacao extends IC{
 
   // Função que retorna array com artigos a partir do DB
   public static function selectFromDB($conn, $curriculoId){
+    $titulacoes = array();
     // Pegando do DB
-    $titulacaoRaw = $conn->query("SELECT * FROM ic_titulacao WHERE curriculoId=$curriculoId")->fetch(PDO::FETCH_ASSOC);
+    $titulacaoRaw = $conn->query("SELECT * FROM ic_titulacao WHERE curriculoId=$curriculoId ORDER BY anoInicio DESC")->fetchAll(PDO::FETCH_ASSOC);
+
     // Iterando
-      $titulacao = new self();
-      $titulacao->titulo = $titulacaoRaw['titulo'];
-      $titulacao->nomeCurso = $titulacaoRaw['nomeCurso'];
-      $titulacao->instituicao = $titulacaoRaw['instituicao'];
-      $titulacao->orientador = $titulacaoRaw['orientador'];
-      $titulacao->anoInicio = $titulacaoRaw['anoInicio'];
-      $titulacao->anoConclusao = $titulacaoRaw['anoConclusao'];
-      $titulacao->tipo = $titulacaoRaw['tipo'];
-      $titulacao->idTitulacao = $titulacaoRaw['idTitulacao'];
-    return $titulacao;
+    foreach ($titulacaoRaw as $titulacao) {
+      $titulacao_ = new self();
+      $titulacao_->setVal($titulacao);
+      $titulacao_->titulo = $titulacao['titulo'];
+      $titulacao_->nomeCurso = $titulacao['nomeCurso'];
+      $titulacao_->instituicao = $titulacao['instituicao'];
+      $titulacao_->orientador = $titulacao['orientador'];
+      $titulacao_->anoInicio = $titulacao['anoInicio'];
+      $titulacao_->anoConclusao = $titulacao['anoConclusao'];
+      $titulacao_->tipo = $titulacao['tipo'];
+      $titulacao_->idTitulacao = $titulacao['idTitulacao'];
+      array_push($titulacoes, $titulacao_);
+    }
+
+    return $titulacoes;
   }
 
   // Pega a maior titulação a partir do XML
-  public static function getTitulacao($data){
-    $titulacao = new self();
-
+  public static function getTitulacoes($data){
+    $titulacoes = array();
     $titulos = $data['DADOS-GERAIS']['FORMACAO-ACADEMICA-TITULACAO'];
-    $titulo;
 
-    // Pegando a maior titulação
-
+    if(isset($titulos['GRADUACAO'])){
+        $titulacaoRaw = $titulos['GRADUACAO'];
+        if(array_keys($titulacaoRaw)[0] === '@attributes') $titulacaoRaw = array($titulacaoRaw);
+        foreach ($titulacaoRaw as $titulacao) {
+          $titulacao_ = new self();
+          $titulacao = attr($titulacao);
+          $titulacao_->titulo = $titulacao['TITULO-DO-TRABALHO-DE-CONCLUSAO-DE-CURSO'];
+          $titulacao_->nomeCurso = $titulacao['NOME-CURSO'];
+          $titulacao_->instituicao = $titulacao['NOME-INSTITUICAO'];
+          $titulacao_->orientador = $titulacao['NOME-DO-ORIENTADOR'];
+          $titulacao_->anoInicio = $titulacao['ANO-DE-INICIO'];
+          $titulacao_->anoConclusao = $titulacao['ANO-DE-CONCLUSAO'];
+          $titulacao_->tipo = 1;
+          array_push($titulacoes, $titulacao_);
+        }
+    }
+    if(isset($titulos['ESPECIALIZACAO'])){
+        $titulacaoRaw = $titulos['ESPECIALIZACAO'];
+        if(array_keys($titulacaoRaw)[0] === '@attributes') $titulacaoRaw = array($titulacaoRaw);
+        foreach ($titulacaoRaw as $titulacao) {
+          $titulacao_ = new self();
+          $titulacao = attr($titulacao);
+          $titulacao_->titulo = $titulacao['TITULO-DA-MONOGRAFIA'];
+          $titulacao_->nomeCurso = $titulacao['NOME-CURSO'];
+          $titulacao_->instituicao = $titulacao['NOME-INSTITUICAO'];
+          $titulacao_->orientador = $titulacao['NOME-DO-ORIENTADOR'];
+          $titulacao_->anoInicio = $titulacao['ANO-DE-INICIO'];
+          $titulacao_->anoConclusao = $titulacao['ANO-DE-CONCLUSAO'];
+          $titulacao_->tipo = 2;
+          array_push($titulacoes, $titulacao_);
+        }
+    }
+    if(isset($titulos['MESTRADO'])){
+        $titulacaoRaw = $titulos['MESTRADO'];
+        if(array_keys($titulacaoRaw)[0] === '@attributes') $titulacaoRaw = array($titulacaoRaw);
+        foreach ($titulacaoRaw as $titulacao) {
+          $titulacao_ = new self();
+          $titulacao = attr($titulacao);
+          $titulacao_->titulo = $titulacao['TITULO-DA-DISSERTACAO-TESE'];
+          $titulacao_->nomeCurso = $titulacao['NOME-CURSO'];
+          $titulacao_->instituicao = $titulacao['NOME-INSTITUICAO'];
+          $titulacao_->orientador = $titulacao['NOME-COMPLETO-DO-ORIENTADOR'];
+          $titulacao_->anoInicio = $titulacao['ANO-DE-INICIO'];
+          $titulacao_->anoConclusao = $titulacao['ANO-DE-CONCLUSAO'];
+          $titulacao_->tipo = 3;
+          array_push($titulacoes, $titulacao_);
+        }
+    }
     if(isset($titulos['DOUTORADO'])){
-       $titulacao->tipo = 1;
-       $titulo = $titulos['DOUTORADO'];
-     }
-    else if(isset($titulos['MESTRADO'])) {
-      $titulacao->tipo = 2;
-      $titulo = $titulos['MESTRADO'];
+        $titulacaoRaw = $titulos['DOUTORADO'];
+        if(array_keys($titulacaoRaw)[0] === '@attributes') $titulacaoRaw = array($titulacaoRaw);
+        foreach ($titulacaoRaw as $titulacao) {
+          $titulacao_ = new self();
+          $titulacao = attr($titulacao);
+          $titulacao_->titulo = $titulacao['TITULO-DA-DISSERTACAO-TESE'];
+          $titulacao_->nomeCurso = $titulacao['NOME-CURSO'];
+          $titulacao_->instituicao = $titulacao['NOME-INSTITUICAO'];
+          $titulacao_->orientador = $titulacao['NOME-COMPLETO-DO-ORIENTADOR'];
+          $titulacao_->anoInicio = $titulacao['ANO-DE-INICIO'];
+          $titulacao_->anoConclusao = $titulacao['ANO-DE-CONCLUSAO'];
+          $titulacao_->tipo = 4;
+          array_push($titulacoes, $titulacao_);
+        }
     }
-    else if(isset($titulos['ESPECIALIZACAO'])){
-      $titulacao->tipo = 3;
-      $titulo = $titulos['ESPECIALIZACAO'];
-    } else if(isset($titulos['GRADUACAO'])){
-      $titulacao->tipo = 4;
-      $titulo = $titulos['GRADUACAO'];
-    }
-
-    // Processando cada titulação
-    if($titulacao->tipo == 1){
-      // Doutorado
-      // Pegar o doutorado mais recente, se houver mais de um
-      if(count($titulo) > 1 && array_keys($titulo)[1] != "PALAVRAS-CHAVE")
-      $titulo = pegarMaisRecente($titulo, 'ANO-DE-CONCLUSAO');
-      $titulo = attr($titulo);
-      $titulacao->titulo = $titulo['TITULO-DA-DISSERTACAO-TESE'];
-      $titulacao->nomeCurso = $titulo['NOME-CURSO'];
-      $titulacao->instituicao = $titulo['NOME-INSTITUICAO'];
-      $titulacao->orientador = $titulo['NOME-COMPLETO-DO-ORIENTADOR'];
-      $titulacao->anoInicio = $titulo['ANO-DE-INICIO'];
-      $titulacao->anoConclusao = $titulo['ANO-DE-CONCLUSAO'];
-    } else if ($titulacao->tipo == 2){
-      // Mestrado
-      // Pegar o mestrado mais recente, se houver mais de um
-      if(count($titulo) > 1 && array_keys($titulo)[1] != "PALAVRAS-CHAVE")
-      $titulo = pegarMaisRecente($titulo, 'ANO-DE-CONCLUSAO');
-      $titulo = attr($titulo);
-      $titulacao->titulo = $titulo['TITULO-DA-DISSERTACAO-TESE'];
-      $titulacao->nomeCurso = $titulo['NOME-CURSO'];
-      $titulacao->instituicao = $titulo['NOME-INSTITUICAO'];
-      $titulacao->orientador = $titulo['NOME-COMPLETO-DO-ORIENTADOR'];
-      $titulacao->anoInicio = $titulo['ANO-DE-INICIO'];
-      $titulacao->anoConclusao = $titulo['ANO-DE-CONCLUSAO'];
-    } else if ($titulacao->tipo == 3){
-      // Especialização
-      // Pegar a especialização mais recente, se houver mais de um
-      if(count($titulo) > 1 && array_keys($titulo)[1] != "PALAVRAS-CHAVE")
-      $titulo = pegarMaisRecente($titulo, 'ANO-DE-CONCLUSAO');
-      $titulo = attr($titulo);
-      $titulacao->titulo = $titulo['TITULO-DA-MONOGRAFIA'];
-      $titulacao->nomeCurso = $titulo['NOME-CURSO'];
-      $titulacao->instituicao = $titulo['NOME-INSTITUICAO'];
-      $titulacao->orientador = $titulo['NOME-DO-ORIENTADOR'];
-      $titulacao->anoInicio = $titulo['ANO-DE-INICIO'];
-      $titulacao->anoConclusao = $titulo['ANO-DE-CONCLUSAO'];
-    } else if ($titulacao->tipo == 4){
-      // Graduação
-      // Pegar a graduação mais recente, se houver mais de um
-      if(count($titulo) > 1 && array_keys($titulo)[1] != "PALAVRAS-CHAVE")
-      $titulo = pegarMaisRecente($titulo, 'ANO-DE-CONCLUSAO');
-      $titulo = attr($titulo);
-      $titulacao->titulo = $titulo['TITULO-DO-TRABALHO-DE-CONCLUSAO-DE-CURSO'];
-      $titulacao->nomeCurso = $titulo['NOME-CURSO'];
-      $titulacao->instituicao = $titulo['NOME-INSTITUICAO'];
-      $titulacao->orientador = $titulo['NOME-DO-ORIENTADOR'];
-      $titulacao->anoInicio = $titulo['ANO-DE-INICIO'];
-      $titulacao->anoConclusao = $titulo['ANO-DE-CONCLUSAO'];
-    }
-    return $titulacao;
+    return $titulacoes;
   }
 
   // Insere os dados no DB

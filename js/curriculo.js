@@ -11,17 +11,24 @@ $(document).ready(()=>{
   // Carregamento
   $("#load").hide()
   $(".curriculoContent").fadeIn(500);
+
+  $(".sh").click(e=>{
+    var elem = $(e.target)
+    var dados = elem.parent().find('.dados')
+    dados.toggle(300)
+    elem.html(elem.html() == '🡫' ? '🡩' : '🡫')
+  })
 })
 
 function exibirEnvioCurriculo(elem){
   // Pegando os dados relativos ao objeto em que foi clicado
   let el = $(elem)
   let data_ = el.attr('filename').split('-')
-  let data = {
-    ic : 'ic_' + data_[0],
-    curriculoId: data_[1],
-    icId : data_[2]
-  }
+  // let data = {
+  //   curriculoId: data_[0],
+  //   ic : 'ic_' + data_[1],
+  //   icId : data_[2]
+  // }
   // Criando Modal
   let modal = `
     <div id='modal-${el.attr('filename')}' class='currModal'>
@@ -66,8 +73,15 @@ function enviarCurriculo(fn){
         msg.text("Enviado com sucesso.")
         setTimeout(()=>{
           $(".currModal").remove()
-          
-
+          // Atualizar o DOM
+          $(`div[ic='${fn}']`).html(`
+            <div class="col comprovante">
+              <a href="${ "uploads/comprovantes/" + fn + ".pdf" }" target="_blank">Mostrar Comprovante</a>
+            </div>
+            <div class="col comprovante">
+              <a href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='${ fn }'>Alterar Comprovante</a>
+            </div>
+            `)
         }, 1000)
       }
     }, $("#progress-"+fn))

@@ -35,10 +35,11 @@
     public static function selectFromDB($conn, $curriculoId){
       $bancas = array();
       // Pegando do DB
-      $bancasRaw = $conn->query("SELECT * FROM ic_banca WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $bancasRaw = $conn->query("SELECT * FROM ic_banca WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($bancasRaw as $banca) {
         $banca_ = new self();
+        $banca_->setVal($banca);
         $banca_->tipo = $banca['tipo'];
         $banca_->natureza = $banca['natureza'];
         $banca_->tipoBanca = $banca['tipoBanca'];

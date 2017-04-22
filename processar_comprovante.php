@@ -7,7 +7,7 @@
   $filename = $_SESSION['filename'];
   // Extraindo as informações dele
   $comprovante = explode('-', $filename);
-  $comprovante = array("ic" => $comprovante[0], "curriculoId" => $comprovante[1], "idIc" => $comprovante[2]);
+  $comprovante = array("curriculoId" => $comprovante[0], "ic" => $comprovante[1], "idIc" => $comprovante[2]);
   // Declarando arquivo
   $file = $_FILES['comprovante'];
   // Caminho do arquivo

@@ -33,7 +33,7 @@
     public static function selectFromDB($conn, $curriculoId){
       $artigos = array();
       // Pegando do DB
-      $artigosRaw = $conn->query("SELECT * FROM ic_artigo WHERE curriculoId=$curriculoId")->fetchAll(PDO::FETCH_ASSOC);
+      $artigosRaw = $conn->query("SELECT * FROM ic_artigo WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
       // Iterando
       foreach ($artigosRaw as $artigo) {
         $artigo_ = new self();

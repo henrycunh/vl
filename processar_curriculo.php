@@ -10,7 +10,6 @@
 
   //Carrega o arquivo
   $file = file_get_contents($_FILES['curriculo']['tmp_name']);
-
   // Substitui quebras de linha
   $file = str_replace(array("\n", "\r", "\t"), '', $file);
   // Remove espaços múltiplos
@@ -25,8 +24,12 @@
   // Pegando curriculoId a partir do e-mail na sessão
   $curriculoId = Curriculo::getIDByEmail($conn, $_SESSION['email']);
   // Caso não exista um, vincula um curriculo para esse usuário
-  if(!$curriculoId)
-    $conn->query("INSERT INTO curriculo(email) VALUES('" . $_SESSION['email'] . "')");
+  if(!$curriculoId){
+    $query = $conn->query("INSERT INTO curriculo(email) VALUES('" . $_SESSION['email'] . "')");
+    if(!$query){
+      print_r($conn->errorInfo());
+    }
+  }
   // Repete o query
   $curriculoId = Curriculo::getIDByEmail($conn, $_SESSION['email']);
   // Criando o objeto Curriculo a partir do XML
@@ -34,7 +37,9 @@
   $clAtual = Curriculo::getCurriculoByID($conn, $curriculoId);
   $diff = Curriculo::compararCurriculos($clAtual, $curriculo);
   // Inserindo no DB
-  $curriculo->insertAllIntoDB($conn);
+  $diff->insertAllIntoDB($conn);
+  // Pegando o curriculo de novo, para exibição
+  $clAtual = Curriculo::getCurriculoByID($conn, $curriculoId);
   // Objeto de retorno ao request
-  echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+  echo json_encode($clAtual, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>
