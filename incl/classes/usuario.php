@@ -46,19 +46,27 @@
       $this->dataCriacao = "";
     }
 
-
-    // Pegar Usuário pelo ID
-    public static function getUsuarioById($conn, $id){
-      $result = $conn->query("SELECT * FROM usuario WHERE idUsuario = $id");
-      if(!$result)
-        return $result;
-      else
-        return $result->fetch(PDO::FETCH_ASSOC);
-    }
-
     // Retorna objeto usuário
     public static function selectByEmail($conn, $email){
       $res = Usuario::getUsuarioByEmail($conn, $email);
+      $usuario = new self();
+      $usuario->nomeCompleto = $res['nomeCompleto'];
+      $usuario->email = $res['email'];
+      $usuario->dataNascimento = $res['dataNascimento'];
+      $usuario->genero = $res['genero'];
+      $usuario->cpf = $res['cpf'];
+      $usuario->rg = $res['rg'];
+      $usuario->endereco = $res['endereco'];
+      $usuario->cep = $res['cep'];
+      $usuario->telefone = $res['telefone'];
+      $usuario->senha = $res['senha'];
+      $usuario->dataCriacao = $res['dataCriacao'];
+      return $usuario;
+    }
+
+    // Retorna objeto usuário
+    public static function selectByCPF($conn, $cpf){
+      $res = Usuario::getUsuarioByCPF($conn, $cpf);
       $usuario = new self();
       $usuario->nomeCompleto = $res['nomeCompleto'];
       $usuario->email = $res['email'];
@@ -81,6 +89,25 @@
         return $result->fetch(PDO::FETCH_ASSOC);
       else
       return $result;
+    }
+
+    // Pegar Usuário pelo E-mail
+    public static function getUsuarioByCPF($conn, $email){
+      $result = $conn->query("SELECT * FROM usuario WHERE cpf = '$email'");
+      if($result)
+        return $result->fetch(PDO::FETCH_ASSOC);
+      else
+      return $result;
+    }
+
+    // Pega os privilégios de um usuário
+    public function getPrivilegios($conn){
+      $priv = array();
+      $res = $conn->query("SELECT nivel FROM perfil WHERE email='$this->email'")->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($res as $row) {
+        $priv[$row['nivel']] = true;
+      }
+      return $priv;
     }
 
     // Pega o os dois primeiros nomes do usuário
@@ -124,6 +151,8 @@
         // Executando Statement
         if(!$stmt->execute()){
           print_r($stmt->errorInfo());
+        } else {
+          $conn->query("INSERT INTO perfil(email, nivel) VALUES('$this->email', 'pesquisador')");
         }
     }
 

@@ -14,7 +14,8 @@
       <a href="login.php">Login</a>
       <a href="cadastrar.php">Cadastrar-se</a>
     <?php else: ?>
-      <a href="painel.php">Meu Painel</a>
+      <?= ($_SESSION['privilegios']['pesquisador'] ? '<a href="painel.php">Painel do Pesquisador</a>' : '') ?>
+      <?= ($_SESSION['privilegios']['validador'] ? '<a href="painelvalidador.php">Painel do Validador</a>' : '') ?>
       <a href="#">Editais</a>
       <a href="#" id='desconectar'>Desconectar</a>
     <?php endif; ?>

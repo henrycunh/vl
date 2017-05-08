@@ -37,6 +37,7 @@
         <a href='#' id='enviarcurriculo'><span class='typcn typcn-cloud-storage icon'></span> Enviar Currículo</a>
         <a href="#" id='deletarcurriculo'><span class='typcn typcn-delete icon'></span> Deletar Currículo</a>
         <a href='#' id='desconectar'><span class='typcn typcn-times icon'></span> Desconectar</a>
+        <a href='index.php'><span class='typcn typcn-chevron-left icon'></span> Voltar</a>
 
       </div>
     </aside>

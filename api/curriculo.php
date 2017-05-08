@@ -32,6 +32,22 @@ if(!empty($_POST)):
     deleteFiles($curriculo->curriculoId);
   }
 
+  if($data['op'] == 'curriculo/ic/validar'){
+    $ic = $data['ic'];
+    $curriculoId = $data['curriculoId'];
+    $icId = $data['icId'];
+    $state = $data['state'];
+    $date = $data['date'];
+    $emailVal = $data['emailVal'];
+    $SQL = "UPDATE ic_$ic SET validado = $state, dataValidacao='$date', emailValidador='$emailVal' WHERE id".ucfirst($ic)." = $icId";
+    $query = $conn->query($SQL);
+    if($query){
+      echo json_encode(["success"=>true]);
+    } else {
+      echo json_encode(["success"=>false, "error"=>$conn->errorInfo()]);
+    }
+  }
+
 
 
 

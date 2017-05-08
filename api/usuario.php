@@ -62,11 +62,12 @@
     // Autenticate User
     if($data['op'] == 'usuario/autenticar'){
       $candSenha = $data['senha'];
-      $usuario = Usuario::getUsuarioByEmail($conn, $data['email']);
+      $usuario = Usuario::selectByEmail($conn, $data['email']);
       if($usuario){
-        $hash = $usuario['senha'];
+        $hash = $usuario->senha;
         if(password_verify($candSenha, $hash)){
           $_SESSION['email'] = $data['email'];
+          $_SESSION['privilegios'] = $usuario->getPrivilegios($conn);
           echo json_encode(["success" => true, "emailFound" => true]);
         } else {
           echo json_encode(["success" => false, "emailFound" => true]);

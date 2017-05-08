@@ -104,7 +104,7 @@
     }
 
     public static function getNomeCompleto($conn, $id){
-      return $conn->query("SELECT nomeCompleto FROM curriculo WHERE curriculoId=$id")->fetch(PDO::FETCH_ASSOC)['nomeCompleto'];
+      return $conn->query("SELECT nomePessoa FROM curriculo WHERE curriculoId=$id")->fetch(PDO::FETCH_ASSOC)['nomePessoa'];
     }
 
     // Função super extensa que retorna um curriculo com a diferença entre dois outros
@@ -134,6 +134,7 @@
         );
       }
       $curriculo->curriculoId = $clAtual->curriculoId;
+      $curriculo->nomeCompleto = $clNovo->nomeCompleto;
       return $curriculo;
     }
 
@@ -145,9 +146,9 @@
 
       // Armazenando nomeCompleto
       $stmt = $conn->prepare(
-        "UPDATE curriculo SET nomeCompleto = :nomeCompleto WHERE curriculoId = :curriculoId"
+        "UPDATE curriculo SET nomePessoa = :nomePessoa WHERE curriculoId = :curriculoId"
       );
-      $stmt->bindParam(':nomeCompleto', $this->nomeCompleto);
+      $stmt->bindParam(':nomePessoa', $this->nomeCompleto);
       $stmt->bindParam(':curriculoId', $this->curriculoId);
       $stmt->execute();
       // Array com os dados

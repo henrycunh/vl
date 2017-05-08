@@ -110,6 +110,16 @@ h2:nth-child(odd){
 .col.nao-validado {
   width: 50%;
   text-align: center;
+  background: hsl(221, 100%, 67%);
+  padding: 0.3em;
+  box-sizing: border-box;
+  font-weight: 600;
+  color: hsla(221, 100%, 100%, 1);
+}
+
+.col.invalido{
+  width: 50%;
+  text-align: center;
   background: hsla(356, 67%, 86%, 1);
   padding: 0.3em;
   box-sizing: border-box;
@@ -117,14 +127,14 @@ h2:nth-child(odd){
   color: hsla(0, 45%, 34%, 1);
 }
 
-.col.nao-validado a{
-  color: hsla(214, 71%, 30%, 1);
-  text-decoration: none;
-  transition: 0.5s;
-}
-
-.col.nao-validado a:hover{
-  color: hsla(214, 71%, 60%, 1);
+.col.valido{
+  width: 50%;
+  text-align: center;
+  background: hsl(150, 69%, 45%);
+  padding: 0.3em;
+  box-sizing: border-box;
+  font-weight: 600;
+  color: hsl(0, 0%, 92%);
 }
 
 .itens{
@@ -327,4 +337,42 @@ div.currModal {
 .col.sem-comprovante a {
     font-weight: bold;
     color: hsla(206, 77%, 39%, 1);
+}
+
+.exibir{
+    position: relative;
+}
+
+.exibir select{
+    position: absolute;
+    top: -2.9em;
+    color: #eaeaea;
+    font-weight: 400;
+    right: 28em;
+    width: 12em;
+    background: rgb(124, 124, 156);
+    height: 2em;
+    color: #303040;
+    border: none;
+    padding-left: 1em;
+}
+
+.col{
+    height: 1.7em;
+    overflow: hidden;
+}
+
+.col.comprovante button {
+    background: none;
+    border: 0;
+    font-size: 14px;
+    height: 2em;
+    box-sizing: border-box;
+    position: relative;
+    background: #eaeaea;
+    color: #18ce73;
+    font-weight: bold;
+    cursor: pointer;
+    top: -0.4em;
+    margin: 0 0.3em;
 }

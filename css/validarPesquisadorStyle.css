@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+main{
+  bottom: 1em;
+  position: absolute;
+  right: 1em;
+  left: 1em;
+  top: 1em;
+  background-color: #c6cee0;
+}
+
+.info {
+  padding-top: em;
+}
+
+main h1 {
+  font-weight: 400;
+  margin: 0;
+  height: 70px;
+  vertical-align: top;
+  padding: 0 1.2em;
+  box-sizing: border-box;
+  padding-top: 1em;
+  font-size: 1.5em;
+  background: #4da4e8;
+  color: #616161;
+  background: #fff;
+  padding-top: 0.6em;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+
+.back{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 400;
+    color: #fff;
+    background: #303040;
+    padding: 1em;
+    font-family: 'Raleway', sans-serif;
+}
+.compModal{
+  display: none;
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+  border: 1px solid #222;
+  background: #313335;
+  padding: 0.5em;
+  border-radius: 6px;
+  color: #eee;
+}
+
+.compModal .bar{
+  padding: 0.5em;
+}
+
+.compModal .bar span{
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+}
+
+.compModal .bar button{
+  float: right;
+  margin-left: 0.5em;
+  background: transparent;
+  border: 0;
+  color: #eeeeee;
+  position: relative;
+  font-size: 1.5em;
+  top: -0.4em;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.compModal .embCnt{
+  box-sizing: border-box;
+  padding-bottom: 0em;
+  height: 100%;
+}
+
+.compModal .emb{
+  min-width: 300px;
+  min-height: 300px;
+  width: 100%;
+  height: 100%;
+}
