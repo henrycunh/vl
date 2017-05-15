@@ -32,50 +32,68 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/cadastrarStyle.css">
+    <link rel="stylesheet" href="css/semantic.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <title>Cadastro / Validador Lattes</title>
   </head>
   <body>
-    <div class='wrapper'>
-    <h1>Cadastro</h1>
-    <hr>
-    <?php if($post): ?>
-    Usuário cadastrado com sucesso.<br>
-    Redirecionando...
-    <script type="text/javascript">
-    setTimeout(()=>{
-      window.location.replace("index.php")
-    }, 1500)
-    </script>
-    <?php else: ?>
-    <form action="cadastrar.php" method='post'>
-      <label for="nomecompleto">Nome Completo</label>
-      <input type="text" id='nome' name="nomecompleto">
-      <div class="erro" id='nome-erro'></div>
 
 
-      <label for="email">E-mail</label>
-      <input type="email" id='email' name="email">
-      <div class="erro" id='email-erro'></div>
+    <div class="ui segment secondary stacked wrapper">
+      <h1 class='ui header center aligned'>Cadastro</h1>
+      <div class="ui divider"></div>
+      <?php if($post): ?>
+        <div class="ui message success">
+          <div class="header">
+            Usuário cadastrado com sucesso.
+          </div>
+          <p>Redirecionando...</p>
+        </div>
+      <script type="text/javascript">
+      setTimeout(()=>{
+        window.location.replace("index.php")
+      }, 1500)
+      </script>
+      <?php else: ?>
+      <form action="cadastrar.php" method='post' class='ui form large'>
+        <div class="field">
+          <label for="nomecompleto">Nome Completo</label>
+          <input type="text" id='nome' name="nomecompleto">
+          <div class="ui label pointing hidden basic red" id='nome-erro'></div>
+        </div>
 
-      <label for="cpf">CPF</label>
-      <input oninput="checkCPF()" type="text" id='cpf' name="cpf">
-      <div class="erro" id='cpf-erro'></div>
+        <div class="fields">
+          <div class="ten wide field">
+            <label for="email">E-mail</label>
+            <input type="email" id='email' name="email">
+            <div class="ui label pointing hidden basic red" id='email-erro'></div>
+          </div>
+          <div class="six wide field">
+            <label for="cpf">CPF</label>
+            <input oninput="checkCPF()" type="text" id='cpf' name="cpf">
+            <div class="ui label pointing hidden basic red" id='cpf-erro'></div>
+          </div>
+        </div>
 
-      <div class="pw-group">
-        <label for="pw">Senha</label>
-        <input type="password" name="pw" oninput='checkPW()'>
-      </div><!--
+        <div class="fields">
+          <div class="eight wide field">
+              <label for="pw">Senha</label>
+              <input type="password" name="pw" oninput='checkPW()'>
+          </div>
+          <div class="eight wide field">
+            <label for="confirm-pw">Confirmar Senha</label>
+            <input type="password" name="confirm-pw" oninput='checkPW()'>
+            <div class="ui label pointing hidden basic red" id='pw-erro'></div>
+          </div>
+        </div>
 
-  --><div class="pw-group">
-        <label for="confirm-pw">Confirmar Senha</label>
-        <input type="password" name="confirm-pw" oninput='checkPW()'>
-      </div>
-      <div class="erro" id='pw-erro'></div>
 
 
-      <input type="submit" class='btn' value="Enviar">
-      <a href="index.php">Voltar</a>
-    </form>
+        <input type="submit" class='ui button fluid teal' value="Enviar">
+      </form>
+  </div>
+  <div style='max-width:600px; display: block; margin: 0 auto'class="ui segment basic center aligned">
+    <a href="index.php" class='ui fluid button '>Voltar</a>
   <?php endif; ?>
   </div>
   </body>

@@ -63,7 +63,7 @@
     if($data['op'] == 'usuario/autenticar'){
       $candSenha = $data['senha'];
       $usuario = Usuario::selectByEmail($conn, $data['email']);
-      if($usuario){
+      if($usuario->email){
         $hash = $usuario->senha;
         if(password_verify($candSenha, $hash)){
           $_SESSION['email'] = $data['email'];

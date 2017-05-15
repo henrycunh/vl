@@ -1,26 +1,26 @@
 // Checar campo de CPF
 function checkCPF(){
   // pegando div de Erro
-  let erro = $("#cpf").next();
+  let erro = $("#cpf-erro");
   // validando
   if(validarCPF()){
     getUsuarioByCpf($("#cpf").val(), user => {
       if(user){
         erro.html("Já existe um usuário com esse CPF.")
-        erro.slideDown(500)
+        erro.removeClass('hidden')
         return false;
       } else {
-        erro.slideUp(500)
+        erro.addClass('hidden')
         return true;
       }
     }, ()=>{
       erro.html("Verificando CPF...")
-      erro.slideDown()
+      erro.removeClass('hidden')
     })
     return true;
   } else {
     erro.html("CPF Inválido")
-    erro.slideDown(500)
+    erro.removeClass('hidden')
     return false;
   }
 }

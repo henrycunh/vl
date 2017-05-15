@@ -7,15 +7,15 @@ function checkPW(){
   if(pw.val().length < 6){
     // checando tamanho
     erro.html("A senha deve ter no mínimo 6 caracteres.")
-    erro.slideDown(500)
+    erro.removeClass('hidden')
     return false
   } else if(pw.val() != confirmpw.val()) {
     // checando coerencia
     erro.html("As senhas não conferem.")
-    erro.slideDown(500)
+    erro.removeClass('hidden')
     return false
   } else {
-    erro.slideUp(500)
+    erro.addClass('hidden')
     return true
   }
 
@@ -29,20 +29,20 @@ $(()=>{
     // Checa campos
     if($("#nome").val().length < 6){
       $("#nome-erro").html("O nome deve ter ao menos 6 caracteres")
-      $("#nome-erro").slideDown(500)
+      $("#nome-erro").removeClass('hidden')
       return
     } else if ($("#email").val().length < 6 || $("#email").val().indexOf("@") == -1){
-      $("#nome-erro").slideUp(500)
+      $("#nome-erro").addClass('hidden')
       $("#email-erro").html("Digite um e-mail válido")
-      $("#email-erro").slideDown(500)
+      $("#email-erro").removeClass('hidden')
       return
     }
-    $("#email-erro").slideUp(500)
+    $("#email-erro").addClass('hidden')
     // Checando se o e-mail já forá cadastrado
     getUsuarioByEmail($("#email").val(), data=>{
       if(data){
         $("#email-erro").html("Já existe um usuário com esse e-mail.")
-        $("#email-erro").slideDown(500)
+        $("#email-erro").removeClass('hidden')
       } else if(checkPW() && checkCPF()) {
         $("form").submit()
       }

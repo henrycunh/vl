@@ -16,212 +16,35 @@ main{
   position: absolute;
   right: 0;
   top: 0;
-  background-color: #c6cee0;
+  background-color: #e3e3e3;
 }
 
 aside{
   float: left;
   width: 25%;
-  background-color: #303040;
+  background-color: #212121;
   bottom: 0;
   position: absolute;
   left: 0;
   top: 0;
-}
-
-aside h1 {
-    text-transform: uppercase;
-    font-family: 'Raleway', sans-serif;
-    font-size: 1.1em !important;
-}
-
-aside h2 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.8em;
-    /* text-align: center; */
-    margin: 0;
-    padding: 0.6em;
-    padding-left: 1.65em;
-    position: relative;
-    top: -10px;
-    color: #fff;
-    background: #228fe2;
 }
 
 .info {
     padding-top: em;
 }
 
-main h1, aside h1{
-  font-weight: 400;
-  margin: 0;
-  height: 70px;
-  vertical-align: top;
-  padding: 0 1.2em;
-  box-sizing: border-box;
-  padding-top: 1em;
-  font-size: 1.5em;
-  color: #f7f7f7;
-  background: #4da4e8;
+#modalIn{
+  width: 50% !important;
+  margin: 0 auto !important;
 }
 
-/* ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Ârea do CurrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo */
-main h1{
-  color: #616161;
-  background: #fff;
-  padding-top: 0.6em;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 400;
+input#fileCurriculo {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+    display: none;
 }
 
-/* Curriculo Modal */
-.modalOuter{
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(11, 13, 49, 0.74);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.modalInner{
-  height: 100%;
-}
-
-.modal{
-  width: 500px;
-  height: 300px;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(241, 241, 241, 0.51);
-  position: relative;
-  top: 30%;
-  transform: translateY(-50%);
-  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.22);
-}
-
-.modal label{
-  position: absolute;
-  background: #ececec;
-  padding: 1em;
-  width: 50%;
-  box-sizing: border-box;
-  top: 3em;
-  margin: 0 auto;
-  left: 0;
-  cursor: pointer;
-  right: 0;
-  text-align: center;
-  color: #20267b;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.modal h1{
-  text-shadow: 0px 2px 5px #333;
-  color: #fff;
-  font-family: 'Raleway', sans-serif;
-  text-align: center;
-  padding-top: 0.5em;
-  font-size: 1.5em;
-}
-
-.modal table{
-  text-shadow: 0px 2px 5px #333;
-  color: #fff;
-  display: block;
-  margin: 0 auto;
-  width: 65%;
-  border-collapse: collapse;
-}
-
-.modal table td{
-  width: 80%;
-}
-
-.modal table tr td:first-child{
-  text-align: right;
-  width: 20%;
-  padding-right: 1em;
-}
-
-.modal table td{
-  padding-bottom: 0.3em;
-}
-
-#curriculoSubmit{
-  position: absolute;
-  background: #ececec;
-  padding: 1em;
-  width: 50%;
-  top: 7em;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  border: 0;
-  font-size: 1em;
-  text-align: center;
-  cursor: pointer;
-  color: #20267b;
-}
-
-#closeModal{
-  position: absolute;
-  color: #23284d;
-  background: transparent;
-  font-size: 2em;
-  /* border-radius: 50%; */
-  border: 0;
-  top: 0.3em;
-  right: 0.3em;
-  cursor: pointer;
-  outline: none;
-  transition: 0.5s;
-}
-
-#closeModal:hover{
-  color: #fff;
-  /* background: #23284d; */
-}
-
-#fileCurriculo{
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-#progress{
-  width: 50%;
-  margin: 0 auto;
-  position: absolute;
-  top: 11em;
-  left: 0;
-  right: 0;
-}
-
-.modalMsg{
-  position: absolute;
-  box-sizing: border-box;
-  width: 50%;
-  top: 13em;
-  margin: 0 auto;
-  left: 0;
-  cursor: pointer;
-  right: 0;
-  text-align: center;
-  color: #ececec;
-  text-shadow: 0 1px 3px #333;
-
-}
 
 /* Painel Lateral */
 aside .info a{

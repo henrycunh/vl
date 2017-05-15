@@ -16,7 +16,7 @@ main{
   position: absolute;
   right: 0;
   top: 0;
-  background-color: #c6cee0;
+  background-color: #e3e3e3;
 }
 
 aside{
@@ -74,13 +74,6 @@ main h1{
   font-weight: 400;
 }
 
-#pesquisadores {
-    border: 1px solid #ccc;
-    margin: 1em;
-    background: #eaeaea;
-    padding: 1em;
-    font-weight: 300;
-}
 
 /* Painel Lateral */
 aside .info a{
@@ -136,25 +129,6 @@ aside .info a .icon{
     color: #444;
     display: block;
     box-sizing: border-box;
-}
-
-table{
-    border-collapse: collapse;
-    border: 3px solid hsla(240, -9%, 75%, 1);
-    width: 100%;
-}
-
-th{
-    padding: 0.4em;
-}
-
-tr:nth-child(odd){
-    background: hsla(0, 0%, 85%, 1);
-}
-
-td{
-    border: 2px solid #d9d9d9;
-    padding: 0.4em;
 }
 
 .visualizar{

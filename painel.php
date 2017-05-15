@@ -23,27 +23,62 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/painelStyle.css">
     <link rel="stylesheet" href="css/curriculoStyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.css">
+    <link rel="stylesheet" href="css/semantic.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <title>Painel / Validador Lattes</title>
   </head>
   <body>
     <aside>
-      <h1>Painel do Pesquisador</h1>
-      <h2><?= $nome ?></h2>
-      <div class='info'>
-        <a href="alterar_informacoes.php"><span class="typcn typcn-zoom icon"></span>Procurar Editais</a>
-        <a href="alterar_informacoes.php"><span class="typcn typcn-th-list icon"></span>Meus Editais</a>
-        <a href="alterar_informacoes.php"><span class="typcn typcn-user icon"></span> Alterar Informações</a>
-        <a href='#' id='enviarcurriculo'><span class='typcn typcn-cloud-storage icon'></span> Enviar Currículo</a>
-        <a href="#" id='deletarcurriculo'><span class='typcn typcn-delete icon'></span> Deletar Currículo</a>
-        <a href='#' id='desconectar'><span class='typcn typcn-times icon'></span> Desconectar</a>
-        <a href='index.php'><span class='typcn typcn-chevron-left icon'></span> Voltar</a>
-
+      <div class="ui segment inverted basic">
+        <h4 class='ui header inverted'>
+          Painel do Pesquisador
+          <div class="ui sub header">
+            <?= $nome ?>
+          </div>
+        </h4>
       </div>
+      <div class="ui segment inverted padded">
+        <div class='ui fluid vertical labeled large icon buttons'>
+          <a class='ui button' href="alterar_informacoes.php"><i class='search icon'></i>Procurar Editais</a>
+          <a class='ui button' href="alterar_informacoes.php"><i class='list icon'></i>Meus Editais</a>
+          <a class='ui button' href="alterar_informacoes.php"><i class='edit icon'></i>Alterar Informações</a>
+          <a class='ui button' href='#' onclick='abrirModalCurr()'><i class='upload icon'></i>Enviar Currículo</a>
+          <a class='ui button' href="#" id='deletarcurriculo'><i class='delete icon'></i>Deletar Currículo</a>
+          <a class='ui button' href='#' id='desconectar'><i class='sign out icon'></i>Desconectar</a>
+          <a class='ui button' href='index.php'><i class='chevron left icon'></i>Voltar</a>
+        </div>
+      </div>
+
+      <!-- ENVIAR CURRICULO MODAL -->
+      <div class="ui modal" id='enviarCurrModal'>
+        <div class="header">
+          Submissão de Currículo
+        </div>
+        <div class="ui segment basic padded center aligned" id='modalIn'>
+          <label class='ui teal labeled icon fluid link button' for="fileCurriculo" id='filebtn'><i class="upload icon"></i> Escolha um Arquivo</label>
+          <br>
+          <input type='file' id='fileCurriculo' accept="text/xml" onchange='fileVerify(this)' name='curriculo'>
+          <button class='ui blue button fluid' onclick="enviarArquivo()" id='curriculoSubmit'>Enviar</button>
+          <br>
+          <div class="ui indicating progress" id='progress'>
+            <div class="bar"></div>
+            <div class="label" id='label'></div>
+          </div>
+        </div>
+      </div>
+      <!-- END ENVIAR CURRICULO MODAL -->
+
     </aside>
     <main>
-      <h1>Currículo</h1>
-      <div class="curriculo">
+      <div style='border-radius:0' class="ui segment">
+        <h1 class='ui header'>Currículo
+          <div class="ui sub header">
+            Suas Informações
+          </div>
+        </h1>
+
+      </div>
+      <div class="ui segment curriculo">
       <?php
       if($id)
           require 'incl/curriculo_display.php';
@@ -55,6 +90,7 @@
     </main>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
+  <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
   <script src="js/curriculo.js" charset="utf-8"></script>

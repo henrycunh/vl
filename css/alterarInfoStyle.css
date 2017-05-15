@@ -18,96 +18,24 @@ body{
 
 /* Invólucro */
 .wrapper{
-  position: relative;
   height: auto;
-  width: 400px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  padding: 20px 100px;
-
-  background: #F9F9F9;
+  max-width: 600px;
+  margin: 0 auto !important;
+  margin-top: 10px !important;
 }
 
-/* Titulo */
-h1{
-  margin: 0;
-  font-weight: 300;
-  color: #bbb;
-}
 
-hr{
-  border-color: #eee;
-  border-style: solid;
-  border-width: 1px;
-  margin: 0;
-  margin-bottom: 2em;
-}
-/* Labels */
-label{
-  font-weight: 500;
-}
-
-/* Elementos do Form */
-input, select{
-  width: 400px;
-  margin-bottom: 2em;
-  display: block;
-  box-sizing: border-box;
-  padding: 0.5em 1em;
-
-  outline: none;
-  border: 0;
-  border-bottom: 2px solid #E1E1E1;
-  background: transparent;
-
-  font-weight: 400;
-  transition: 0.5s;
-}
-
-input:focus, select:focus{
-  border-color: #459;
-  transition: 0.5s;
-}
-
-/* Select (Gênero) */
-select{
-  border: 2px solid #eee;
-}
-
-/* Aviso senha */
-h3{
-  font-size: 1em;
-  text-align: center;
-  font-weight: 300;
-  background-color: #ececec;
-  border-bottom: 2px solid #dcdcdc;
-  padding: 0.5em;
-}
 
 /* Grupo de Senha */
 #showpw{
   font-size: 1.2em;
   text-align: left;
   font-weight: 400;
-  color: #2274a9;
   cursor: pointer;
 }
 
 .alterarSenha{
   display: none;
-}
-
-.pw-group{
-  padding-right: 1em;
-  display: inline-block;
-  width: 50%;
-  box-sizing: border-box;
-}
-
-.pw-group input{
-  width: 100%;
 }
 
 
@@ -132,9 +60,6 @@ h3{
 }
 
 #msg{
-  padding-left: 1em;
-  font-weight: 500;
-  color: rgba(43, 113, 158, 0.74);
   display: none;
 }
 
@@ -152,7 +77,7 @@ a:hover{
 #voltar{
   display: block;
   text-align: center;
-  font-size: 1.4em;
+  font-size: 1em;
 }
 
 /* Erro */

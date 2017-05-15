@@ -1,8 +1,6 @@
 .curriculo{
   padding: 0.3em;
-  margin: 0.3em;
-  border: 2px solid #ccc;
-  background-color: #F1F1F1;
+  margin: 0.6em !important;
   font-size: 1em;
   font-weight: 300;
   color: #303040;
@@ -23,28 +21,51 @@
 
 .curriculo h1 {
   display: block;
-  background: #303040;
-  color: #eee;
-  padding: 0;
-  height: auto;
-  padding: 0.5em;
-  margin-top: 0.5em;
-  font-size: 1.3em;
+   color: hsla(0, 0%, 35%, 1);
+   padding: 0;
+   height: auto;
+   border-bottom: 2px solid hsla(0, 0%, 45%, 1);
+   padding: 0.5em;
+   margin-top: 0.5em;
+   margin-bottom: 1em;
+   font-size: 1.2em;
 }
+
+.att{
+  margin-top: -8px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.smll{
+  font-size: 0.9em !important;
+}
+
+.active{
+  padding-bottom: 15px !important;
+  border: 1px solid #dedede;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background: hsla(0, 0%, 96%, 1);
+}
+
 
 .curriculo h2 {
-  background: hsla(240, 14%, 34%, 1);
-  color: #eee;
-  font-family: 'Raleway', sans-serif;
-  padding: 0.5em;
-  font-size: 1em;
-  padding-left: 2em;
-  margin: 0;
+  display: block;
+  color: hsla(0, 0%, 46%, 1);
+  padding: 0;
+  border: px solid #eee;
+  /* text-transform: uppercase; */
+  font-size: 0.9em;
+  height: auto;
+  /* border-radius: 4px; */
+  padding: 0.14em 1em;
+  font-size: 1.2em;
 }
-
+/*
 h2:nth-child(odd){
- background: hsla(240, 14%, 25%, 1);
-}
+   background: hsla(210, 3%, 90%, 1);
+} */
 
 .hswrap{
   position: relative;
@@ -67,30 +88,9 @@ h2:nth-child(odd){
   color: #aaa;
 }
 
-.search{
-  position: absolute;
-  right: 10em;
-  top: -2.9em;
-  background: hsla(240, 14%, 55%, 1);
-  /* border: 0; */
-  color: hsla(240, 14%, 26%, 1);
-  outline: none;
-  padding: 0.3em 1.5em;
-  /* padding-left: 0.5em; */
-  border: 2px solid hsla(240, 14%, 54%, 1);
-}
 
-.search::placeholder{
-  color: #4f4f69;
-
-}
 
 .ic_wrapper {
-  display: none;
-  padding: 0.5em;
-  border: 2px solid hsla(240, 14%, 57%, 1);
-  border-top: 0;
-  margin-bottom: 0.5em;
 }
 
 .ic_wrapper p{
@@ -147,11 +147,17 @@ h2:nth-child(odd){
   font-size: 0.9em;
   padding-bottom: 1em;
   padding-left: 1.2em;
-  border-left: 2px solid #b3b3dc;
 }
 
 .dados{
   display: none;
+  font-size: 0.9em;
+  padding-left: 3.6em;
+  color: hsla(0, 0%, 47%, 1);
+}
+
+.sh{
+  cursor: pointer;
 }
 
 .itens li:last-child{
@@ -173,22 +179,6 @@ div.number {
     color: #eee;
 }
 
-.sh{
-  cursor: pointer;
-  position: relative;
-  margin-right: -1.4em;
-  background: #171717;
-  padding-left: 0.22em;
-  padding-right: 0.35em;
-  padding-top: 0.04em;
-  top: 1.25em;
-  left: -1.85em;
-  box-sizing: border-box;
-  width: 1.25em;
-  height: 1.25em;
-  display: inline-block;
-  color: #eee;
-}
 .level-2{
   margin-left: -2em ;
   left: -0.8em !important;
@@ -212,14 +202,19 @@ div.number {
   margin-right: -0.1em;
   left: -1.22em !important;
 }
-.itens li a{
-  text-decoration: none;
-  color: hsla(206, 69%, 50%, 1);
+
+#modalCompIn{
+  width: 50% !important;
+  margin: 0 auto !important;
 }
 
-.itens li a:hover{
-  color: hsla(206, 80%, 60%, 1);
+#fileComp {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+    display: none;
 }
+
 
 div.currModal {
   position: absolute;

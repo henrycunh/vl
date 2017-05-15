@@ -1,5 +1,5 @@
 <?php
-  // Conectividade ao Banco de Dados
+  // // Conectividade ao Banco de Dados
   // $user = 'kanit563_henriq';
   // $pw = 'D0ctOr$wH0';
   // $host = 'localhost';

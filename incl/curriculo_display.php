@@ -3,7 +3,7 @@
   $titulacaoType = array(1 => 'Graduação', 2 => 'Especialização', 3 => 'Mestrado', 4 => 'Doutorado');
   $nome = Curriculo::getNomeCompleto($conn, $id);
  ?>
-<img src="imgs/loading.svg" id='load'>
+
 <div class="curriculoContent">
 
 <!--
@@ -12,33 +12,57 @@
   88   88   88   Y8   8P 88  .o  dP__Yb  Yb       dP__Yb  Yb   dP
   88   88   88   `YbodP' 88ood8 dP""""Yb  YboodP dP""""Yb  YbodP
 TITULAÇÃO START -->
-<h1>Titulação</h1>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)" ic='titulacao'>Mostrar</button></div>
-<div class="ic_wrapper" id='titulacao'>
-  <div class='hswrap'><input type="text" class='search' ic='artigo' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
-  <?php foreach ($curriculo->titulacoes as $i => $titulacao): ?>
-      <li>
-        <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
-        <!-- <tipo> em <nomeCurso> (<anoInicio> - <anoConclusao>)  -->
-        <b><?= $titulacaoType[$titulacao->tipo] ?></b> em <?= $titulacao->nomeCurso ?>
-        (<b><?= $titulacao->anoInicio ?></b> - <b><?= $titulacao->anoConclusao?></b>)
-        <div class="dados">
-        <!-- Instituição: <instituicao> -->
-          <b>Instituição:</b> <?= $titulacao->instituicao ?><br>
-        <!-- Orientador: <orientador> -->
-          <b>Orientador:</b> <?= $titulacao->orientador ?><br>
-        <!-- Titulo: <titulo> -->
-        <!-- Orientador: <orientador> -->
-          <b>Titulo:</b> <?= $titulacao->titulo ?><br>
+<div class="ui accordion ic_wrapper" >
+<div class='title'><h2><i class='dropdown icon'></i>Titulação</h2></div>
+  <div class="ui segment padded content att" id='titulacao'>
+    <div class="ui grid">
+      <div class="six wide column"></div>
+      <div class="five wide column">
+        <select ic='titulacao' class='ui fluid dropdown' onchange='showOnly(this)'>
+          <option value='showAll'>Mostrar todos</option>
+          <option value='showComp'>Mostrar comprovados</option>
+          <option value='showNonComp'>Mostrar não comprovados</option>
+        </select>
+      </div>
+      <div class="five wide column">
+        <div class="ui icon fluid input">
+          <input type="text" class='ui input' ic='titulacao' oninput='search(this)' placeholder='Pesquisar...'>
+          <i class=' search icon'></i>
         </div>
-        <!-- Área de Validação -->
-        <?= areaVal($titulacao->comprovante, $titulacao->validado, 'titulacao', $id, $titulacao->idTitulacao) ?>
-      </li>
-  <?php endforeach; ?>
-  </ul>
+      </div>
+
+    </div>
+    <div class="ui divider"></div>
+    <div class='ui relaxed list'>
+    <?php foreach ($curriculo->titulacoes as $i => $titulacao): ?>
+        <div class='item'>
+          <div class="ui segment secondary">
+          <div class="ui description smll">
+            <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
+             <span class='itemtitle'>
+               <b><?= $titulacaoType[$titulacao->tipo] ?></b> em <?= $titulacao->nomeCurso ?>
+               (<b><?= $titulacao->anoInicio ?></b> - <b><?= $titulacao->anoConclusao?></b>)
+            </span>
+          </div>
+          <!-- Número -->
+          <!-- <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div> -->
+          <!-- <tipo> em <nomeCurso> (<anoInicio> - <anoConclusao>)  -->
+          <div class="dados">
+          <!-- Instituição: <instituicao> -->
+            <b>Instituição:</b> <?= $titulacao->instituicao ?><br>
+          <!-- Orientador: <orientador> -->
+            <b>Orientador:</b> <?= $titulacao->orientador ?><br>
+          <!-- Titulo: <titulo> -->
+          <!-- Orientador: <orientador> -->
+            <b>Titulo:</b> <?= $titulacao->titulo ?><br>
+          </div>
+          <!-- Área de Validação -->
+          <?= areaVal($titulacao->comprovante, $titulacao->validado, 'titulacao', $id, $titulacao->idTitulacao) ?>
+        </div>
+        </div>
+    <?php endforeach; ?>
+  </div>
+</div>
 </div>
 <!-- TITULAÇÃO END -->
 
@@ -51,37 +75,57 @@ TITULAÇÃO START -->
 dP""""Yb 88  Yb   88   88  YboodP  YbodP  8bodP'
 ARTIGOS START -->
 <h1>Produção Bibliográfica</h1>
-<?php if($curriculo->artigos): ?>
-<h2>Artigos</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='artigo'>Mostrar</button></div>
-<div class="ic_wrapper" id='artigo'>
-  <div class='hswrap'><input type="text" class='search' ic='artigo' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
-  <?php foreach ($curriculo->artigos as $i => $artigo): ?>
-      <li>
-        <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
-        <!-- Titulo -->
-        <?= "<b>Titulo</b>: " . $artigo->titulo  ?>.<br>
-        <!-- Nomes de Citação -->
-        <?= autoresToString($artigo->autores, $nome) . " (<b>$artigo->ano</b>)" ?><br>
-        <div class="dados">
-        <!-- Períodico -->
-        <?= "<b>Titulo do Periódico:</b> $artigo->tituloPeriodico" ?>.<br>
-        <!-- ISSN -->
-        <?= $artigo->issn ? "<b>ISSN:</b> " . $artigo->issn : "" ?><br>
-        <!-- Volume e Páginas e Ano-->
-        <?=
-          "<b>Volume:</b> " . $artigo->volume .
-          "<br><b>Páginas:</b> " . $artigo->paginaInicial . ($artigo->paginaFinal ? "-" . $artigo->paginaFinal : "")
-        ?>
+<div class="ui accordion ic_wrapper">
+<?php if ($curriculo->artigos): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Artigos</h2></div>
+    <div class="ui segment padded content att" id='artigo'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='artigo' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='artigo' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class=' search icon'></i>
+          </div>
+        </div>
+
       </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
+  <?php foreach ($curriculo->artigos as $i => $artigo): ?>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
+            <!-- Número -->
+            <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
+            <!-- Titulo -->
+            <?= "<b>Titulo</b>: " . $artigo->titulo  ?>.<br>
+            <!-- Nomes de Citação -->
+            <?= autoresToString($artigo->autores, $nome) . " (<b>$artigo->ano</b>)" ?><br>
+            <div class="dados">
+            <!-- Períodico -->
+            <?= "<b>Titulo do Periódico:</b> $artigo->tituloPeriodico" ?>.<br>
+            <!-- ISSN -->
+            <?= $artigo->issn ? "<b>ISSN:</b> " . $artigo->issn : "" ?><br>
+            <!-- Volume e Páginas e Ano-->
+            <?=
+              "<b>Volume:</b> " . $artigo->volume .
+              "<br><b>Páginas:</b> " . $artigo->paginaInicial . ($artigo->paginaFinal ? "-" . $artigo->paginaFinal : "")
+            ?>
+          </div>
+        </div>
         <!-- Área de Validação -->
-        <?= areaVal($artigo->comprovante,$artigo->validado, 'artigo', $id, $artigo->idArtigo) ?>
-      </li>
+        <?= areaVal($artigo->comprovante, $artigo->validado, 'artigo', $id, $artigo->idArtigo) ?>
+      </div>
+    </div>
   <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- ARTIGOS END -->
@@ -93,17 +137,34 @@ dP   `"   dPYb   88__dP         88     88  Yb  dP  88__dP dP   Yb `Ybo."
 Yb       dP__Yb  88"""  .o.     88  .o 88   YbdP   88"Yb  Yb   dP o.`Y8b
  YboodP dP""""Yb 88     `"'     88ood8 88    YP    88  Yb  YbodP  8bodP'
 CAPITULOS DE LIVROS START -->
-<?php if($curriculo->capLivros): ?>
-<h2>Capítulos de Livros</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='capLivro'>Mostrar</button></div>
-<div class="ic_wrapper" id='capLivro'>
-  <div class='hswrap'><input type="text" class='search' ic='capLivro' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->capLivros): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Capítulos de Livros</h2></div>
+    <div class="ui segment padded content att" id='capLivro'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='capLivro' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='capLivro' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class=' search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
   <?php foreach ($curriculo->capLivros as $i => $capLivro): ?>
-      <li>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
         <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+        <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
         <!-- Nomes de Citação -->
         <?= autoresToString($capLivro->autores, $nome) . " (<b>$capLivro->ano</b>)" ?><br>
         <!-- Link, se possuir -->
@@ -119,11 +180,13 @@ CAPITULOS DE LIVROS START -->
         <!-- ISBN -->
         <?= "<b>ISBN:</b> $capLivro->isbn" ?><br>
       </div>
+    </div>
         <!-- Área de Validação -->
-        <?= areaVal($capLivro->comprovante,$capLivro->validado, 'capLivro', $id, $capLivro->idCapLivro) ?>
-      </li>
+        <?= areaVal($capLivro->comprovante, $capLivro->validado, 'capLivro', $id, $capLivro->idCapLivro) ?>
+      </div>
+      </div>
   <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- CAPITULOS LIVRO END -->
@@ -136,25 +199,46 @@ dP   `" dP   Yb 88__dP 88__dP dP   Yb     88__    8I  Yb 88   88
 Yb      Yb   dP 88"Yb  88"""  Yb   dP     88""    8I  dY 88   88   .o.
  YboodP  YbodP  88  Yb 88      YbodP      888888 8888Y"  88   88   `"'
 CORPOS EDITORIAIS START -->
-<?php if($curriculo->corposEditoriais): ?>
-<h2>Participação em Corpos Editoriais</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='corpoEditorial'>Mostrar</button></div>
-<div class="ic_wrapper" id='corpoEditorial'>
-  <div class='hswrap'><input type="text" class='search' ic='corpoEditorial' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->corposEditoriais): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Participações em Corpos Editoriais</h2></div>
+    <div class="ui segment padded content att" id='corpoEditorial'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='corpoEditorial' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='corpoEditorial' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class=' search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
   <?php
   foreach ($curriculo->corposEditoriais as $i => $corpoEditorial): ?>
-      <li>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
         <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
+        <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
         <!-- Titulo -->
         <?= $corpoEditorial->nomeInstituicao ?>.
         <?=  "(<b>$corpoEditorial->dataInicio - " . ($corpoEditorial->dataFim ? $corpoEditorial->dataFim : "Atual") ."</b>)" ?>
         <!-- Área de Validação -->
-        <?= areaVal($corpoEditorial->comprovante,$corpoEditorial->validado, 'corpoEditorial', $id, $corpoEditorial->idCorpoEditorial) ?>
-      </li>
+        <?= areaVal($corpoEditorial->comprovante, $corpoEditorial->validado, 'corpoEditorial', $id, $corpoEditorial->idCorpoEditorial) ?>
+
+      </div>
+      </div>
+      </div>
   <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- CORPOS EDITORIAIS END -->
@@ -165,17 +249,34 @@ CORPOS EDITORIAIS START -->
 88  .o 88   YbdP   88"Yb  Yb   dP o.`Y8b
 88ood8 88    YP    88  Yb  YbodP  8bodP'
 LIVROS START -->
-<?php if($curriculo->livros): ?>
-<h2>Livros</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='livro'>Mostrar</button></div>
-<div class="ic_wrapper" id='livro'>
-  <div class='hswrap'><input type="text" class='search' ic='livro' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->livros): ?>
+<div class='title'><h2><i class='dropdown icon'></i>Livros</h2></div>
+  <div class="ui segment padded content att" id='livro'>
+    <div class="ui grid">
+      <div class="six wide column"></div>
+      <div class="five wide column">
+        <select ic='livro' class='ui fluid dropdown' onchange='showOnly(this)'>
+          <option value='showAll'>Mostrar todos</option>
+          <option value='showComp'>Mostrar comprovados</option>
+          <option value='showNonComp'>Mostrar não comprovados</option>
+        </select>
+      </div>
+      <div class="five wide column">
+        <div class="ui icon fluid input">
+          <input type="text" class='ui input' ic='livro' oninput='search(this)' placeholder='Pesquisar...'>
+          <i class='search icon'></i>
+        </div>
+      </div>
+
+    </div>
+    <div class="ui divider"></div>
+    <div class='ui relaxed list'>
     <?php foreach ($curriculo->livros as $i => $livro): ?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($livro->autores, $nome) . " (<b>$livro->ano</b>)" ?><br>
           <!-- Link, se possuir -->
@@ -192,12 +293,15 @@ LIVROS START -->
           <?= "<b>Páginas</b>: $livro->numPags" ?><br>
           <!-- ISBN -->
           <?= "<b>ISBN</b>: $livro->isbn"?><br>
-        </div>
+
+          </div>
+          </div>
           <!-- Área de Validação -->
-          <?= areaVal($livro->comprovante,$livro->validado, 'livro', $id, $livro->idLivro) ?>
-        </li>
+          <?= areaVal($livro->comprovante, $livro->validado, 'livro', $id, $livro->idLivro) ?>
+        </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- LIVROS END -->
@@ -209,18 +313,35 @@ LIVROS START -->
   88   88"Yb   dP__Yb  88""Yb .o.     88""     YbdP   88""   88 Y88   88   Yb   dP
   88   88  Yb dP""""Yb 88oodP `"'     888888    YP    888888 88  Y8   88    YbodP
  TRABALHO EM EVENTO START -->
-<?php if($curriculo->trabEventos): ?>
-<h2>Trabalho Realizado em Evento</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='trabEvento'>Mostrar</button></div>
-<div class="ic_wrapper" id='trabEvento'>
-  <div class='hswrap'><input type="text" class='search' ic='trabEvento' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->trabEventos): ?>
+<div class='title'><h2><i class='dropdown icon'></i>Trabalhos em Eventos</h2></div>
+  <div class="ui segment padded content att" id='trabEvento'>
+    <div class="ui grid">
+      <div class="six wide column"></div>
+      <div class="five wide column">
+        <select ic='trabEvento' class='ui fluid dropdown' onchange='showOnly(this)'>
+          <option value='showAll'>Mostrar todos</option>
+          <option value='showComp'>Mostrar comprovados</option>
+          <option value='showNonComp'>Mostrar não comprovados</option>
+        </select>
+      </div>
+      <div class="five wide column">
+        <div class="ui icon fluid input">
+          <input type="text" class='ui input' ic='trabEvento' oninput='search(this)' placeholder='Pesquisar...'>
+          <i class='search icon'></i>
+        </div>
+      </div>
+
+    </div>
+    <div class="ui divider"></div>
+    <div class='ui relaxed list'>
     <?php
     foreach ($curriculo->trabEventos as $i => $trabEvento): ?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($trabEvento->autores, $nome) . " (<b>$trabEvento->ano</b>)"?>.<br>
           <!-- Link, se possuir -->
@@ -242,14 +363,17 @@ LIVROS START -->
           <!-- Páginas -->
           <?= "<b>Páginas</b>: " . $trabEvento->pagInicial . "-" . $trabEvento->pagFinal ?>
           </div>
+        </div>
           <!-- Área de Validação -->
-          <?= areaVal($trabEvento->comprovante,$trabEvento->validado, "trabEvento", $id, $trabEvento->idTrabEvento) ?>
-        </li>
+          <?= areaVal($trabEvento->comprovante, $trabEvento->validado, "trabEvento", $id, $trabEvento->idTrabEvento) ?>
+        </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- TRAB EVENTO END -->
+</div>
 
 <h1>Produção não Bibliográfica</h1>
 
@@ -259,12 +383,29 @@ LIVROS START -->
 88""Yb  dP__Yb  88 Y88 Yb       dP__Yb  o.`Y8b
 88oodP dP""""Yb 88  Y8  YboodP dP""""Yb 8bodP'
 BANCAS START -->
-<?php if($curriculo->bancas): ?>
-<h2>Bancas</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='banca'>Mostrar</button></div>
-<div class="ic_wrapper" id='banca'>
-  <div class='hswrap'><input type="text" class='search' ic='banca' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<div class="ui accordion ic_wrapper">
+<?php if ($curriculo->bancas): ?>
+<div class='title'><h2><i class='dropdown icon'></i>Bancas</h2></div>
+  <div class="ui segment padded content att" id='banca'>
+    <div class="ui grid">
+      <div class="six wide column"></div>
+      <div class="five wide column">
+        <select ic='banca' class='ui fluid dropdown' onchange='showOnly(this)'>
+          <option value='showAll'>Mostrar todos</option>
+          <option value='showComp'>Mostrar comprovados</option>
+          <option value='showNonComp'>Mostrar não comprovados</option>
+        </select>
+      </div>
+      <div class="five wide column">
+        <div class="ui icon fluid input">
+          <input type="text" class='ui input' ic='banca' oninput='search(this)' placeholder='Pesquisar...'>
+          <i class='search icon'></i>
+        </div>
+      </div>
+
+    </div>
+    <div class="ui divider"></div>
+    <div class='ui relaxed list'>
   <?php
   $tipos = array(
     1 => 'Graduação',
@@ -273,10 +414,11 @@ BANCAS START -->
     4 => 'Doutorado'
   );
   foreach ($curriculo->bancas as $i => $banca): ?>
-      <li>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
         <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+        <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
         <!-- Nomes de Citação -->
         <?= autoresToString($banca->participantes, $nome) ?><br>
         <?= "Participação em banca de <b>$banca->nomeCandidato</b> (<b>$banca->ano</b>)" ?>.<br>
@@ -293,10 +435,12 @@ BANCAS START -->
         <?= "<b>Instituição</b>: $banca->nomeInstituicao" ?>
       </div>
         <!-- Área de Validação -->
-        <?= areaVal($banca->comprovante,$banca->validado, 'banca', $id, $banca->idBanca) ?>
-      </li>
+        <?= areaVal($banca->comprovante, $banca->validado, 'banca', $id, $banca->idBanca) ?>
+      </div>
+    </div>
+  </div>
   <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- BANCAS END -->
@@ -307,20 +451,37 @@ dP   `" dP   Yb dP   Yb 88__dP  8I  Yb         88__dP 88__dP dP   Yb     88
 Yb      Yb   dP Yb   dP 88"Yb   8I  dY .o.     88"""  88"Yb  Yb   dP o.  88 .o.
  YboodP  YbodP   YbodP  88  Yb 8888Y"  `"'     88     88  Yb  YbodP  "bodP' `"'
 COORDENAÇÃO DE PROJETOS START -->
-<?php if($curriculo->coordProjs): ?>
-<h2>Coordenação de Projetos</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='coordProj'>Mostrar</button></div>
-<div class="ic_wrapper" id='coordProj'>
-  <div class='hswrap'><input type="text" class='search' ic='coordProj' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->coordProjs): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Coordenação de Projetos</h2></div>
+    <div class="ui segment padded content att" id='coordProj'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='coordProj' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='coordProj' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
   <?php
   $situacao = array("DESATIVADO" => 'Desativado', "EM_ANDAMENTO" => 'Em andamento', "CONCLUIDO" => "Concluído");
   $natureza = array("DESENVOLVIMENTO" => 'Desenvolvimento', "PESQUISA" => 'Pesquisa', "EXTENSAO" => "Extensão");
   foreach ($curriculo->coordProjs as $i => $coordProj): ?>
-      <li>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
         <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+        <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
         <!-- Titulo -->
         <?= "<b>Nome do Projeto</b>: $coordProj->nomeProj" ?>
         <?=  "(<b>$coordProj->anoInicio - ".($coordProj->anoFim ? $coordProj->anoFim : "Atual")."</b>)" ?>
@@ -336,11 +497,13 @@ COORDENAÇÃO DE PROJETOS START -->
         <!-- Nomes de Citação -->
         <?= "<b>Integrantes:</b> " . equipeToString($coordProj->equipe, $nome, $coordProj->responsavel) ?><br>
       </div>
+    </div>
         <!-- Área de Validação -->
-        <?= areaVal($coordProj->comprovante,$coordProj->validado, 'coordProj', $id, $coordProj->idCoordProj) ?>
-      </li>
+        <?= areaVal($coordProj->comprovante, $coordProj->validado, 'coordProj', $id, $coordProj->idCoordProj) ?>
+      </div>
+      </div>
   <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- COORDENAÇÃO DE PROJETOS END -->
@@ -352,19 +515,36 @@ COORDENAÇÃO DE PROJETOS START -->
 88YbdP88  dP__Yb  88"Yb  Yb       dP__Yb  o.`Y8b
 88 YY 88 dP""""Yb 88  Yb  YboodP dP""""Yb 8bodP'
  MARCAS START -->
-<?php if($curriculo->marcas): ?>
-<h2>Marcas</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='marca'>Mostrar</button></div>
-<div class="ic_wrapper" id='marca'>
-  <div class='hswrap'><input type="text" class='search' ic='marca' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->marcas): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Marcas</h2></div>
+    <div class="ui segment padded content att" id='marca'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='marca' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='marca' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
     <?php
     $tipos = array("MARCA_REGISTRADA_DE_SERVICO_MSV" => "Marca Registrada de Serviço");
     foreach ($curriculo->marcas as $i => $marca): ?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($marca->autores, $nome) ?>.
           <!-- Titulo -->
@@ -380,12 +560,15 @@ COORDENAÇÃO DE PROJETOS START -->
           <?= "<b>Titulo da Patente:</b> \"" . $marca->tituloPatente . "\""?>,
           <!-- instDeposito -->
           <?= "<b>Instituição de Registro:</b> " . $marca->instDeposito?>.<br>
+
         </div>
+      </div>
           <!-- Área de Validação -->
-          <?= areaVal($marca->comprovante,$marca->validado, 'marca', $id, $marca->idMarca) ?>
-        </li>
+          <?= areaVal($marca->comprovante, $marca->validado, 'marca', $id, $marca->idMarca) ?>
+        </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- MARCAS END -->
@@ -396,19 +579,36 @@ dP   Yb 88__dP dP   `"         88__    Yb  dP  88__   88Yb88   88   dP   Yb `Ybo
 Yb   dP 88"Yb  Yb  "88 .o.     88""     YbdP   88""   88 Y88   88   Yb   dP o.`Y8b
  YbodP  88  Yb  YboodP `"'     888888    YP    888888 88  Y8   88    YbodP  8bodP'
 ORGANIZAÇÃO DE EVENTOS START -->
-<?php if($curriculo->organizacaoEventos): ?>
-<h2>Organização de Eventos</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='organizacaoEvento'>Mostrar</button></div>
-<div class="ic_wrapper" id='organizacaoEvento'>
-  <div class='hswrap'><input type="text" class='search' ic='organizacaoEvento' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->organizacaoEventos): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Organização de Eventos</h2></div>
+    <div class="ui segment padded content att" id='organizacaoEvento'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='organizacaoEvento' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='organizacaoEvento' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
     <?php
     foreach ($curriculo->organizacaoEventos as $i => $organizacaoEvento):
     $tipo = ucfirst(strtolower($organizacaoEvento->tipo))?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($organizacaoEvento->autores, $nome) . " (<b>$organizacaoEvento->ano</b>)"?><br>
           <?= "<b>Título</b>: $organizacaoEvento->titulo" ?><br>
@@ -421,12 +621,15 @@ ORGANIZAÇÃO DE EVENTOS START -->
           <?= "<b>Instituição</b>: $organizacaoEvento->instituicaoPromotora" ?><br>
           <!-- Cidade -->
           <?= "<b>Cidade</b>: $organizacaoEvento->cidade" ?>
+
         </div>
+      </div>
           <!-- Área de Validação -->
-          <?= areaVal($organizacaoEvento->comprovante,$organizacaoEvento->validado, 'organizacaoEvento', $id, $organizacaoEvento->idOrganizacaoEvento) ?>
-        </li>
+          <?= areaVal($organizacaoEvento->comprovante, $organizacaoEvento->validado, 'organizacaoEvento', $id, $organizacaoEvento->idOrganizacaoEvento) ?>
+        </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- ORGANIZAÇÃO DE EVENTOS END -->
@@ -438,19 +641,36 @@ ORGANIZAÇÃO DE EVENTOS START -->
 88"""   dP__Yb    88   88""   88 Y88   88   88""   o.`Y8b
 88     dP""""Yb   88   888888 88  Y8   88   888888 8bodP'
 PATENTES START -->
-<?php if($curriculo->patentes): ?>
-<h2>Patentes</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='patente'>Mostrar</button></div>
-<div class="ic_wrapper" id='patente'>
-  <div class='hswrap'><input type="text" class='search' ic='patente' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->patentes): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Patentes</h2></div>
+    <div class="ui segment padded content att" id='patente'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='patente' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='patente' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
     <?php
     $tipos = array("PRIVILEGIO_DE_INOVACAO_PI" => "Privilégio de Inovação");
     foreach ($curriculo->patentes as $i => $patente): ?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($patente->autores, $nome) . "(<b>$patente->ano</b>)" ?>.<br>
           <?= $patente->titulo ?><br>
@@ -463,12 +683,15 @@ PATENTES START -->
           <?= "<b>Titulo:</b> \"" . $patente->tituloPatente . "\""?><br>
           <!-- instDeposito -->
           <?= "<b>Instituição de Registro:</b> " . $patente->instituicaoDeposito?>.<br>
+
         </div>
+      </div>
           <!-- Área de Validação -->
-          <?= areaVal($patente->comprovante,$patente->validado, 'patente', $id, $patente->idPatente) ?>
-        </li>
+          <?= areaVal($patente->comprovante, $patente->validado, 'patente', $id, $patente->idPatente) ?>
+        </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- PATENTES END -->
@@ -480,12 +703,28 @@ dP   Yb 88__dP 88 88__   88Yb88   88     dPYb   dP   `" dP   Yb 88__   `Ybo."
 Yb   dP 88"Yb  88 88""   88 Y88   88    dP__Yb  Yb      Yb   dP 88""   o.`Y8b
  YbodP  88  Yb 88 888888 88  Y8   88   dP""""Yb  YboodP  YbodP  888888 8bodP'
 ORIENTAÇÕES START -->
-<?php if($curriculo->orientacoes): ?>
-  <h2>Orientações</h2>
-  <div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='orientacao'>Mostrar</button></div>
-  <div class="ic_wrapper" id='orientacao'>
-    <div class='hswrap'><input type="text" class='search' ic='orientacao' oninput='search(this)' placeholder='Pesquisar...'></div>
-    <ul class='itens'>
+<?php if ($curriculo->orientacoes): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Orientações</h2></div>
+    <div class="ui segment padded content att" id='orientacao'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='orientacao' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='orientacao' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
       <?php
       $tipos = array(
         "Supervisão de pós-doutorado" => "Supervisão de pós-doutorado",
@@ -497,10 +736,11 @@ ORIENTAÇÕES START -->
       );
 
       foreach ($curriculo->orientacoes as $i => $orientacao):?>
-      <li>
+      <div class='item'>
+        <div class="ui segment secondary">
+          <div class="ui description smll">
         <!-- Número -->
-        <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-        <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div>
+        <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
         <!-- Nomes de Citação -->
         <?= "<b>Orientado</b>: $orientacao->nomeOrientado (<b>$orientacao->ano</b>)" ?><br>
         <!-- Titulo -->
@@ -515,11 +755,13 @@ ORIENTAÇÕES START -->
           <!-- Pais -->
           <?= "<b>País</b>: $orientacao->pais" ?>
         </div>
+      </div>
         <!-- Área de Validação -->
-        <?= areaVal($orientacao->comprovante,$orientacao->validado, 'orientacao', $id, $orientacao->idOrientacao) ?>
-      </li>
+        <?= areaVal($orientacao->comprovante, $orientacao->validado, 'orientacao', $id, $orientacao->idOrientacao) ?>
+      </div>
+      </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- ORIENTAÇÕES END -->
@@ -531,19 +773,36 @@ ORIENTAÇÕES START -->
 o.`Y8b Yb   dP 88""     88     YbdPYbdP    dP__Yb  88"Yb  88""
 8bodP'  YbodP  88       88      YP  YP    dP""""Yb 88  Yb 888888
 SOFTWARE START -->
-<?php if($curriculo->softwares): ?>
-<h2>Softwares</h2>
-<div class="hswrap"><button class='hide-show' onclick="toggle(this)"  ic='software'>Mostrar</button></div>
-<div class="ic_wrapper" id='software'>
-  <div class='hswrap'><input type="text" class='search' ic='software' oninput='search(this)' placeholder='Pesquisar...'></div>
-  <ul class='itens'>
+<?php if ($curriculo->softwares): ?>
+  <div class='title'><h2><i class='dropdown icon'></i>Software</h2></div>
+    <div class="ui segment padded content att" id='software'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='software' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='software' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
     <?php
     $tipos = array("PRIVILEGIO_DE_INOVACAO_PI" => "Privilégio de Inovação");
     foreach ($curriculo->softwares as $i => $software): ?>
-        <li>
+        <div class='item'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
           <!-- Número -->
-          <div class='number level-<?= strlen((string)$i+1) ?>'><?= $i+1 ?></div>
-          <!-- <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div> -->
+          <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
           <!-- Nomes de Citação -->
           <?= autoresToString($software->autores, $nome) . "(<b>$software->ano</b>)"?>.<br>
           <!-- Link, se possuir -->
@@ -554,67 +813,90 @@ SOFTWARE START -->
           <div class="dados">
           </div>
           <!-- Área de Validação -->
-          <?= areaVal($software->comprovante,$software->validado, 'software', $id, $software->idSoftware) ?>
-        </li>
+          <?= areaVal($software->comprovante, $software->validado, 'software', $id, $software->idSoftware) ?>
+
+        </div>
+      </div>
+        </div>
     <?php endforeach; ?>
-  </ul>
+  </div>
 </div>
 <?php endif; ?>
 <!-- SOFTWARE END -->
-
 </div>
+</div>
+
+<!-- MODAL ENVIO COMPROVANTE -->
+<div class="ui modal" id='enviarComprovante'>
+  <div class="header">
+    Submissão de Comprovante
+  </div>
+  <div class="ui segment basic padded center aligned" id='modalCompIn'>
+    <label class='ui teal labeled icon fluid link button' for="fileComp" id='compfilebtn'><i class="upload icon"></i> Escolha um Arquivo</label>
+    <br>
+    <input type='file' id='fileComp' accept="application/pdf" onchange='atualizarNome(this)' name='comprovante'>
+    <button class='ui blue button fluid' id='submitComp' onclick="enviarComprovante(this)">Enviar</button>
+    <br>
+    <div class="ui indicating progress" id='compprogress'>
+      <div class="bar"></div>
+      <div class="label" id='complabel'></div>
+    </div>
+  </div>
+</div>
+<!-- END MODAL -->
+
+
 <?php
   // Funções de Utilidade
-  function areaVal($comprovante, $flag, $ic, $curriculoId, $icId){
-    $filename = str_pad($curriculoId, 5, "0", STR_PAD_LEFT) . "-$ic-$icId";
-     ?>
-    <div class="val-area">
-    <?php if(!$flag): ?>
-      <!-- NÃO VALIDADO -->
-      <div class="col nao-validado">Não Validado</div>
-    <?php else: ?>
-      <!-- VALIDADO -->
-    <?php endif; ?>
-    <div class='comp-area' ic='<?= $filename ?>'>
-    <?php if($comprovante): ?>
+  function areaVal($comprovante, $flag, $ic, $curriculoId, $icId)
+  {
+      $filename = str_pad($curriculoId, 5, "0", STR_PAD_LEFT) . "-$ic-$icId"; ?>
+    <div class="ui buttons small fluid val-area">
+      <?php if ($flag == -1): ?>
+        <!-- NÃO VALIDADO -->
+        <div class="ui button">Não Validado</div>
+      <?php elseif ($flag == 0): ?>
+        <div class="ui button negative">Não Aceito</div>
+      <?php else: ?>
+        <div class="ui button positive">Aceito</div>
+        <!-- VALIDADO -->
+      <?php endif; ?>
+    <span class='comp-area' ic='<?= $filename ?>'>
+    <?php if ($comprovante): ?>
       <!-- MOSTRAR COMPROVANTE  -->
-      <div class="col comprovante">
-        <a href="<?= "uploads/comprovantes/" . $comprovante ?>" target="_blank">Mostrar Comprovante</a>
-      </div>
-      <div class="col comprovante">
-        <a href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Alterar Comprovante</a>
-      </div>
+        <a class="ui button blue comp" href="<?= "uploads/comprovantes/" . $comprovante ?>" target="_blank">Mostrar Comprovante</a>
+        <a class="ui button teal comp" href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Alterar Comprovante</a>
     <?php else: ?>
-      <div class="col sem-comprovante">
-        <a href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Enviar Comprovante</a>
-      </div>
+        <a class="ui button teal" href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Enviar Comprovante</a>
     <?php endif; ?>
-    </div>
+    </span>
     <?php echo '</div>';
   }
 
-  function equipeToString($equipe, $nome, $resp){
-    $string = '';
-    foreach($equipe as $autor){
-      $flag = $nome == $autor['nomeCompleto'];
-      $string .= $autor['nomeCompleto'] . ($flag ? ($resp ? " (Coordenador)" : " (Integrante)") : "") . " / ";
-    }
-    return rtrim($string, " / ");
+  function equipeToString($equipe, $nome, $resp)
+  {
+      $string = '';
+      foreach ($equipe as $autor) {
+          $flag = $nome == $autor['nomeCompleto'];
+          $string .= $autor['nomeCompleto'] . ($flag ? ($resp ? " (Coordenador)" : " (Integrante)") : "") . " / ";
+      }
+      return rtrim($string, " / ");
   }
 
 
 
-  function autoresToString($autores, $nome){
-    $string = '';
-    foreach ($autores as $autor) {
-      $nro = false;
-      $flag = $nome == $autor['nomeCompleto'];
-      $nro = ($autor['numIdCNPQ'] ? "<a href='http://lattes.cnpq.br/" . $autor['numIdCNPQ'] . "'>" : false);
-      $autor = explode(";",$autor['nomeCitacao']);
-      $autor = $flag ? "<b>" . $autor[0] . "</b>" : $autor[0];
-      $autor = ($nro ? $nro : "") . $autor . ($nro ? "</a>" : "");
-      $string .= $autor . '; ';
-    }
-    return rtrim($string, "; ");
+  function autoresToString($autores, $nome)
+  {
+      $string = '';
+      foreach ($autores as $autor) {
+          $nro = false;
+          $flag = $nome == $autor['nomeCompleto'];
+          $nro = ($autor['numIdCNPQ'] ? "<a href='http://lattes.cnpq.br/" . $autor['numIdCNPQ'] . "'>" : false);
+          $autor = explode(";", $autor['nomeCitacao']);
+          $autor = $flag ? "<b>" . $autor[0] . "</b>" : $autor[0];
+          $autor = ($nro ? $nro : "") . $autor . ($nro ? "</a>" : "");
+          $string .= $autor . '; ';
+      }
+      return rtrim($string, "; ");
   }
  ?>

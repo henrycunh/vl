@@ -15,12 +15,14 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/validarPesquisadorStyle.css">
     <link rel="stylesheet" href="css/curriculoStyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.8/typicons.css">
+    <link rel="stylesheet" href="css/semantic.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <title>Validação / <?= $usuario->nomeCompleto ?></title>
   </head>
   <body>
-    <main class='curriculo'>
-    <a href="painelvalidador.php" class='back'>Voltar para o Painel</a>
+    <main class='ui segment curriculo'>
+    <a href="painelvalidador.php" class='ui button blue fluid'>Voltar para o Painel</a>
+    <div class="ui divider"></div>
     <?php
       // Preparando dados para carregar o currículo
       $email = $usuario->email;
@@ -44,6 +46,7 @@
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
   <script src="js/curriculo.js" charset="utf-8"></script>
+  <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/jquery.pseudo.js" charset="utf-8"></script>
   <script src="js/api/curriculo.js" charset="utf-8"></script>
   <script src="js/api/validacao.js" charset="utf-8"></script>

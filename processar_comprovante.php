@@ -24,8 +24,8 @@
   $stmt->bindParam(':comprovante', $filename);
   $query = $stmt->execute();
   if(!$query){
-    echo json_encode(["success" => false]);
+    echo json_encode(["success" => false, "erro" => $stmt->errorInfo(), "filename"=>$filename]);
   }
   else
-    echo json_encode(["success" => true]);
+    echo json_encode(["success" => true, "filename"=>$filename]);
  ?>
