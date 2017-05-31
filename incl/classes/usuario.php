@@ -198,6 +198,15 @@
       }
     }
 
+    public function getICCount($conn, $ic){
+      $SQL = "SELECT COUNT(*) AS numero FROM ic_$ic WHERE curriculoId = (SELECT curriculoId FROM curriculo WHERE email = '$this->email')";
+      $query = $conn->query($SQL)->fetch(PDO::FETCH_ASSOC);
+      if($query)
+        return $query['numero'];
+      else
+        return false;
+    }
+
 }
 
  ?>

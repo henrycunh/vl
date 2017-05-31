@@ -7,11 +7,10 @@
   // Definindo $email
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
-  $validador = $_SESSION['privilegios']['validador'];
-  if(!$validador) die("Acesso não autorizado.");
+  $inst_val = $_SESSION['privilegios']['gerenciador'];
+  if(!$inst_val) die("Acesso não autorizado.");
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
-  $nome = $usuario->getNome();
   if(!$email):
  ?>
  <script type="text/javascript">
@@ -34,12 +33,16 @@
         <h4 class='ui header inverted'>
           Painel do Validador
           <div class="ui sub header">
-            <?= $nome ?>
+            Propex - IFS
           </div>
         </h4>
       </div>
       <div class="ui padded inverted segment">
       <div class="ui fluid vertical labeled large icon buttons">
+          <a class='ui button' href='index.php'>
+            <i class='add user icon'></i>
+            Vincular Validador
+          </a>
           <a class='ui button' href='#' id='desconectar'>
             <i class='sign out right icon'></i>
             Desconectar
@@ -62,43 +65,19 @@
 
     <main>
       <div style='border-radius: 0' class="ui segment">
-        <h1 class='ui header'>Currículo
+        <h1 class='ui header'>Editais
           <div class="ui sub header">
-            Suas Informações
+            Controle e revisão dos Editais
           </div>
         </h1>
 
       </div>
       <div class='ui segment' style='margin: 0.6em'>
-      <table class='ui table celled padded'>
-        <tr>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>CPF</th>
-        </tr>
-      <?php
-        $pesquisadores = $conn->query("SELECT * FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($pesquisadores as $row): ?>
-        <tr>
-          <td><?= $row['nomeCompleto'] ?></td>
-          <td><?= $row['email'] ?></td>
-          <td><?= $row['cpf'] ?></td>
-          <td>
-            <div class="ui basic center aligned">
-              <a href='validarPesquisador.php?cpf=<?= $row['cpf'] ?>'>
-                <i class='large eye icon'></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-      <?php
-        endforeach;
-       ?>
-      </table>
+        <?php require 'incl/edital_display.php'; ?>
       </div>
 
     </main>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
-  <script src="js/painelValidador.js" charset="utf-8"></script>
+  <script src="js/painelInst.js" charset="utf-8"></script>
 </html>

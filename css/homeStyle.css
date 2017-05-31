@@ -4,3 +4,21 @@ body{
   margin: 0;
   padding: 0;
 }
+
+aside{
+  width: 25%;
+  padding: 1em;
+  float: left;
+}
+
+main{
+  width: 75%;
+  padding: 1em;
+  float: right;
+}
+
+header{
+  background: #141415;
+  padding: 1em;
+  width: 100%;
+}

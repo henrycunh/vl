@@ -47,7 +47,7 @@ function autenticar(){
           // Senha não confere
           pwerro.html("Senha incorreta")
           $("#wrap").removeClass('loading')
-          pwerro.show()
+          pwerro.removeClass('hidden')
         }
       } else {
         // Email não encontrado

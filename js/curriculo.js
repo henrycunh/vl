@@ -95,7 +95,7 @@ function minCompModal(){
 }
 
 function mudarValidado(elem, state, emailVal){
-  let ic = $(elem).parent().parent().attr('ic')
+  let ic = $(elem).parent().attr('ic')
   ic = ic.split('-')
   let today = new Date()
   let date = `${today.getFullYear()}-${today.getMonth()+1 < 10 ? "0" + (today.getMonth()+1) : today.getMonth()+1}-${today.getDay() < 10 ? "0" + today.getDay() : today.getDay()}`
@@ -109,11 +109,11 @@ function mudarValidado(elem, state, emailVal){
   }
   updateValidity(ic, data => {
     if(data.success){
-      let col = $($(elem).parent().parent().parent().children()[0])
-      col.removeClass()
-      let states = {"-1": 'nao-validado', "0": 'invalido', "1":'valido'}
-      col.addClass(`col ${states[state]}`)
-      col.text(state ? "Válido" : "Inválido")
+      let btn = $($(elem).parent().parent().children()[0])
+      let states = {"-1": 'primary', "0": 'negative', "1":'positive'}
+      btn.removeClass('positive negative')
+      btn.addClass(states[state])
+      btn.text(state ? "Aceito" : "Não Aceito")
     }
   })
 }
@@ -211,7 +211,7 @@ function search(elem){
   let matches = []
   for(let i = 0; i < array.length; i++){
     $(array[i]).show()
-    if(array[i].innerText.toUpperCase().includes(text.toUpperCase()))
+    if(array[i].innerHTML.toUpperCase().includes(text.toUpperCase()))
       matches.push(array[i])
   }
   var diff = $(array).not(matches);

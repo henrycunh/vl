@@ -841,7 +841,14 @@ SOFTWARE START -->
     <div class='comp-area' ic='<?= $filename ?>'>
     <?php if($comprovante): ?>
       <!-- MOSTRAR COMPROVANTE  -->
-      <a class="ui button blue comp" comp="<?= "uploads/comprovantes/" . $comprovante ?>" onclick='showComp(this)'>Mostrar Comprovante</a>
+      <a
+        class="ui button blue comp"
+        style='border-top-left-radius: 0; border-bottom-left-radius: 0;'
+        comp="<?= "uploads/comprovantes/" . $comprovante ?>"
+        onclick='showComp(this)'
+      >
+        Mostrar Comprovante
+      </a>
       <button class='ui button positive labeled icon' onclick='mudarValidado(this, 1, "<?= $_SESSION['email'] ?>")'>
         <i class='thumbs up icon'></i>
         Aceitar

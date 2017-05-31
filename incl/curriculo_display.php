@@ -864,10 +864,32 @@ SOFTWARE START -->
     <span class='comp-area' ic='<?= $filename ?>'>
     <?php if ($comprovante): ?>
       <!-- MOSTRAR COMPROVANTE  -->
-        <a class="ui button blue comp" href="<?= "uploads/comprovantes/" . $comprovante ?>" target="_blank">Mostrar Comprovante</a>
-        <a class="ui button teal comp" href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Alterar Comprovante</a>
+        <a
+          class="ui button blue comp"
+          style='border-top-left-radius: 0; border-bottom-left-radius: 0;'
+          href="<?= "uploads/comprovantes/" . $comprovante ?>"
+          target="_blank"
+        >
+          Mostrar Comprovante
+        </a>
+        <a
+          class="ui button teal comp"
+          href="#" class='enviarCurriculo'
+          onclick='exibirEnvioCurriculo(this)'
+          filename='<?= $filename ?>'
+        >
+          Alterar Comprovante
+        </a>
     <?php else: ?>
-        <a class="ui button teal" href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='<?= $filename ?>'>Enviar Comprovante</a>
+        <a
+          class="ui button teal"
+          style='border-top-left-radius: 0; border-bottom-left-radius: 0;'
+          href="#"
+          onclick='exibirEnvioCurriculo(this)'
+          filename='<?= $filename ?>'
+        >
+          Enviar Comprovante
+        </a>
     <?php endif; ?>
     </span>
     <?php echo '</div>';
