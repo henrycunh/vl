@@ -122,9 +122,9 @@
               <?= $usuario->nomeCompleto ?>
             </div>
           </div>
-          <div class="content" style='line-height: 40px'>
+          <div class="content" style='line-height: 25px'>
             <?php foreach ($usuarioICs as $ic): if($ic['num'] > 0): ?>
-              <div class="ui label large basic">
+              <div class="ui label mini basic">
                   <?= $ic['num'] ?>
                   <div class="detail">
                     <?= $ic['num'] > 1 ? $ic['nameP'] : $ic['name'] ?>

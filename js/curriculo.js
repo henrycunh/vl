@@ -36,23 +36,8 @@ function showOnly(elem){
 function showComp(elem){
   let el = $(elem)
   let comp = el.attr('comp')
-  if(!$('.compModal').length){
-    let pop = `
-      <div class="compModal">
-        <div class='bar'>
-        <span>Comprovante</span> <button onclick='fecharCompModal()'><i class='remove icon'></i></button>
-        <button id='min' fn='hide' onclick='minCompModal()'><i class='minus icon'></i></button>
-        <button id='max' fn='max' onclick='maxCompModal()'><i class='expand icon'></i></button>
-        </div>
-        <div class='embCnt'>
-        <embed class='emb' src="${comp}" width="500" height="500" type='application/pdf'>
-        </div>
-      </div>`
-    $('body').append(pop)
-    $(".compModal").fadeIn(1000)
-  } else {
-    $('.comModal .embCnt').html(`<embed class='emb' src="${comp}" width="500" height="500" type='application/pdf'>`)
-  }
+  $("#pdfView").attr("src", comp)
+  $("#verComp").modal("show")
 }
 
 function fecharCompModal(){

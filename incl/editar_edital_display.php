@@ -1,6 +1,9 @@
 <div style='margin: 2em' class="ui segment secondary loading" id='mainbody'>
+  <a href='painelinst.php' class='ui button fluid blue'>
+    Voltar para o painel
+  </a>
   <div class="ui segment">
-    <!-- <div class="ui header">
+    <div class="ui header">
       Informações do Edital
     </div>
     <div class="ui divider"></div>
@@ -35,7 +38,7 @@
             </a>
           <?php else: ?>
             <div class="ui label basic">
-              /
+              -
             </div>
           <?php endif; ?>
           <button onclick='abrirModal()' class="ui large blue right labeled icon button" tabindex="0">
@@ -50,7 +53,7 @@
         </button>
       </div>
     </div>
-    <div class="ui divider"></div>-->
+    <div class="ui divider"></div>
     <div class="ui header">
       Regras do Edital
     </div>

@@ -94,6 +94,26 @@
         </div>
       </div>
 
+      <div class="ui divider horizontal">
+        Dados Institucionais
+      </div>
+
+      <div class="fields">
+        <div class="six wide field">
+          <label for="campus">Campus</label>
+          <input type="text" id='campus' name="campus">
+        </div>
+        <div class="five wide field">
+          <label for="coordenadoria">Coordenadoria</label>
+          <input type="text" id='coordenadoria' name="coordenadoria">
+        </div>
+        <div class="five wide field">
+          <label for="siape">Siape</label>
+          <input type="text" id='siape' name="siape">
+        </div>
+      </div>
+
+
       <button class='ui button mini labeled icon' id='showpw'>
         <i class='chevron down icon'></i>
         Alterar Senha

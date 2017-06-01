@@ -92,6 +92,8 @@
       if(isset($data['PRODUCAO-BIBLIOGRAFICA']['TRABALHOS-EM-EVENTOS']['TRABALHO-EM-EVENTOS'])){
         $trabEventosRaw = $data['PRODUCAO-BIBLIOGRAFICA']['TRABALHOS-EM-EVENTOS']['TRABALHO-EM-EVENTOS'];
 
+        if(array_keys($trabEventosRaw)[0] === '@attributes') $trabEventos = array($trabEventos);
+
         foreach ($trabEventosRaw as $trabE) {
             $trab_ = new self();
             $dadosB = attr($trabE['DADOS-BASICOS-DO-TRABALHO']);

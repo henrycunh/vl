@@ -10,12 +10,16 @@
     public $endereco;
     public $cep;
     public $telefone;
+    public $campus;
+    public $coordenadoria;
+    public $siape;
     public $senha;
     public $dataCriacao;
 
     // Construtor
     public static function create($nomeCompleto, $email, $dataNascimento,
-    $genero, $cpf, $rg, $endereco, $cep, $telefone, $senha, $dataCriacao){
+    $genero, $cpf, $rg, $endereco, $cep, $telefone, $senha, $dataCriacao,
+    $campus, $coordenadoria, $siape){
       $instance = new self();
       $instance->nomeCompleto = $nomeCompleto;
       $instance->email = $email;
@@ -28,6 +32,9 @@
       $instance->telefone = $telefone;
       $instance->senha = $senha;
       $instance->dataCriacao = $dataCriacao;
+      $instance->campus = $campus;
+      $instance->siape = $coordenadoria;
+      $instance->coordenadoria = $siape;
       return $instance;
     }
 
@@ -44,6 +51,9 @@
       $this->telefone = "";
       $this->senha = "";
       $this->dataCriacao = "";
+      $this->campus = '';
+      $this->siape = '';
+      $this->coordenadoria = '';
     }
 
     // Retorna objeto usuário
@@ -59,6 +69,9 @@
       $usuario->endereco = $res['endereco'];
       $usuario->cep = $res['cep'];
       $usuario->telefone = $res['telefone'];
+      $usuario->campus = $res['campus'];
+      $usuario->coordenadoria = $res['coordenadoria'];
+      $usuario->siape = $res['siape'];
       $usuario->senha = $res['senha'];
       $usuario->dataCriacao = $res['dataCriacao'];
       return $usuario;
@@ -77,6 +90,9 @@
       $usuario->endereco = $res['endereco'];
       $usuario->cep = $res['cep'];
       $usuario->telefone = $res['telefone'];
+      $usuario->campus = $res['campus'];
+      $usuario->coordenadoria = $res['coordenadoria'];
+      $usuario->siape = $res['siape'];
       $usuario->senha = $res['senha'];
       $usuario->dataCriacao = $res['dataCriacao'];
       return $usuario;
@@ -123,11 +139,13 @@
       $query =
         "INSERT INTO usuario(
           nomeCompleto, email, dataNascimento, genero,
-          cpf, rg, endereco, cep, telefone, senha, dataCriacao
+          cpf, rg, endereco, cep, telefone, campus, coordenadoria, siape,
+          senha, dataCriacao
         )
         VALUES(
           :nomeCompleto, :email, :dataNascimento, :genero, :cpf, :rg,
-          :endereco, :cep, :telefone, :senha, :dataCriacao
+          :endereco, :cep, :telefone, :campus, :coordenadoria, :siape,
+          :senha, :dataCriacao
         )";
 
         // Preparando Statement
@@ -143,6 +161,9 @@
         $stmt->bindParam(':endereco', $this->endereco);
         $stmt->bindParam(':cep', $this->cep);
         $stmt->bindParam(':telefone', $this->telefone);
+        $stmt->bindParam(':campus', $this->campus);
+        $stmt->bindParam(':coordenadoria', $this->coordenadoria);
+        $stmt->bindParam(':siape', $this->siape);
         // Criptografando Senha
         $senha = password_hash($this->senha, PASSWORD_BCRYPT);
         $stmt->bindParam(':senha', $senha);
@@ -161,7 +182,8 @@
       $query =
         "UPDATE usuario SET nomeCompleto=:nomeCompleto, email=:email,
         dataNascimento=:dataNascimento, genero=:genero, cpf=:cpf, rg=:rg,
-        endereco=:endereco, cep=:cep, telefone=:telefone
+        endereco=:endereco, cep=:cep, telefone=:telefone, campus=:campus,
+        coordenadoria=:coordenadoria, siape=:siape
         WHERE email='$email'";
       $stmt = $conn->prepare($query);
 
@@ -175,7 +197,9 @@
       $stmt->bindParam(':endereco', $this->endereco);
       $stmt->bindParam(':cep', $this->cep);
       $stmt->bindParam(':telefone', $this->telefone);
-
+      $stmt->bindParam(':campus', $this->campus);
+      $stmt->bindParam(':coordenadoria', $this->coordenadoria);
+      $stmt->bindParam(':siape', $this->siape);
       // Executando Statement
       if(!$stmt->execute()){
         print_r($stmt->errorInfo());

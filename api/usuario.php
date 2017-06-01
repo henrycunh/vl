@@ -39,8 +39,12 @@
         $user['cep'],
         $user['telefone'],
         "",
-        ""
+        "",
+        $user['campus'],
+        $user['coordenadoria'],
+        $user['siape']
       );
+      
       $usuario->update($conn, $email);
       $_SESSION['email'] = $user['email'];
       $json = json_encode(['success' => 'true']);

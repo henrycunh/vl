@@ -20,7 +20,10 @@
       " ",
       " ",
       $dados['pw'],
-      date("Y-m-d")
+      date("Y-m-d"),
+      "",
+      "",
+      ""
     );
     // Chamando o método de inserção
     $usuario->insert($conn);

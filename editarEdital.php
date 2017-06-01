@@ -43,6 +43,6 @@
   <script src="js/editarEdital.js" charset="utf-8"></script>
   <script src="js/editarEditalRegras.js" charset="utf-8"></script>
   <script type="text/javascript">
-    // CKEDITOR.replace('descricao')
+    CKEDITOR.replace('descricao')
   </script>
 </html>

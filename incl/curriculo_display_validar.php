@@ -823,6 +823,17 @@ SOFTWARE START -->
 <!-- SOFTWARE END -->
 </div>
 </div>
+
+<div class="ui modal" id='verComp'>
+  <div class="header">
+    Visualizar Comprovante
+  </div>
+  <div class="ui segment basic padded center aligned" id='verCompIn'>
+    <div class='embCnt'>
+    <embed class='emb' id='pdfView' src="" width="500" height="500" type='application/pdf'>
+    </div>
+  </div>
+</div>
 <?php
   // Funções de Utilidade
   function areaVal($comprovante, $flag, $ic, $curriculoId, $icId){

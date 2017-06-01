@@ -39,6 +39,9 @@ function fillInputs(){
     $("#rg").val(user.rg)
     $("#cep").val(user.cep)
     $("#telefone").val(user.telefone)
+    $("#campus").val(user.campus)
+    $("#coordenadoria").val(user.coordenadoria)
+    $("#siape").val(user.siape)
 
   }, ()=>{
     html = $(".wrapper").html()
@@ -57,8 +60,12 @@ function atualizarUsuario(){
     rg: $("#rg").val(),
     endereco: $("#endereco").val(),
     cep: $("#cep").val(),
-    telefone: $("#telefone").val()
+    telefone: $("#telefone").val(),
+    campus: $("#campus").val(),
+    coordenadoria: $("#coordenadoria").val(),
+    siape: $("#siape").val()
   }
+
   updateUsuario(mEmail, user, data => {
     $("#msg").html("Usuário atualizado.").delay(2000).fadeOut(300)
   }, ()=>{
@@ -114,5 +121,4 @@ $(()=>{
   // Máscaras de Form
    $("#cpf").mask('000.000.000-00')
    $("#cep").mask('00000-000')
-   $("#telefone").mask('(00) 00000-0000')
 })

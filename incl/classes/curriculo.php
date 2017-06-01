@@ -124,15 +124,23 @@
       }
       // Removendo os dados de ID dos ICs
       $clAtual->limparDadosRelativos();
+      $clNovo->limparDadosRelativos();
+
       // Tirando a diferença entre o curriculo submetido e o atual
       foreach ($prop as $ic => $v) {
         if($ic != 'curriculoId')
         $curriculo->{$ic} = array_udiff($clNovo->{$ic}, $clAtual->{$ic},
           function ($obj_a, $obj_b) {
-            return strcmp(json_encode($obj_a), json_encode($obj_b));
+            return strcmp(json_encode($obj_a, JSON_NUMERIC_CHECK), json_encode($obj_b, JSON_NUMERIC_CHECK));
           }
         );
       }
+
+      // echo json_encode($clNovo->titulacoes[3], JSON_NUMERIC_CHECK);
+      // echo "<hr>";
+      // echo json_encode($clAtual->titulacoes[0]);
+      // echo "<hr>";
+      // echo strcmp(json_encode($clNovo->titulacoes[3], JSON_NUMERIC_CHECK),json_encode($clAtual->titulacoes[0], JSON_NUMERIC_CHECK));
       $curriculo->curriculoId = $clAtual->curriculoId;
       $curriculo->nomeCompleto = $clNovo->nomeCompleto;
       return $curriculo;

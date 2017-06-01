@@ -158,6 +158,15 @@ function salvarTitulacao(idEdital){
   $("#addRegra").removeClass("mHidden")
 }
 
+/*
+ .d8b.  d8888b. d888888b d888888b  d888b   .d88b.
+d8' `8b 88  `8D `~~88~~'   `88'   88' Y8b .8P  Y8.
+88ooo88 88oobY'    88       88    88      88    88
+88~~~88 88`8b      88       88    88  ooo 88    88
+88   88 88 `88.    88      .88.   88. ~8~ `8b  d8'
+YP   YP 88   YD    YP    Y888888P  Y888P   `Y88P'
+*/
+
 
 Array.prototype.achar = function(fn){
   let array = this
@@ -167,4 +176,14 @@ Array.prototype.achar = function(fn){
     if(result) subarr.push(result)
   }
   return subarr
+}
+
+function toggleCnt(cnt){
+  const state = $("#"+cnt).hasClass("mHidden")
+
+  if(state)
+    $("#"+cnt).removeClass('hidden mHidden')
+  else
+    $("#"+cnt).addClass('hidden mHidden')
+
 }
