@@ -1,28 +1,45 @@
 <?php
-// Setting header content
+// Define o tipo de conteúdo no header
 header("Content-type: application/json");
-// Starting session
+// Continua a sessão
 session_start();
-// Requiring User Class
+// Importando classes necesśarias
 require '../incl/classes/usuario.php';
 require '../incl/classes/curriculo.php';
-// Requiring DB
+// Conexão com o DB
 require_once '../incl/database.php';
 
+// Verificando se foi enviado um request
 if(!empty($_POST)):
+  // Repassando as informações para uma váriavel simples
   $data = $_POST;
 
+  /**
+  * curriculo/ Retorna um currículo a partir do email
+  *
+  * @param string email Email do usuário
+  * @return JSON Informações do usuário
+  */
   if($data['op'] == 'curriculo/'){
     $email = $data['email'];
     echo json_encode(Curriculo::getCurriculoByEmail($conn, $email));
   }
 
+  /**
+   * curriculo/comprovante Define o nome do arquivo na sessão
+   *
+   * @param string filename Nome do arquivo
+   * @return JSON Se a operação deu certo
+   */
   if($data['op'] == 'curriculo/comprovante'){
     $filename = $data['filename'];
     $_SESSION['filename'] = $filename;
     echo json_encode(['success' => true]);
   }
 
+
+  /**
+   * curriculo/deletar*/
   if($data['op'] == 'curriculo/deletar'){
     $curriculo = Curriculo::getCurriculoByEmail($conn, $_SESSION['email']);
     $curriculo->deleteICs($conn);

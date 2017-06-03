@@ -1,4 +1,5 @@
 <?php
+
   class Edital{
     public $nome;
     public $numero;
@@ -33,9 +34,25 @@
       return $edital;
     }
 
+
     public static function selectByNumero($conn, $numero){
       $editalRaw = $conn->query("SELECT * FROM edital WHERE numero = '$numero'")->fetch(PDO::FETCH_ASSOC);
       return rawToObj($editalRaw);
+    }
+
+    public static function selectById($conn, $id){
+      $editalRaw = $conn->query("SELECT * FROM edital WHERE idEdital = $id")->fetch(PDO::FETCH_ASSOC);
+      return rawToObj($editalRaw);
+    }
+
+
+    public function selectRegras($conn){
+      $id = $this->idEdital;
+      $regras = $conn->query("SELECT * FROM regra WHERE idEdital = $id")->fetchAll(PDO::FETCH_ASSOC);
+      $regrasArr = array();
+      foreach ($regras as $regra)
+        array_push($regrasArr, Regra::getRegraFromRaw($regra));
+      return $regrasArr;
     }
   }
 

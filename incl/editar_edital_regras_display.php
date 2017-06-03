@@ -24,15 +24,6 @@
   </div>
 </div>
 
-<div class="ui segment basic mHidden" id='tableCtn'>
-  <table class='ui table celled padded' id='table'>
-    <th width='70%'>Item do Currículo</th>
-    <th width='10%'>Pontuação Máxima</th>
-    <th width='10%'>Pontuação Miníma</th>
-    <th width='10%'>Ação</th>
-  </table>
-</div>
-
 <!--
 d888888b d888888b d888888b db    db db       .d8b.   .o88b.  .d8b.   .d88b.
 `~~88~~'   `88'   `~~88~~' 88    88 88      d8' `8b d8P  Y8 d8' `8b .8P  Y8.
@@ -119,6 +110,10 @@ d888888b d888888b d888888b db    db db       .d8b.   .o88b.  .d8b.   .d88b.
           <i class='save icon'></i>
           Salvar
         </button>
+        <button class='ui button black right labeled icon' onclick='cancelRegra("titulacao")'>
+          <i class='remove icon'></i>
+          Cancelar
+        </button>
       </div>
     </div>
   </div>
@@ -144,8 +139,8 @@ YP   YP 88   YD    YP    Y888888P  Y888P   `Y88P'  `8888Y'
 
       <div class="twelve wide column">
         <div class="field">
-          <div class="ui slider checkbox">
-            <input type="checkbox" id='artigo-ano-opt' onclick='toggleCnt("artigo-ano-cnt")'>
+          <div class="ui checkbox" id='artigo-ano-opt'>
+            <input type="checkbox" onclick='toggleCnt("artigo-ano-cnt")'>
             <label>Condicionar ano de publicação</label>
           </div>
         </div>
@@ -159,8 +154,8 @@ YP   YP 88   YD    YP    Y888888P  Y888P   `Y88P'  `8888Y'
           </div>
         </div>
         <div class="field">
-          <div class="ui slider checkbox">
-            <input type="checkbox" id='artigo-pais-opt' onclick='toggleCnt("artigo-pais-cnt")'>
+          <div class="ui checkbox" id='artigo-pais-opt'>
+            <input type="checkbox" onclick='toggleCnt("artigo-pais-cnt")'>
             <label>Condicionar país de publicação</label>
           </div>
         </div>
@@ -197,7 +192,23 @@ YP   YP 88   YD    YP    Y888888P  Y888P   `Y88P'  `8888Y'
             Salvar
           </button>
         </div>
+        <div class="field">
+          <button class='ui button black right labeled fluid icon' onclick='cancelRegra("titulacao")'>
+            <i class='remove icon'></i>
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="ui segment basic mHidden" id='tableCtn'>
+  <table class='ui table celled padded' id='table'>
+    <th width='70%'>Item do Currículo</th>
+    <th width='10%'>Pontuação Miníma</th>
+    <th width='10%'>Pontuação Máxima</th>
+    <th width='10%'>Ação</th>
+  </table>
 </div>

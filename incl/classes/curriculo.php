@@ -136,11 +136,6 @@
         );
       }
 
-      // echo json_encode($clNovo->titulacoes[3], JSON_NUMERIC_CHECK);
-      // echo "<hr>";
-      // echo json_encode($clAtual->titulacoes[0]);
-      // echo "<hr>";
-      // echo strcmp(json_encode($clNovo->titulacoes[3], JSON_NUMERIC_CHECK),json_encode($clAtual->titulacoes[0], JSON_NUMERIC_CHECK));
       $curriculo->curriculoId = $clAtual->curriculoId;
       $curriculo->nomeCompleto = $clNovo->nomeCompleto;
       return $curriculo;
