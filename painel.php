@@ -10,12 +10,7 @@
   $usuario = Usuario::selectByEmail($conn, $email);
   $nome = $usuario->getNome();
   $id = Curriculo::getIDByEmail($conn, $email);
-  if(!$email):
- ?>
- <script type="text/javascript">
-   window.location.replace("index.php");
- </script>
- <?php endif; ?>
+  if(!$email): {header("Location: 502.html"); die();} ?>
 
 <!DOCTYPE html>
 <html>

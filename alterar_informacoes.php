@@ -5,6 +5,7 @@
   // Requerindo Classe Usuário
   require 'incl/classes/usuario.php';
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
+  if(!$email) header("Location: 502.html"); die();
 ?>
 <script type="text/javascript">
   var mEmail = <?= "'$email'" ?>;

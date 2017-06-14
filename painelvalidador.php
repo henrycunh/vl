@@ -8,16 +8,11 @@
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
   $validador = $_SESSION['privilegios']['validador'];
-  if(!$validador) die("Acesso não autorizado.");
+  if(!$validador){header("Location: 502.html"); die();}
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
   $nome = $usuario->getNome();
-  if(!$email):
- ?>
- <script type="text/javascript">
-   window.location.replace("index.php");
- </script>
- <?php endif; ?>
+  if(!$email){header("Location: 502.html"); die();} ?>
 
 <!DOCTYPE html>
 <html>

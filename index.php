@@ -85,7 +85,7 @@
   <body>
     <div style='border-radius:0; margin-bottom: 0' class='ui inverted segment'>
       <div class="ui inverted huge secondary menu">
-        <a class='item active'>Home</a>
+        <a class='item active'><img src='imgs/logo.svg' height='32'></a>
         <div class="right menu">
       <?php if(!$email): ?>
         <a class='ui item' href="login.php">
@@ -106,9 +106,22 @@
       </div>
     </div>
     </div>
-    <header>
-      
-    </header>
+    <section id='header'>
+      <div class='content'>
+        <div class="ui segment basic">
+            <h1 class='ui header center aligned'>Não perca mais tempo com a aplicação em Editais</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non felis nulla. Donec vitae nisi eu felis pretium suscipit. Nullam tristique consectetur suscipit. Nulla viverra, purus vitae iaculis vehicula, lorem velit mollis tellus, facilisis condimentum libero odio quis neque. Integer blandit, neque vel tincidunt dignissim, risus magna mattis sem, sed maximus nisl libero id augue. In eu lacinia magna. Suspendisse potenti. Aliquam erat velit, fringilla eget enim nec, cursus tempus leo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut volutpat, odio nec fringilla pharetra, massa diam convallis nulla, quis ornare justo eros a metus. Quisque vel dictum purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer vel mauris accumsan, rutrum lacus eget, fringilla ante. Morbi vel massa eget massa dapibus viverra in sit amet magna. Duis eu vehicula dui.
+
+Nulla varius dapibus massa, vitae lobortis nibh faucibus id. Duis tempus massa ut nunc condimentum ultrices. Curabitur non varius arcu, eu auctor dolor. Maecenas fermentum purus vel libero suscipit vestibulum. Aliquam eros elit, consectetur a purus ut, pellentesque viverra nunc. Nullam egestas consequat libero, ut tincidunt nisi pellentesque id. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent non enim est. Cras non efficitur arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras imperdiet, elit vitae dapibus facilisis, sem leo aliquam odio, eu volutpat nunc arcu porta mi. Etiam feugiat vitae sem nec pretium. In hac habitasse platea dictumst.</p>
+        </div>
+      </div>
+        <div class="content" style='float: right; width: 35%'>
+          <div class="ui segment basic">
+            <h3 class='ui header center aligned'>Crie uma conta</h3>
+            
+          </div>
+        </div>
+    </section>
     <!-- DEMONSTRAÇÃO DOS EDITAIS -->
     <section id='editais'>
       <div class="ui segment" style='padding: 2em'>

@@ -8,6 +8,8 @@
   require 'incl/classes/usuario.php';
   // Selecionando o usuário e pegando seu currículo
   $usuario = Usuario::selectByCPF($conn,$_GET['cpf']);
+  $validador = $_SESSION['privilegios']['validador'];
+  if(!$validador){header("Location: 502.html"); die();}
  ?>
 <!DOCTYPE html>
 <html>

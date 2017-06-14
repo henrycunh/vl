@@ -10,7 +10,7 @@
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
   $inst_val = $_SESSION['privilegios']['gerenciador'];
-  if(!$inst_val || !isset($_GET)) die("Acesso não autorizado.");
+  if(!$inst_val || !isset($_GET)) {header("Location: 502.html"); die();}
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
   if(!$email):

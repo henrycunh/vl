@@ -53,37 +53,7 @@
     </div>
   </div>
 </div>
-<!--
-    <h1>Validador <b>Lattes</b></h1>
-    <div class="wrapper">
-    <div class="ui segment attached compact">
-      <label for="email" id='emaillabel'>E-mail</label>
-      <div class="ui fluid input">
-        <input type="email" id='email' name='email' placeholder="E-mail">
-      </div>
-      <div class="erro" id='emailerro'></div>
 
-
-      <label for="pw" id='pwlabel'>Senha</label>
-      <div class="ui fluid input">
-        <input type="password" id='pw' name='pw' placeholder="Senha">
-      </div>
-      <div class="erro" id='senhaerro'></div>
-
-      <div class="ui fluid buttons">
-      <button class='ui positive small icon button' id='entrar' onclick='autenticar()'>
-        <i class='sign in icon'></i>
-        Entrar
-      </button>
-      <div class="or" data-text='ou'></div>
-      <button class='ui blue small button' id='entrar' onclick='autenticar()'>
-        <i class='add user icon'></i>
-        Criar Conta
-      </button>
-    </div>
-    </div>
-    <div class="ui bottom attached button" tabindex="0">Voltar</div>
-    <a href="index.php" class='back'>Voltar</a> -->
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/autenticarLogin.js" charset="utf-8"></script>
