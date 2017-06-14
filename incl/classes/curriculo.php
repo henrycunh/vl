@@ -4,19 +4,20 @@
     // ICs
     public $titulacoes;
     public $artigos;
+    public $capLivros;
+    public $corposEditoriais;
     public $livros;
     public $trabEventos;
-    public $capLivros;
     public $bancas;
     public $organizacaoEventos;
     public $patentes;
     public $softwares;
     public $marcas;
-    public $corposEditoriais;
     public $coordProjs;
     public $orientacoes;
     public $curriculoId;
-
+    public $nomeCompleto;
+    
     // Construtor
     public function __construct(){
       $this->titulacoes = '';
@@ -202,6 +203,17 @@
       // percorrendo as tabelas e removendo
       foreach ($keysIC as $ic)
         $queries[$ic] = $conn->query("DELETE FROM ic_$ic WHERE curriculoId=$this->curriculoId AND comprovante IS NULL");
+    }
+    
+    /**
+     * Verifica se existem items na lista de ICs que possuem comprovante mas não foram validados
+     *
+     * @param $icList Array contendo os ICs
+     */
+    public static function hasNonValidated($icList){
+      return array_filter($icList, function($ic){
+        return $ic->comprovante != NULL && $ic->validado == -1;
+      });
     }
 
     public function limparDadosRelativos(){

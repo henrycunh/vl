@@ -20,6 +20,16 @@
     <title>Validação / <?= $usuario->nomeCompleto ?></title>
   </head>
   <body>
+  <div style='border-radius:0; margin-bottom: 0' class='ui inverted segment'>
+    <div class="ui inverted huge secondary menu">
+      <div class="item">
+        <div class="ui header inverted">
+          Validador Lattes / Validar Usuário
+        </div>
+      </div>
+    </div>
+  </div>
+
     <main class='ui segment curriculo'>
     <a href="painelvalidador.php" class='ui button blue fluid'>Voltar para o Painel</a>
     <div class="ui divider"></div>
@@ -27,6 +37,7 @@
       // Preparando dados para carregar o currículo
       $email = $usuario->email;
       $curriculo = Curriculo::getCurriculoByEmail($conn, $email);
+      
       // Verificando se o pesquisador possuí um currículo
       if(!$curriculo):
     ?>

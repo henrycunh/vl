@@ -5,20 +5,23 @@ body{
   padding: 0;
 }
 
-aside{
-  width: 25%;
-  padding: 1em;
-  float: left;
-}
-
-main{
-  width: 75%;
-  padding: 1em;
-  float: right;
-}
-
 header{
-  background: #141415;
+  
+}
+
+#editais{
   padding: 1em;
-  width: 100%;
+}
+
+.descricao{
+  font-size: 0.95em !important;
+  color: #666 !important;
+}
+
+.limit-lines {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.8em;
+  height: 14.4em;
 }

@@ -231,6 +231,32 @@
         return false;
     }
 
+    public function hasCurriculo($conn){
+      return Curriculo::getCurriculoByEmail($conn, $this->email);
+    }
+
+    public function hasNonValidated($conn){
+      // Instanciando o currículo do usuário
+      $curriculo = Curriculo::getCurriculoByEmail($conn, $this->email);
+      // Array com todas as propriedades da classe Curriculo
+      $prop = get_object_vars(new Curriculo);
+      // Iterando pelas propriedades
+      foreach ($prop as $ic => $v) {
+        // Apenas pelas que são ICs
+        if($ic != 'curriculoId' && $ic != 'nomeCompleto'){
+          // Pega apenas os ICs que não foram validados
+          if(isset($v->validado)){
+            $curriculo->{$ic} = array_filter($v, function ($x){
+              return $x->validado == -1;
+            });
+          }
+          // Se existirem ICs que não foram validados, retorna true 
+          if(count($curriculo->{$ic}) > 0) return true; 
+        }
+        // Se todos os ICs forem validados, retorna false
+        return false;
+      }
+    }
 }
 
  ?>

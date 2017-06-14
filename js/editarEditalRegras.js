@@ -1,7 +1,21 @@
 var regras = []
 const tB = $("#table tbody")
 const icDrop = $("#icDrop")
-
+const options = {
+  "artigo" : "Artigo em periódico",
+  "banca" : "Participação em Banca",
+  "capLivro" : "Capítulo de Livro publicado",
+  "coordProj" : "Coordenação de Projeto",
+  "corpoEditorial" : "Participação em Corpo Editorial",
+  "livro" : "Livro publicado",
+  "marca" : "Marca registrada",
+  "organizacaoEvento" : "Organização de Evento",
+  "orientacao" : "Orientação",
+  "patente" : "Patente registrada",
+  "software" : "Software registrado",
+  "titulacao" : "Titulação",
+  "trabEvento" : "Trabalho realizado em Evento"
+}
 
 // Carregando Regras
 $(()=>{
@@ -17,59 +31,53 @@ $(()=>{
   // Esperando pelo fim do request
   $(document).ajaxStop(()=>{
     $("#mainbody").removeClass("loading")
+
     /* FORMATAÇÃO DA TABELA DE REGRAS  */
     if(regras.length > 0)
       $("#tableCtn").removeClass('mHidden')
 
     // Titulação
     titulacaoForm()
-    // Artigo
-    artigoForm()
+    // ICs Genéricos
+    formatIC('artigo')
+    formatIC('banca')
 
     if(icDrop.find("option").length == 0)
       icDrop.dropdown("set text", "Não há regras a se adicionar")
   })
 })
 
-function adicionarRegra(){
-  let ic = $("#icDrop").val()
-  $("#" + ic).removeClass('mHidden')
-  $("#addRegra").addClass("mHidden")
-}
 
 
 
+/**----------------------------
+ *   |       TITULAÇÃO        |
+ *   -------------------------- 
+ * /
 
-/*
-d888888b d888888b d888888b db    db db       .d8b.   .o88b.  .d8b.   .d88b.
-`~~88~~'   `88'   `~~88~~' 88    88 88      d8' `8b d8P  Y8 d8' `8b .8P  Y8.
-   88       88       88    88    88 88      88ooo88 8P      88ooo88 88    88
-   88       88       88    88    88 88      88~~~88 8b      88~~~88 88    88
-   88      .88.      88    88b  d88 88booo. 88   88 Y8b  d8 88   88 `8b  d8'
-   YP    Y888888P    YP    ~Y8888P' Y88888P YP   YP  `Y88P' YP   YP  `Y88P'
-*/
+/**
+ * Salva a regra de Titulação
+ * 
+ * @param {*} idEdital 
+ */
 function salvarTitulacao(idEdital){
   // Estados
   let maior = $("#titulacao-exc").checkbox("is checked")
 
   // Valores
   let gradInd = $("#titulacao-grad-pi").val()
-  let gradMax = $("#titulacao-grad-pm").val()
   let espInd = $("#titulacao-esp-pi").val()
-  let espMax = $("#titulacao-esp-pm").val()
   let mestInd = $("#titulacao-mest-pi").val()
-  let mestMax = $("#titulacao-mest-pm").val()
   let docInd = $("#titulacao-doc-pi").val()
-  let docMax = $("#titulacao-doc-pm").val()
 
   // Armazenando regra de forma geral
   let regra = {
       ic: "titulacao",
       maior: maior,
-      grad: {ptInd: gradInd, ptMax: gradMax},
-      esp: {ptInd: espInd, ptMax: espMax},
-      mest: {ptInd: mestInd, ptMax: mestMax},
-      doc: {ptInd: docInd, ptMax: docMax}
+      grad: gradInd,
+      esp: espInd,
+      mest: mestInd,
+      doc: docInd
     }
 
   let tipos = ['grad', 'esp', 'mest', 'doc']
@@ -78,8 +86,8 @@ function salvarTitulacao(idEdital){
     var mTipo = tipo;
     let mRegra = {
       ic: regra.ic,
-      ptInd: regra[tipo].ptInd,
-      ptMax: regra[tipo].ptMax,
+      ptInd: regra[tipo],
+      ptMax: regra[tipo],
       content: `{
         "maior": ${regra.maior},
         "tipo": "${mTipo}"
@@ -104,13 +112,15 @@ function salvarTitulacao(idEdital){
   $("#addRegra").removeClass("mHidden")
 }
 
-// Formatação
+/**
+ * Formata as regras de titulação no documento
+ */
 function titulacaoForm(){
   const regrasTitulacao = regras.achar(item => { return (item.ic == 'titulacao' ? item : false) })
   if(regrasTitulacao.length > 0){
-    const maiorTitulacao = (regras[0] != undefined ? regras[0].content.maior : '')
+    const maiorTitulacao = (regrasTitulacao[0] != undefined ? regras[0].content.maior : '')
     // Removendo a opção de escolher Titulação, se houver uma regra de titulação
-    icRem('titulacao')
+    removeIC('titulacao')
     // Tipos de titulação
     const tiposTit = {
       "grad":"Graduação",
@@ -118,7 +128,8 @@ function titulacaoForm(){
       "mest": "Mestrado",
       "doc":"Doutorado"
     }
-    let markup =
+    let markup;
+    markup =
       `<tr ic='titulacao'>
         <td colspan='3'>
           <div class='ui header center aligned'>
@@ -126,7 +137,7 @@ function titulacaoForm(){
             <div class='ui sub header center aligned'>${maiorTitulacao ? "Pontuando apenas a maior titulação" : "Pontuando todas as titulações"}</div>
           </div>
         </td>
-        <td class='ui center aligned'>
+        <td class='ui center aligned' rowspan='5'>
           <button onclick='deleteTitulacao()' class='ui button circular icon negative'>
             <i class='remove icon'></i>
           </button>
@@ -134,19 +145,21 @@ function titulacaoForm(){
       </tr>`
     // Iterando por titulações
     for (regra of regrasTitulacao) {
-      markup +=
+      markup += 
         `<tr ic='titulacao'>
           <td>${tiposTit[regra.content.tipo]}</td>
-          <td>${regra.ptInd}</td>
-          <td>${regra.ptMax}</td>
-          <td></td>
+          <td colspan='2' class='ui center aligned' >${regra.ptInd}</td>
         </tr>`
     }
+    clearIC('titulacao')
     tB.append(markup)
     tableRefresh()
   }
 }
 
+/**
+ * Deleta as regras de titulação
+ */
 function deleteTitulacao(){
   const regrasTitulacao = regras.achar(item => { return (item.ic == 'titulacao' ? item : false) })
   for (regra of regrasTitulacao) {
@@ -154,182 +167,156 @@ function deleteTitulacao(){
     })
     regras = $(regras).not(regrasTitulacao).get();
   }
-  $("tr[ic='titulacao']").remove()
+  clearIC('titulacao')
   tableRefresh()
-  icDrop.prepend($(new Option("Titulação", "titulacao")))
+  addOption('titulacao')
   icDrop.dropdown('refresh')
-
 }
 
 
-/*
- .d8b.  d8888b. d888888b d888888b  d888b   .d88b.
-d8' `8b 88  `8D `~~88~~'   `88'   88' Y8b .8P  Y8.
-88ooo88 88oobY'    88       88    88      88    88
-88~~~88 88`8b      88       88    88  ooo 88    88
-88   88 88 `88.    88      .88.   88. ~8~ `8b  d8'
-YP   YP 88   YD    YP    Y888888P  Y888P   `Y88P'
-*/
-function salvarArtigo(idEdital){
-  // Estados
-  let anoOp = $("#artigo-ano-opt").checkbox("is checked")
-  let paisOp = $("#artigo-pais-opt").checkbox("is checked")
 
-  // Valores
-  let ano = (anoOp ? $("#artigo-ano").val() : false)
-  let pais = (paisOp ? $("#artigo-pais").val() : false)
 
+/**-----------------------------------------------
+ *   |       FUNÇÕES PARA REGRAS GENÉRICAS       |
+ *   ---------------------------------------------
+ **/
+/**
+ * Salva as regras no DB
+ * 
+ * @param {*} idEdital 
+ */
+function salvarRegra(idEdital, ic){
+  const estado = $(`#${ic}-ano-opt`).checkbox("is checked") // Estado da condição
+  const ano = (estado ? $(`#${ic}-ano`).val() : false) // Valor da condição
+
+  // Objeto de regra
   let regra = {
-    ic: 'artigo',
-    ptInd: $("#artigo-pi").val(),
-    ptMax: $("#artigo-pm").val(),
-    content: `{"ano":"${ano}","pais":"${pais}"}`,
+    ic: ic,
+    ptInd: $(`#${ic}-pi`).val(),
+    ptMax: $(`#${ic}-pm`).val(),
+    content: `{"ano":"${ano}"}`,
     idEdital: idEdital
   }
+
+  // Insere a regra no DB
   insertRegra(regra, data => {
     regra.idRegra = data.id
     regra.content = JSON.parse(regra.content)
     regras.push(regra)
-    $("#artigo").removeClass("loading")
+    $(`#${ic}`).removeClass("loading")
   }, ()=>{
-    $("#artigo").addClass("loading")
+    $(`#${ic}`).addClass("loading")
   })
 
-  artigoForm()
-
-  $("#artigo").addClass("mHidden")
-  $("#addRegra").removeClass("mHidden")
+  // Formata o documento
+  formatIC(ic)
+  
+  // Esconde o container
+  endRegra(ic)
 }
 
-function artigoForm(){
-  const regrasArtigo = regras.achar(item => { return (item.ic == 'artigo' ? item : false) })
-  if(regrasArtigo.length > 0){
-    let regra_ = {ano : regras[0].content.ano, pais : regras[0].content.pais}
-    if(regra_.ano == 'false' && regra_.pais == 'false'){
-      icRem('artigo')
-    }
+/**
+ * Formata os dados do IC na tabela
+ * 
+ * @param {*} ic Nome do IC
+ */
+function formatIC(ic){
+  // Objeto contendo as descrições para todos os ICs
+  const desc = {
+    "artigo" : "Artigos em periódicos",
+    "banca" : "Participações em Bancas",
+    "livro" : "Livros publicados",
+    "capLivro" : "Capítulos de Livros publicados",
+    "patente" : "Patentes registradas",
+    "marca" : "Marcas registradas",
+    "software" : "Softwares registrados",
+    "corpoEditorial" : "Participações em Corpos Editoriais"
+  }
 
-
-    const ano = regras[0] != undefined ? regras[0].content.ano : 'false'
-
-    // Campos permissivos
-    $("#artigo-ano-opt").checkbox("disable")
-    $("#artigo-ano-cnt").addClass("disabled")
-    if(ano != 'false'){
-      $("#artigo-ano").addClass("disabled")
-      $("#artigo-ano").val(ano == 'false' ? '' : ano)
-    }
-
-    const anomsg = (ano != 'false' ? "Artigos até o ano de " + ano : "Artigos de todos os anos")
+  // Acha regras existentes do IC
+  const regrasIC = regras.achar(item => { return (item.ic == ic ? item : false) })
+  // Checa se existem regras
+  if(regrasIC.length > 0){
+    const regra = regrasIC[0]
+    // Label da linha
+    const anoLabel = (regra.content.ano != 'false' ? `${desc[ic]} até o ano de ${regra.content.ano}` : `${desc[ic]} de todos os anos`)
+    
+    // Markup da linha
     var markup =
-    `<tr ic='artigo'>
-      <td colspan='4'>
+    `<tr ic='${ic}'>
+      <td>
         <div class='ui header center aligned'>
-        Artigo publicado em períodico
+        ${desc[ic]}
         <div class='ui sub header'>
-          ${anomsg}
+          ${anoLabel}
         </div>
         </div>
       </td>
+      <td>${regra.ptInd}</td>
+      <td>${regra.ptMax}</td>
+      <td class='ui center aligned'>
+        <button onclick='deleteIC(${regra.idRegra}, "${ic}")' class='ui button circular icon negative'>
+          <i class='remove icon'></i>
+        </button>
+      </td>
     </tr>`
-    // Iterando pelas regras
-    for(regra of regrasArtigo){
-      markup +=
-      `<tr ic='artigo' idregra='${regra.idRegra}'>
-        <td>${regra.content.pais == 'nacional' ? "Artigos publicados nacionalmente" : (regra.content.pais == 'internacional' ? "Artigos publicados internacionalmente" : "Todos os artigos")}</td>
-        <td>${regra.ptInd}</td>
-        <td>${regra.ptMax}</td>
-        <td>
-          <button onclick='deleteArtigo(${regra.idRegra}, "${regra.content.pais}")' class='ui button mini circular icon negative'>
-            <i class='remove icon'></i>
-          </button>
-        </td>
-      </tr>
-      `
-    }
-    tB.find("tr[ic='artigo']").remove()
+    // Limpa a tabela
+    clearIC(ic)
+    // Adiciona o Markup à tabela
     tB.append(markup)
+    // Remove a regra da lista
+    removeIC(ic)
+    // Atualiza a tabela
     tableRefresh()
-
-    const regraNac = regras.achar(item => {
-      return (item.content.pais == 'nacional' ? item : false)
-    })
-    const regraInter = regras.achar(item => {
-      return (item.content.pais == 'internacional' ? item : false)
-    })
-
-    if(regraNac.length > 0) {
-      $("#artigo-pais").find("option[value='nacional']").remove()
-      $("#artigo-pais").dropdown('refresh')
-      $("#artigo-pais").dropdown('set selected')
-    }
-
-    if(regraInter.length > 0) {
-      $("#artigo-pais").find("option[value='internacional']").remove()
-      $("#artigo-pais").dropdown('refresh')
-      $("#artigo-pais").dropdown('set selected')
-    }
-
-    if((regraNac.length > 0 && regraInter.length > 0) || (regraNac.length == 0 && regraInter.length == 0))
-     icRem('artigo')
-    else if (regraNac.length > regraInter.length || regraNac.length < regraInter.length)
-      $("#artigo-pais-cnt").removeClass("mHidden")
-
-   }
+  }
 }
 
-function deleteArtigo(id, pais){
-  const ano = (regras[0] != undefined ? regras[0].content.ano : false)
-  const guide = {"nacional" : "Nacional (Brasil)", "internacional" : "Internacional"}
-  const regrasArtigo = regras.achar(item => { return (item.ic == 'artigo' ? item : false) })
+/**
+ * Deleta o IC do DB e da tabela
+ * 
+ * @param {*} id ID da Regra 
+ * @param {*} ic Nome do IC
+ */
+function deleteIC(id, ic){
+  // Regras do IC existentes
+  const regrasIC = regras.achar(item => { return (item.ic == ic ? item : false) })
 
+  // Remove do DB e do Array
   removerRegra(id, data=>{
     let index = regras.indexOf(regra)
     if(index > -1)
       regras.splice(index, 1)
   })
 
-  console.log(regrasArtigo.length - 1)
-  if(regrasArtigo.length - 1 == 0 || regrasArtigo.length - 1 == -1){
-    $(`tr[ic='artigo']`).remove()
-    $("#artigo-ano-opt").checkbox("enable")
-    $("#artigo-ano-cnt").addClass("mHidden")
-    $("#artigo-ano").removeClass("disabled")
-    $("#artigo-ano").val("")
-    if(checkIc('artigo') == 0){
-      icDrop.prepend(`<option value='artigo'>Artigo publicado em periódico</option>`)
+  // Checa se existem outras regras
+  if(regrasIC.length - 1 == 0 || regrasIC.length - 1 == -1){
+    clearIC(ic)
+    if(checkIC(ic) == 0){
+      addOption(ic)
     }
   }
 
-
-  $(`tr[idregra='${id}']`).remove()
-
+  // Se não existe regra alguma, esconde a tabela
   if(regras.length-1 == 0)
     $("#tableCtn").addClass("mHidden")
-
-  if(pais != undefined){
-    $("#artigo-pais").prepend(`<option value='${pais}'>${guide[pais]}</option>`)
-  }
-  else {
-
-  }
-
-  const regraNac = regras.achar(item => {
-    return (item.content.pais == 'nacional' ? item : false)
-  })
-  const regraInter = regras.achar(item => {
-    return (item.content.pais == 'internacional' ? item : false)
-  })
-
-  if(regraNac.length > 0 || regraInter.length > 0 && regrasArtigo.length - 1 == 1)
-    if(checkIc('artigo'))
-      icDrop.prepend(`<option value='artigo'>Artigo publicado em periódico</option>`)
 }
 
 
 
 
 
+
+/**----------------------------------------
+ *   |        FUNÇÕES DE UTILIDADE        |
+ *   -------------------------------------- 
+ * /
+
+/**
+ * Retorna um array baseado no resultado de uma função
+ * 
+ * @param {function} fn
+ * @return {array} Array com os valores definidos pela função
+ */
 Array.prototype.achar = function(fn){
   let array = this
   let subarr = []
@@ -340,6 +327,28 @@ Array.prototype.achar = function(fn){
   return subarr
 }
 
+/**
+ * Exibe o container da regra a ser adicionada e esconde
+ * o container de adição de regras
+ */
+function adicionarRegra(){
+  let ic = $("#icDrop").val()
+  $("#" + ic).removeClass('mHidden')
+  $("#addRegra").addClass("mHidden")
+}
+
+/**
+ * Adiciona o IC ao dropdown de opções
+ * 
+ * @param {*} ic Nome do IC 
+ */
+function addOption(ic){
+  icDrop.prepend($(new Option(options[ic], ic)))  
+}
+
+/**
+ * Atualiza a tabela
+ */
 function tableRefresh(){
   if(regras.length < 1)
     $("#tableCtn").addClass('mHidden')
@@ -347,12 +356,33 @@ function tableRefresh(){
     $("#tableCtn").removeClass("mHidden")
 }
 
+/**
+ * Esconde o container da regra atual e exibe o de
+ * adicionar regras
+ * 
+ * @param {*} ic Nome do IC 
+ */
+function endRegra(ic){
+  $("#"+ic).addClass("mHidden")
+  $("#addRegra").removeClass("mHidden")
+}
+
+/**
+ * Cancela a adição de uma regra
+ * 
+ * @param {*} ic Nome do IC
+ */
 function cancelRegra(ic){
   $("#"+ic).addClass('mHidden')
   $("#addRegra").removeClass('mHidden')
   $("#"+ic +" input").val("")
 }
 
+/**
+ * Dá toggle na visibilidade de um container a partir de seu ID
+ * 
+ * @param {*} cnt Container 
+ */
 function toggleCnt(cnt){
   const state = $("#"+cnt).hasClass("mHidden")
   if(state)
@@ -361,11 +391,31 @@ function toggleCnt(cnt){
     $("#"+cnt).addClass('hidden mHidden')
 }
 
-function icRem(ic){
+/**
+ * Remove um IC das opções de regragem
+ * 
+ * @param {*} ic Nome do IC 
+ */
+function removeIC(ic){
   icDrop.find(`option[value='${ic}']`).remove()
   icDrop.dropdown('set selected')
 }
 
-function checkIc(ic){
+/**
+ * Remove todas as ocorrências de um IC na tabela de regras
+ * 
+ * @param {*} ic Nome do IC 
+ */
+function clearIC(ic){
+  tB.find(`tr[ic='${ic}']`).remove()
+}
+
+/**
+ * Checa se o IC existe nas opções de regragem
+ * 
+ * @param {*} ic Nome do IC 
+ * @return {boolean} Resultado da checagem
+ */
+function checkIC(ic){
   return icDrop.find(`option[value='${ic}']`).length
 }

@@ -34,6 +34,14 @@
       return $edital;
     }
 
+    public static function selectEditais($conn){
+      $editaisArr = array();
+      $editais = $conn->query("SELECT * FROM edital")->fetchAll(PDO::FETCH_ASSOC);
+      foreach($editais as $edital){
+        array_push($editaisArr, rawToObj($edital));
+      }
+      return $editaisArr;
+    }
 
     public static function selectByNumero($conn, $numero){
       $editalRaw = $conn->query("SELECT * FROM edital WHERE numero = '$numero'")->fetch(PDO::FETCH_ASSOC);

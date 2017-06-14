@@ -72,23 +72,27 @@
       <div class='ui segment' style='margin: 0.6em'>
       <table class='ui table celled padded'>
         <tr>
-          <th>Nome</th>
+          <th class='collapsing'>Nome</th>
           <th>Email</th>
-          <th>CPF</th>
+          <th class='collapsing'>CPF</th>
+          <th></th>
         </tr>
       <?php
-        $pesquisadores = $conn->query("SELECT * FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($pesquisadores as $row): ?>
+        $pesquisadores = $conn->query("SELECT email FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($pesquisadores as $row): 
+          $usuario = Usuario::selectByEmail($conn, $row['email']); 
+          $hasNonValidated = $usuario->hasCurriculo($conn) && $usuario->hasNonValidated($conn); ?>
         <tr>
-          <td><?= $row['nomeCompleto'] ?></td>
-          <td><?= $row['email'] ?></td>
-          <td><?= $row['cpf'] ?></td>
-          <td>
-            <div class="ui basic center aligned">
-              <a href='validarPesquisador.php?cpf=<?= $row['cpf'] ?>'>
+          <td class='<?= ($hasNonValidated ? 'warning' : '') ?>'>
+            <?= ($hasNonValidated ? "<i class='attention icon'></i>" : '') ?>
+            <?= $usuario->nomeCompleto ?>
+          </td>
+          <td><?= $usuario->email ?></td>
+          <td class='collapsing'><?= $usuario->cpf ?></td>
+          <td class='right aligned collapsing'>
+              <a href='validarPesquisador.php?cpf=<?= $usuario->cpf ?>'>
                 <i class='large eye icon'></i>
               </a>
-            </div>
           </td>
         </tr>
       <?php

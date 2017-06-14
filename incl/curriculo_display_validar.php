@@ -1,5 +1,12 @@
 <?php
   $titulacaoType = array(1 => 'Graduação', 2 => 'Especialização', 3 => 'Mestrado', 4 => 'Doutorado');
+  $prop = get_object_vars($curriculo);
+  $valIC = array();
+  foreach ($prop as $ic => $v) {
+    if($ic != "curriculoId" && $ic != "nomeCompleto"){
+      $valIC[$ic] = checkForNonValidated($ic, $curriculo);
+    }
+  }
  ?>
 
 <div class="curriculoContent">
@@ -11,7 +18,12 @@
   88   88   88   `YbodP' 88ood8 dP""""Yb  YboodP dP""""Yb  YbodP
 TITULAÇÃO START -->
 <div class="ui accordion ic_wrapper" >
-<div class='title'><h2><i class='dropdown icon'></i>Titulação</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Titulação
+      <?= $valIC['titulacoes'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
   <div class="ui segment padded content att" id='titulacao'>
     <div class="ui grid">
       <div class="six wide column"></div>
@@ -75,7 +87,12 @@ ARTIGOS START -->
 <h1>Produção Bibliográfica</h1>
 <div class="ui accordion ic_wrapper">
 <?php if ($curriculo->artigos): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Artigos</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Artigos
+      <?= $valIC['artigos'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='artigo'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -136,7 +153,12 @@ Yb       dP__Yb  88"""  .o.     88  .o 88   YbdP   88"Yb  Yb   dP o.`Y8b
  YboodP dP""""Yb 88     `"'     88ood8 88    YP    88  Yb  YbodP  8bodP'
 CAPITULOS DE LIVROS START -->
 <?php if ($curriculo->capLivros): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Capítulos de Livros</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Capítulos de Livros
+      <?= $valIC['capLivros'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='capLivro'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -198,7 +220,12 @@ Yb      Yb   dP 88"Yb  88"""  Yb   dP     88""    8I  dY 88   88   .o.
  YboodP  YbodP  88  Yb 88      YbodP      888888 8888Y"  88   88   `"'
 CORPOS EDITORIAIS START -->
 <?php if ($curriculo->corposEditoriais): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Participações em Corpos Editoriais</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Participações em Corpos Editoriais
+      <?= $valIC['corposEditoriais'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='corpoEditorial'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -248,7 +275,12 @@ CORPOS EDITORIAIS START -->
 88ood8 88    YP    88  Yb  YbodP  8bodP'
 LIVROS START -->
 <?php if ($curriculo->livros): ?>
-<div class='title'><h2><i class='dropdown icon'></i>Livros</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Livros
+      <?= $valIC['livros'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
   <div class="ui segment padded content att" id='livro'>
     <div class="ui grid">
       <div class="six wide column"></div>
@@ -312,7 +344,12 @@ LIVROS START -->
   88   88  Yb dP""""Yb 88oodP `"'     888888    YP    888888 88  Y8   88    YbodP
  TRABALHO EM EVENTO START -->
 <?php if ($curriculo->trabEventos): ?>
-<div class='title'><h2><i class='dropdown icon'></i>Trabalhos em Eventos</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Trabalhos em Eventos
+      <?= $valIC['trabEventos'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
   <div class="ui segment padded content att" id='trabEvento'>
     <div class="ui grid">
       <div class="six wide column"></div>
@@ -383,7 +420,12 @@ LIVROS START -->
 BANCAS START -->
 <div class="ui accordion ic_wrapper">
 <?php if ($curriculo->bancas): ?>
-<div class='title'><h2><i class='dropdown icon'></i>Bancas</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Bancas
+      <?= $valIC['bancas'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
   <div class="ui segment padded content att" id='banca'>
     <div class="ui grid">
       <div class="six wide column"></div>
@@ -450,7 +492,12 @@ Yb      Yb   dP Yb   dP 88"Yb   8I  dY .o.     88"""  88"Yb  Yb   dP o.  88 .o.
  YboodP  YbodP   YbodP  88  Yb 8888Y"  `"'     88     88  Yb  YbodP  "bodP' `"'
 COORDENAÇÃO DE PROJETOS START -->
 <?php if ($curriculo->coordProjs): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Coordenação de Projetos</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Coordenação de Projetos
+      <?= $valIC['coordProjs'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='coordProj'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -514,7 +561,12 @@ COORDENAÇÃO DE PROJETOS START -->
 88 YY 88 dP""""Yb 88  Yb  YboodP dP""""Yb 8bodP'
  MARCAS START -->
 <?php if ($curriculo->marcas): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Marcas</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Marcas
+      <?= $valIC['marcas'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='marca'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -578,7 +630,12 @@ Yb   dP 88"Yb  Yb  "88 .o.     88""     YbdP   88""   88 Y88   88   Yb   dP o.`Y
  YbodP  88  Yb  YboodP `"'     888888    YP    888888 88  Y8   88    YbodP  8bodP'
 ORGANIZAÇÃO DE EVENTOS START -->
 <?php if ($curriculo->organizacaoEventos): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Organização de Eventos</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Organização de Eventos
+      <?= $valIC['organizacaoEventos'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='organizacaoEvento'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -640,7 +697,12 @@ ORGANIZAÇÃO DE EVENTOS START -->
 88     dP""""Yb   88   888888 88  Y8   88   888888 8bodP'
 PATENTES START -->
 <?php if ($curriculo->patentes): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Patentes</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Patentes
+      <?= $valIC['patentes'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='patente'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -702,7 +764,12 @@ Yb   dP 88"Yb  88 88""   88 Y88   88    dP__Yb  Yb      Yb   dP 88""   o.`Y8b
  YbodP  88  Yb 88 888888 88  Y8   88   dP""""Yb  YboodP  YbodP  888888 8bodP'
 ORIENTAÇÕES START -->
 <?php if ($curriculo->orientacoes): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Orientações</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Orientações
+      <?= $valIC['orientacoes'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='orientacao'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -772,7 +839,12 @@ o.`Y8b Yb   dP 88""     88     YbdPYbdP    dP__Yb  88"Yb  88""
 8bodP'  YbodP  88       88      YP  YP    dP""""Yb 88  Yb 888888
 SOFTWARE START -->
 <?php if ($curriculo->softwares): ?>
-  <div class='title'><h2><i class='dropdown icon'></i>Software</h2></div>
+  <div class='title'>
+    <h2>
+      <i class='dropdown icon'></i>Software
+      <?= $valIC['softwares'] ? "<i class='attention icon red'></i>" : "" ?>
+    </h2>
+  </div>
     <div class="ui segment padded content att" id='software'>
       <div class="ui grid">
         <div class="six wide column"></div>
@@ -885,7 +957,9 @@ SOFTWARE START -->
     return rtrim($string, " / ");
   }
 
-
+  function checkForNonValidated($ic, $curriculo){
+    return Curriculo::hasNonValidated($curriculo->{$ic});
+  }
 
   function autoresToString($autores, $nome){
     $string = '';

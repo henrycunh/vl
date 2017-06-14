@@ -58,8 +58,9 @@
       $ptMax = $data['ptMax'];
       $content = $data['content'];
       $ic = $data['ic'];
-
-      $query = $conn->query("INSERT INTO regra(idEdital, ptInd, ptMax, content, ic) VALUES ($id, $ptInd, $ptMax, '$content', '$ic')");
+      $SQL = "INSERT INTO regra(idEdital, ptInd, ptMax, content, ic) VALUES ($id, $ptInd, $ptMax, '$content', '$ic')";
+      $query = $conn->query($SQL);
+      
       if($query){
         echo json_encode(['success' => true, 'id' => $conn->lastInsertId()]);
       } else {

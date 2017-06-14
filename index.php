@@ -2,6 +2,7 @@
   session_start();
   require 'incl/classes/usuario.php';
   require 'incl/database.php';
+  require 'incl/classes/edital.php';
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   $usuario = Usuario::selectByEmail($conn,$email);
   $usuarioICs = array(
@@ -71,6 +72,7 @@
       "nameP" => "Trabalhos em Eventos"
     ),
   );
+  $editais = Edital::selectEditais($conn);
 ?>
 <!DOCTYPE html>
 <html>
@@ -104,144 +106,46 @@
       </div>
     </div>
     </div>
-
     <header>
-      <h1 class="ui header inverted center aligned">
-        Validador Currículos
-      </h1>
+      
     </header>
-
-    <aside>
-      <?php if($email):  ?>
-        <div class="ui card fluid">
-          <div class="content">
-            <div class="header">
-              Minhas informações
-            </div>
-            <div class="meta">
-              <?= $usuario->nomeCompleto ?>
-            </div>
-          </div>
-          <div class="content" style='line-height: 25px'>
-            <?php foreach ($usuarioICs as $ic): if($ic['num'] > 0): ?>
-              <div class="ui label mini basic">
-                  <?= $ic['num'] ?>
-                  <div class="detail">
-                    <?= $ic['num'] > 1 ? $ic['nameP'] : $ic['name'] ?>
-                  </div>
-              </div>
-            <?php endif; endforeach; ?>
-
-          </div>
-        </div>
-      <?php else: ?>
-        <div class="ui card fluid">
-          <div class="content">
-            <div class="header">
-              Participe já
-            </div>
-          </div>
-          <div class="ui content center aligned">
-              <button class='ui button blue fluid'>
-                Criar uma conta
-              </button>
-              <div class="ui horizontal divider">ou</div>
-              <button class='ui button positive fluid'>
-                Login
-              </button>
-          </div>
-        </div>
-      <?php endif; ?>
-    </aside>
-    <main>
-      <div class="ui segment">
+    <!-- DEMONSTRAÇÃO DOS EDITAIS -->
+    <section id='editais'>
+      <div class="ui segment" style='padding: 2em'>
         <div class="ui header">
-          <h3>
-            Editais Disponíveis
-          </h3>
-          <div class="ui grid">
-            <div class="four wide column">
-              <div class="ui card">
-                <div class="content">
-                  <div class="header">
-                    Nome do Edital
-                    <div class="sub header">
-                      18/05/2017
-                    </div>
+          Últimos Editais
+        </div>
+        <div class="ui grid">
+          <div class="four column row">
+            <?php foreach ($editais as $edital): ?>
+              <div class="column">
+                <div class="ui segment">
+                  <div class="ui header">
+                    <a href="">
+                      <?= $edital->nome ?>
+                    </a>
                   </div>
-                </div>
-                <div class="content">
-                  <div style='font-size: 0.6em' class='description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  <div class="ui divider"></div>
+                  <div class='descricao limit-lines'>
+                    <?= $edital->descricao ?>
                   </div>
-                </div>
-                <div class="content">
-                </div>
-              </div>
-            </div>
-            <div class="four wide column">
-              <div class="ui card">
-                <div class="content">
-                  <div class="header">
-                    Nome do Edital
-                    <div class="sub header">
-                      18/05/2017
-                    </div>
+                  <div class="ui divider"></div>
+                  <div class="ui label ribbon">
+                      <?= date('d/m/Y', strtotime($edital->vigencia)) ?>
                   </div>
+                  <a href="" class="ui button">
+                    Baixar Edital
+                  </a>
+                  <?php if(isset($_SESSION['privilegios']['pesquisador'])): ?>
+                    
+                  <?php endif; ?>
                 </div>
-                <div class="content">
-                  <div style='font-size: 0.6em' class='description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </div>
-                <div class="content">
-                </div>
-              </div>
-            </div>
-            <div class="four wide column">
-              <div class="ui card">
-                <div class="content">
-                  <div class="header">
-                    Nome do Edital
-                    <div class="sub header">
-                      18/05/2017
-                    </div>
-                  </div>
-                </div>
-                <div class="content">
-                  <div style='font-size: 0.6em' class='description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </div>
-                <div class="content">
-                </div>
-              </div>
-            </div>
-            <div class="four wide column">
-              <div class="ui card">
-                <div class="content">
-                  <div class="header">
-                    Nome do Edital
-                    <div class="sub header">
-                      18/05/2017
-                    </div>
-                  </div>
-                </div>
-                <div class="content">
-                  <div style='font-size: 0.6em' class='description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </div>
-                <div class="content">
-                </div>
-              </div>
-            </div>
+              </div>   
+            <?php endforeach; ?> 
           </div>
-
-
         </div>
       </div>
-    </main>
+    </section>
 
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
