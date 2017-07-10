@@ -9,20 +9,20 @@ body{
   padding: 1em;
   min-height: 400px;
   width: 100%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.6) 100%), url(../imgs/stock.jpg);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.77) 100%), url(../imgs/stock.jpg);
   background-position: top;
   background-size: cover;
 }
 
 #header .content{
-  background: #f1f1f1;
+  background: #ffffff;
   color: #000;
   width: 60%;
   float: left;
   padding: 1em;
-  border: 2px solid rgba(125, 125, 125, 0.05);
+  border: 1px solid rgba(60, 60, 60, 0.25);
   border-radius: 4px;
-  min-height: 375px;
+  height: 375px;
 }
 
 #editais{

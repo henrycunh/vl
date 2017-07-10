@@ -1,10 +1,10 @@
-// Esconder ou Mostrar ICs
-function toggle(elem){
-  $(elem).html($(elem).html() == 'Esconder' ? 'Mostrar' : 'Esconder')
-  let el = $(elem).attr('ic')
-  $("#"+el).fadeToggle(300)
-}
 
+/**
+ * Função que gerencia a exibição de apenas um tipo de IC
+ * { Comprovados, Não Comprovados, Todos }
+ *
+ * @param {*} elem Elemento em que a ação foi empregada
+ */
 function showOnly(elem){
   let el = $(elem)
   let array = $("#" + el.attr('ic')+" .list .item")
@@ -33,6 +33,11 @@ function showOnly(elem){
 
 }
 
+/**
+ * Mostra o comprovante em um modal
+ *
+ * @param {*} elem Elemento empregado na ação
+ */
 function showComp(elem){
   let el = $(elem)
   let comp = el.attr('comp')
@@ -40,45 +45,13 @@ function showComp(elem){
   $("#verComp").modal("show")
 }
 
-function fecharCompModal(){
-  $('.compModal').fadeOut(500)
-  setTimeout(()=>{$('.compModal').remove()}, 500)
-}
-
-function maxCompModal(){
-  if($('#max').attr('fn') == 'max'){
-    $('.compModal .embCnt').show()
-    $('.compModal .embCnt').css({'padding-bottom' : '2em'})
-    $('.compModal').css({'left':'0em', 'top':'0em', 'right':'0', 'bottom':'0', 'border-radius':'0'})
-    $('#max').html("<i class='compress icon'></i>")
-    $('#max').attr('fn', 'min')
-    $('#min').html("<i class='minus icon'></i>")
-    $("#min").attr('fn', 'hide')
-  } else {
-    $('.compModal .embCnt').css({'padding-bottom' : '0'})
-    $('.compModal').css({'left':"auto", 'top':"auto", 'right':'1em', 'bottom':'1em', 'border-radius':'6px'})
-    $('#max').html("<i class='expand icon'></i>")
-    $('#max').attr('fn', 'max')
-  }
-}
-
-function minCompModal(){
-  if($('#min').attr('fn') == 'hide'){
-    $('.compModal').css({'left':"auto", 'top':"auto", 'right':'0', 'bottom':'0', 'border-radius':'0'})
-    $('.compModal .embCnt').hide()
-    $('#min').html("<i class='plus icon'></i>")
-    $("#min").attr('fn', 'show')
-    $('#max').attr('fn', 'max')
-    $('#max').html("<i class='expand icon'></i>")
-  } else {
-    $('.compModal .embCnt').css({'padding-bottom' : '0'})
-    $('.compModal .embCnt').show()
-    $('.compModal').css({'right':'1em', 'bottom':'1em', 'border-radius':'6px'})
-    $('#min').html("<i class='minus icon'></i>")
-    $("#min").attr('fn', 'hide')
-  }
-}
-
+/**
+ * Muda o estado de validação de um IC
+ *
+ * @param {*} elem Elemento empregado na ação
+ * @param {*} state O estado de validação do IC a ser definido
+ * @param {*} emailVal Email do validador
+ */
 function mudarValidado(elem, state, emailVal){
   let ic = $(elem).parent().attr('ic')
   ic = ic.split('-')
@@ -103,11 +76,15 @@ function mudarValidado(elem, state, emailVal){
   })
 }
 
+/**
+ * Ações a serem executadas no carregamento da página
+ * * Inicializar os dropdowns e os accordions
+ * * Empregar a ação de click aos labels que dispõe mais informações sobre um IC
+ */
 $(document).ready(()=>{
   $('.ui.accordion').accordion()
   $('.ui.dropdown').dropdown()
   // Carregamento
-  $("#load").hide()
   $(".curriculoContent").fadeIn(500);
 
   $(".sh").click(e=>{
@@ -123,36 +100,40 @@ $(document).ready(()=>{
   })
 })
 
-function exibirEnvioCurriculo(elem){
+/**
+ * Exibe o Modal de envio de comprovante
+ *
+ * @param {*} elem Elemento empregado na ação
+ */
+function exibirEnvioComprovante(elem){
+  // Resetando os dados internos do modal
+  $("#compfilebtn").html("<i class='upload icon'></i> Escolha um Arquivo")
+  $("#complabel").text("")
+  $("#compprogress").progress("reset")
   // Pegando os dados relativos ao objeto em que foi clicado
   let el = $(elem)
   let data_ = el.attr('filename').split('-')
   let filename = el.attr('filename')
   $('#enviarComprovante').modal('show')
   $('#submitComp').attr('filename', filename)
-
-  // let data = {
-  //   curriculoId: data_[0],
-  //   ic : 'ic_' + data_[1],
-  //   icId : data_[2]
-  // }
-  // Criando Modal
-
 }
 
+/**
+ * Atualiza o texto do label
+ *
+ * @param {*} input Elemento de Input
+ */
 function atualizarNome(input){
   let label = $('#compfilebtn')
   let filename = $(input)[0].files[0].name
-  label.text(filename)
+  label.html("<i class='upload icon'></i>" + filename)
 }
-
-function fecharModal(button){
-  let modalId = $(button).attr('modalid')
-  $("#" + modalId).remove()
-}
-
-// Envia o curriculo, envia o filename para o servidor, e faz as alterações
-// necessárias no DOM
+/**
+ * Envia o comprovante caso possua menos de 3MB, e atualiza o documento com uma resposta
+ * visual para as novas ações disponíveis
+ *
+ * @param {*} elem Elemento empregado na ação
+ */
 function enviarComprovante(elem){
   let filename = $(elem).attr('filename')
   let input = $('#fileComp')
@@ -171,8 +152,8 @@ function enviarComprovante(elem){
           $("#enviarComprovante").modal('hide')
           // Atualizar o DOM
           $(`span[ic='${filename}']`).html(`
-            <a class="ui button blue" href="${ "uploads/comprovantes/" + filename + ".pdf" }" target="_blank">Mostrar Comprovante</a>
-            <a class="ui button teal" href="#" class='enviarCurriculo' onclick='exibirEnvioCurriculo(this)' filename='${ filename }'>Alterar Comprovante</a>
+            <a class="ui button blue" style='border-top-left-radius: 0; border-bottom-left-radius: 0;' href="${ "uploads/comprovantes/" + filename + ".pdf" }" target="_blank">Mostrar Comprovante</a>
+            <a class="ui button teal" style='border-top-left-radius: 0; border-bottom-left-radius: 0;' href="#" class='enviarCurriculo' onclick='exibirEnvioComprovante(this)' filename='${ filename }'>Alterar Comprovante</a>
             `)
         }, 1000)
       } else {
@@ -183,7 +164,6 @@ function enviarComprovante(elem){
       if((progress.loaded / progress.total) * 100 == 100)
         $("#complabel").html("Salvando...")
     })
-
   } else {
     msg.text("O arquivo ultrapassa 3MB.")
   }

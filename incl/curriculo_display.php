@@ -5,7 +5,6 @@
  ?>
 
 <div class="curriculoContent">
-
 <!--
 888888 88 888888 88   88 88        db     dP""b8    db     dP"Yb
   88   88   88   88   88 88       dPYb   dP   `"   dPYb   dP   Yb
@@ -13,56 +12,51 @@
   88   88   88   `YbodP' 88ood8 dP""""Yb  YboodP dP""""Yb  YbodP
 TITULAÇÃO START -->
 <div class="ui accordion ic_wrapper" >
-<div class='title'><h2><i class='dropdown icon'></i>Titulação</h2></div>
-  <div class="ui segment padded content att" id='titulacao'>
-    <div class="ui grid">
-      <div class="six wide column"></div>
-      <div class="five wide column">
-        <select ic='titulacao' class='ui fluid dropdown' onchange='showOnly(this)'>
-          <option value='showAll'>Mostrar todos</option>
-          <option value='showComp'>Mostrar comprovados</option>
-          <option value='showNonComp'>Mostrar não comprovados</option>
-        </select>
-      </div>
-      <div class="five wide column">
-        <div class="ui icon fluid input">
-          <input type="text" class='ui input' ic='titulacao' oninput='search(this)' placeholder='Pesquisar...'>
-          <i class=' search icon'></i>
+  <div class='title'><h2><i class='dropdown icon'></i>Titulação</h2></div>
+    <div class="ui segment padded content att" id='titulacao'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='titulacao' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
         </div>
-      </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='titulacao' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class=' search icon'></i>
+          </div>
+        </div>
 
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
+      <?php foreach ($curriculo->titulacoes as $i => $titulacao): ?>
+          <div class='item'>
+            <div class="ui segment secondary">
+              <!-- TITULO -->
+              <div class="ui description smll">
+                <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
+                 <span class='itemtitle'>
+                   <b><?= $titulacaoType[$titulacao->tipo] ?></b> em <?= $titulacao->nomeCurso ?>
+                   (<b><?= $titulacao->anoInicio ?></b> - <b><?= $titulacao->anoConclusao?></b>)
+                </span>
+              </div>
+              <!-- DADOS -->
+              <div class="dados">
+                <b>Instituição:</b> <?= $titulacao->instituicao ?><br>
+                <b>Orientador:</b> <?= $titulacao->orientador ?><br>
+                <b>Titulo:</b> <?= $titulacao->titulo ?><br>
+              </div>
+              <!-- Área de Validação -->
+              <?= areaVal($titulacao->comprovante, $titulacao->validado, 'titulacao', $id, $titulacao->idTitulacao) ?>
+            </div>
+          </div>
+      <?php endforeach; ?>
     </div>
-    <div class="ui divider"></div>
-    <div class='ui relaxed list'>
-    <?php foreach ($curriculo->titulacoes as $i => $titulacao): ?>
-        <div class='item'>
-          <div class="ui segment secondary">
-          <div class="ui description smll">
-            <div class='ui label mini ribbon sh'><?= $i+1 ?>   <i class='caret right icon'></i></div>
-             <span class='itemtitle'>
-               <b><?= $titulacaoType[$titulacao->tipo] ?></b> em <?= $titulacao->nomeCurso ?>
-               (<b><?= $titulacao->anoInicio ?></b> - <b><?= $titulacao->anoConclusao?></b>)
-            </span>
-          </div>
-          <!-- Número -->
-          <!-- <div class="sh level-<?= strlen((string)$i+1) ?>">🡫</div> -->
-          <!-- <tipo> em <nomeCurso> (<anoInicio> - <anoConclusao>)  -->
-          <div class="dados">
-          <!-- Instituição: <instituicao> -->
-            <b>Instituição:</b> <?= $titulacao->instituicao ?><br>
-          <!-- Orientador: <orientador> -->
-            <b>Orientador:</b> <?= $titulacao->orientador ?><br>
-          <!-- Titulo: <titulo> -->
-          <!-- Orientador: <orientador> -->
-            <b>Titulo:</b> <?= $titulacao->titulo ?><br>
-          </div>
-          <!-- Área de Validação -->
-          <?= areaVal($titulacao->comprovante, $titulacao->validado, 'titulacao', $id, $titulacao->idTitulacao) ?>
-        </div>
-        </div>
-    <?php endforeach; ?>
   </div>
-</div>
 </div>
 <!-- TITULAÇÃO END -->
 
@@ -875,7 +869,7 @@ SOFTWARE START -->
         <a
           class="ui button teal comp"
           href="#" class='enviarCurriculo'
-          onclick='exibirEnvioCurriculo(this)'
+          onclick='exibirEnvioComprovante(this)'
           filename='<?= $filename ?>'
         >
           Alterar Comprovante
@@ -885,7 +879,7 @@ SOFTWARE START -->
           class="ui button teal"
           style='border-top-left-radius: 0; border-bottom-left-radius: 0;'
           href="#"
-          onclick='exibirEnvioCurriculo(this)'
+          onclick='exibirEnvioComprovante(this)'
           filename='<?= $filename ?>'
         >
           Enviar Comprovante

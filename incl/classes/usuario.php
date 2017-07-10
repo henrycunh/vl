@@ -242,20 +242,15 @@
       $prop = get_object_vars(new Curriculo);
       // Iterando pelas propriedades
       foreach ($prop as $ic => $v) {
-        // Apenas pelas que são ICs
         if($ic != 'curriculoId' && $ic != 'nomeCompleto'){
-          // Pega apenas os ICs que não foram validados
-          if(isset($v->validado)){
-            $curriculo->{$ic} = array_filter($v, function ($x){
-              return $x->validado == -1;
-            });
-          }
-          // Se existirem ICs que não foram validados, retorna true 
-          if(count($curriculo->{$ic}) > 0) return true; 
+          $matches = array_filter($curriculo->{$ic}, function ($x){
+            return $x->comprovante != NULL && $x->validado == -1;
+          });
+          if(count($matches) > 0) return true;
         }
-        // Se todos os ICs forem validados, retorna false
-        return false;
       }
+      // Se todos os ICs forem validados, retorna false
+      return false;
     }
 }
 

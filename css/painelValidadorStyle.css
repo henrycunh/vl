@@ -142,3 +142,11 @@ aside .info a .icon{
 .visualizar:hover{
     color: hsla(195, 77%, 63%, 1);
 }
+
+.limit-lines {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.8em;
+  max-height: 8em;
+}

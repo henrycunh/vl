@@ -9,6 +9,8 @@
     public $vigencia;
     public $dataCriacao;
     public $regras;
+    public $visibilidade;
+    public $pontMax;
 
     public function __construct(){
       $this->nome = '';
@@ -19,6 +21,8 @@
       $this->vigencia = '';
       $this->dataCriacao = '';
       $this->regras = '';
+      $this->visibilidade = '';
+      $this->pontMax = '';
     }
 
     public static function getEdit($nome,$numero,$link,$idEdital,$vigencia,$dataCriacao,$descricao,$regras){
@@ -31,6 +35,8 @@
       $edital->dataCriacao = $dataCriacao;
       $edital->descricao = $descricao;
       $edital->regras = $regras;
+      $edital->visibilidade = 0;
+      $edital->pontMax = 100;
       return $edital;
     }
 
@@ -73,6 +79,8 @@
     $edital->vigencia = $raw['vigencia'];
     $edital->dataCriacao = $raw['dataCriacao'];
     $edital->descricao = $raw['descricao'];
+    $edital->visibilidade = $raw['visibilidade'];
+    $edital->pontMax = $raw['pontMax'];
     return $edital;
   }
 

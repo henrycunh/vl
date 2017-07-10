@@ -29,10 +29,10 @@
 <div class="ui segment">
   <table class='ui table celled padded' id='editaisTable'>
     <tr>
-      <th>#</th>
-      <th>Nome do Edital</th>
-      <th>Data de Vigência</th>
-      <th>Descrição</th>
+      <th style='width: 15%'>#</th>
+      <th style='width: 30%'>Nome do Edital</th>
+      <th style='width: 15%'>Data de Vigência</th>
+      <th style='width: 40%'>Descrição</th>
     </tr>
     <?php
       $editais = $conn->query("SELECT * FROM edital")->fetchAll(PDO::FETCH_ASSOC);
@@ -46,7 +46,7 @@
           </a>
         <td><?= $edital['nome'] ?></td>
         <td><?= $edital['vigencia'] ?></td>
-        <td><?= ($edital['descricao'] ? $edital['descricao'] : "-") ?></td>
+        <td class='limit-lines'><?= ($edital['descricao'] ? $edital['descricao'] : "-") ?></td>
       </tr>
     <?php
       endforeach;

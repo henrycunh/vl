@@ -10,7 +10,6 @@
  ?>
 
 <div class="curriculoContent">
-
 <!--
 888888 88 888888 88   88 88        db     dP""b8    db     dP"Yb
   88   88   88   88   88 88       dPYb   dP   `"   dPYb   dP   Yb
@@ -71,6 +70,7 @@ TITULAÇÃO START -->
         </div>
         </div>
     <?php endforeach; ?>
+  </div>
   </div>
 </div>
 </div>
@@ -943,9 +943,10 @@ SOFTWARE START -->
       </div>
     <?php else: ?>
       <div class="ui button">Não Comprovado</div>
+      </div>
     <?php endif; ?>
     </div>
-    <?php echo '</div>';
+    <?php ;
   }
 
   function equipeToString($equipe, $nome, $resp){

@@ -32,7 +32,7 @@
     </div>
   </div>
 
-    <main class='ui segment curriculo'>
+    <main class='ui segment curriculo' id="curriculoCtn">
     <a href="painelvalidador.php" class='ui button blue fluid'>Voltar para o Painel</a>
     <div class="ui divider"></div>
     <?php

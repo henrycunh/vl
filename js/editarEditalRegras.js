@@ -17,7 +17,11 @@ const options = {
   "trabEvento" : "Trabalho realizado em Evento"
 }
 
-// Carregando Regras
+/**
+ * Inicialização da página, onde é feito o resgate das regras
+ * e a exibição delas na tabela, de forma asíncrona, através
+ * de requests AJAX
+ */
 $(()=>{
 
   // Pegando do DB
@@ -38,9 +42,18 @@ $(()=>{
 
     // Titulação
     titulacaoForm()
+    // Coordenação de Projetos
+    formatCoordProj()
     // ICs Genéricos
     formatIC('artigo')
     formatIC('banca')
+    formatIC('capLivro')
+    formatIC('corpoEditorial')
+    formatIC('livro')
+    formatIC('marca')
+    formatIC('organizacaoEvento')
+    formatIC('patente')
+    formatIC('software')
 
     if(icDrop.find("option").length == 0)
       icDrop.dropdown("set text", "Não há regras a se adicionar")
@@ -52,13 +65,13 @@ $(()=>{
 
 /**----------------------------
  *   |       TITULAÇÃO        |
- *   -------------------------- 
+ *   --------------------------
  * /
 
 /**
  * Salva a regra de Titulação
- * 
- * @param {*} idEdital 
+ *
+ * @param {*} idEdital
  */
 function salvarTitulacao(idEdital){
   // Estados
@@ -118,7 +131,7 @@ function salvarTitulacao(idEdital){
 function titulacaoForm(){
   const regrasTitulacao = regras.achar(item => { return (item.ic == 'titulacao' ? item : false) })
   if(regrasTitulacao.length > 0){
-    const maiorTitulacao = (regrasTitulacao[0] != undefined ? regras[0].content.maior : '')
+    const maiorTitulacao = (regrasTitulacao[0] != undefined ? regrasTitulacao[0].content.maior : '')
     // Removendo a opção de escolher Titulação, se houver uma regra de titulação
     removeIC('titulacao')
     // Tipos de titulação
@@ -145,7 +158,7 @@ function titulacaoForm(){
       </tr>`
     // Iterando por titulações
     for (regra of regrasTitulacao) {
-      markup += 
+      markup +=
         `<tr ic='titulacao'>
           <td>${tiposTit[regra.content.tipo]}</td>
           <td colspan='2' class='ui center aligned' >${regra.ptInd}</td>
@@ -173,7 +186,132 @@ function deleteTitulacao(){
   icDrop.dropdown('refresh')
 }
 
+/**------------------------------------------
+ *   |        FUNÇÕES DE COORD. PROJ        |
+ *   ----------------------------------------
+ **/
+function toggleEstadoCoordProj(){
+  const estado = $("#coordProj-estado-opt").checkbox("is checked")
+  if(estado){
+    $(".coordProjLabel").show()
+    $("#coordProj-and").show()
+  }
+  else{
+    $(".coordProjLabel").hide()
+    $("#coordProj-and").hide()
+  }
+}
+/**
+ * Salva as regras de coordenação de projeto no DB
+ *
+ * @param {*} idEdital ID do Edital
+ */
+function salvarCoordProj(idEdital){
+  const pontIndAnd = $("#coordProj-pi-and").val()
+  const pontMaxAnd = $("#coordProj-pm-and").val()
+  const pontIndConcl = $("#coordProj-pi-concl").val()
+  const pontMaxConcl = $("#coordProj-pm-concl").val()
 
+  const condAno = $("#coordProj-ano-opt").checkbox("is checked")
+  const ano = condAno ? $("#coordProj-ano").val() : false
+  const estado = $("#coordProj-estado-opt").checkbox("is checked")
+  console.log(estado)
+  let regra = {
+    ic: "coordProj",
+    ptInd: pontIndConcl,
+    ptMax: pontMaxConcl,
+    content: JSON.stringify({
+      "ano" : ano,
+      "estado" : estado,
+      "pontIndAnd" : estado ? pontIndAnd : false,
+      "pontMaxAnd" : estado ? pontMaxAnd : false,
+     }),
+    idEdital: idEdital
+  }
+  console.log(regra)
+  // Insere a regra no DB
+  insertRegra(regra, data => {
+    regra.idRegra = data.id
+    regra.content = JSON.parse(regra.content)
+    regras.push(regra)
+    $("#coordProj").removeClass("loading")
+  }, ()=>{
+    $("#coordProj").addClass("loading")
+  })
+
+  // Formata o documento
+  formatCoordProj()
+
+  // Esconde o container
+  endRegra("coordProj")
+}
+
+/**
+ * Formata as regras de coordenação de projeto no documento
+ */
+function formatCoordProj(){
+  // Acha regras existentes do IC
+  const regrasIC = regras.achar(item => { return (item.ic == "coordProj" ? item : false) })
+
+  // Checa se existem regras
+  if(regrasIC.length > 0){
+    const regra = regrasIC[0]
+    // Label da linha
+    const anoLabel = (regra.content.ano != 'false' ? `Participação em Projetos até o ano de ${regra.content.ano}` : `Participação em Projetos de todos os anos`)
+
+    // Markup da linha
+    var markup =
+      `
+      <tr ic='coordProj'>
+        <td colspan='3'>
+          <div class='ui header center aligned'>
+            Participação em Projetos
+          <div class='ui sub header'>
+            ${anoLabel}
+          </div>
+          </div>
+        </td>
+        <td class='ui center aligned' rowspan='3'>
+          <button onclick='deleteIC(${regra.idRegra}, "coordProj")' class='ui button circular icon negative'>
+            <i class='remove icon'></i>
+          </button>
+        </td>
+      </tr>
+      `
+      if(regra.content.estado)
+        markup +=
+          `
+          <tr>
+            <td>Participação em Projetos em Andamento</td>
+            <td>${regra.content.pontIndAnd}</td>
+            <td>${regra.content.pontMaxAnd}</td>
+          </tr>
+          `
+      markup +=
+        `
+        <tr>
+          <td>Participação em Projetos Concluidos</td>
+          <td>${regra.ptInd}</td>
+          <td>${regra.ptMax}</td>
+        </tr>
+        `
+
+    // Limpa a tabela
+    clearIC("coordProj")
+    // Adiciona o Markup à tabela
+    tB.append(markup)
+    // Remove a regra da lista
+    removeIC("coordProj")
+    // Atualiza a tabela
+    tableRefresh()
+  }
+
+}
+
+/**------------------------------------------
+ *   |        FUNÇÕES DE ORIENTAÇÃO         |
+ *   ----------------------------------------
+ **/
 
 
 /**-----------------------------------------------
@@ -182,8 +320,8 @@ function deleteTitulacao(){
  **/
 /**
  * Salva as regras no DB
- * 
- * @param {*} idEdital 
+ *
+ * @param {*} idEdital ID do Edital
  */
 function salvarRegra(idEdital, ic){
   const estado = $(`#${ic}-ano-opt`).checkbox("is checked") // Estado da condição
@@ -210,28 +348,19 @@ function salvarRegra(idEdital, ic){
 
   // Formata o documento
   formatIC(ic)
-  
+
   // Esconde o container
   endRegra(ic)
 }
 
 /**
  * Formata os dados do IC na tabela
- * 
+ *
  * @param {*} ic Nome do IC
  */
 function formatIC(ic){
   // Objeto contendo as descrições para todos os ICs
-  const desc = {
-    "artigo" : "Artigos em periódicos",
-    "banca" : "Participações em Bancas",
-    "livro" : "Livros publicados",
-    "capLivro" : "Capítulos de Livros publicados",
-    "patente" : "Patentes registradas",
-    "marca" : "Marcas registradas",
-    "software" : "Softwares registrados",
-    "corpoEditorial" : "Participações em Corpos Editoriais"
-  }
+  const desc = options
 
   // Acha regras existentes do IC
   const regrasIC = regras.achar(item => { return (item.ic == ic ? item : false) })
@@ -240,7 +369,7 @@ function formatIC(ic){
     const regra = regrasIC[0]
     // Label da linha
     const anoLabel = (regra.content.ano != 'false' ? `${desc[ic]} até o ano de ${regra.content.ano}` : `${desc[ic]} de todos os anos`)
-    
+
     // Markup da linha
     var markup =
     `<tr ic='${ic}'>
@@ -273,8 +402,8 @@ function formatIC(ic){
 
 /**
  * Deleta o IC do DB e da tabela
- * 
- * @param {*} id ID da Regra 
+ *
+ * @param {*} id ID da Regra
  * @param {*} ic Nome do IC
  */
 function deleteIC(id, ic){
@@ -283,7 +412,7 @@ function deleteIC(id, ic){
 
   // Remove do DB e do Array
   removerRegra(id, data=>{
-    let index = regras.indexOf(regra)
+    let index = 0; for (regra of regras) { if(regra.idRegra == id) break; index++; }
     if(index > -1)
       regras.splice(index, 1)
   })
@@ -296,8 +425,9 @@ function deleteIC(id, ic){
     }
   }
 
+  console.log(regras.length - 1 == 0)
   // Se não existe regra alguma, esconde a tabela
-  if(regras.length-1 == 0)
+  if(regras.length - 1 == 0)
     $("#tableCtn").addClass("mHidden")
 }
 
@@ -305,15 +435,14 @@ function deleteIC(id, ic){
 
 
 
-
 /**----------------------------------------
  *   |        FUNÇÕES DE UTILIDADE        |
- *   -------------------------------------- 
+ *   --------------------------------------
  * /
 
 /**
  * Retorna um array baseado no resultado de uma função
- * 
+ *
  * @param {function} fn
  * @return {array} Array com os valores definidos pela função
  */
@@ -339,11 +468,11 @@ function adicionarRegra(){
 
 /**
  * Adiciona o IC ao dropdown de opções
- * 
- * @param {*} ic Nome do IC 
+ *
+ * @param {*} ic Nome do IC
  */
 function addOption(ic){
-  icDrop.prepend($(new Option(options[ic], ic)))  
+  icDrop.prepend($(new Option(options[ic], ic)))
 }
 
 /**
@@ -359,8 +488,8 @@ function tableRefresh(){
 /**
  * Esconde o container da regra atual e exibe o de
  * adicionar regras
- * 
- * @param {*} ic Nome do IC 
+ *
+ * @param {*} ic Nome do IC
  */
 function endRegra(ic){
   $("#"+ic).addClass("mHidden")
@@ -369,7 +498,7 @@ function endRegra(ic){
 
 /**
  * Cancela a adição de uma regra
- * 
+ *
  * @param {*} ic Nome do IC
  */
 function cancelRegra(ic){
@@ -380,8 +509,8 @@ function cancelRegra(ic){
 
 /**
  * Dá toggle na visibilidade de um container a partir de seu ID
- * 
- * @param {*} cnt Container 
+ *
+ * @param {*} cnt Container
  */
 function toggleCnt(cnt){
   const state = $("#"+cnt).hasClass("mHidden")
@@ -393,8 +522,8 @@ function toggleCnt(cnt){
 
 /**
  * Remove um IC das opções de regragem
- * 
- * @param {*} ic Nome do IC 
+ *
+ * @param {*} ic Nome do IC
  */
 function removeIC(ic){
   icDrop.find(`option[value='${ic}']`).remove()
@@ -403,8 +532,8 @@ function removeIC(ic){
 
 /**
  * Remove todas as ocorrências de um IC na tabela de regras
- * 
- * @param {*} ic Nome do IC 
+ *
+ * @param {*} ic Nome do IC
  */
 function clearIC(ic){
   tB.find(`tr[ic='${ic}']`).remove()
@@ -412,8 +541,8 @@ function clearIC(ic){
 
 /**
  * Checa se o IC existe nas opções de regragem
- * 
- * @param {*} ic Nome do IC 
+ *
+ * @param {*} ic Nome do IC
  * @return {boolean} Resultado da checagem
  */
 function checkIC(ic){

@@ -6,7 +6,7 @@
   // $db = 'kanit563_validadorlattes';
   //
   $user = 'root';
-  $pw = '2811';
+  $pw = '';
   $host = 'localhost';
   $db = 'validadorlattes';
   // Tentar conectar

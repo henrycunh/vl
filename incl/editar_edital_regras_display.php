@@ -1,3 +1,19 @@
+<?php $options = json_decode('{
+  "artigo" : "Artigo em periódico",
+  "banca" : "Participação em Banca",
+  "capLivro" : "Capítulo de Livro publicado",
+  "coordProj" : "Coordenação de Projeto",
+  "corpoEditorial" : "Participação em Corpo Editorial",
+  "livro" : "Livro publicado",
+  "marca" : "Marca registrada",
+  "organizacaoEvento" : "Organização de Evento",
+  "orientacao" : "Orientação",
+  "patente" : "Patente registrada",
+  "software" : "Software registrado",
+  "titulacao" : "Titulação",
+  "trabEvento" : "Trabalho realizado em Evento"
+}', true); ?>
+
 <script type="text/javascript">
   const idEdital = <?= $edital->idEdital ?>
 </script>
@@ -9,9 +25,7 @@
       <div class="twelve wide field">
         <label>Item do Curriculo</label>
         <select class="ui dropdown" id='icDrop'>
-          <option value='titulacao'>Titulação</option>
-          <option value='artigo'>Artigo em periódico</option>
-          <option value='banca'>Participação em Banca</option>
+          <?php foreach ($options as $ic => $desc) echo "<option value='$ic'>$desc</option>" ?>
         </select>
       </div>
       <div class="four wide field">
@@ -25,194 +39,20 @@
   </div>
 </div>
 
-<!-- TITULAÇÃO -->
-<div class="ui segment mHidden" id='titulacao'>
-  <div class="ui header">
-    <h4>Regras para Titulação</h4>
-  </div>
-  <div class="ui divider"></div>
+<?php
+  require 'regras/titulacao_regra.php';
+  require 'regras/artigo_regra.php';
+  require 'regras/banca_regra.php';
+  require 'regras/livro_regra.php';
+  require 'regras/capLivro_regra.php';
+  require 'regras/corpoEditorial_regra.php';
+  require 'regras/patente_regra.php';
+  require 'regras/marca_regra.php';
+  require 'regras/software_regra.php';
+  require 'regras/organizacaoEvento_regra.php';
+  require 'regras/coordProj_regra.php';
+?>
 
-  <div class="ui form">
-    <div class="field">
-      <label>Opção de Exclusividade</label>
-      <div class="ui checkbox" id='titulacao-exc'>
-        <input type="checkbox">
-        <label>Pontuar apenas a maior titulação.</label>
-      </div>
-    </div>
-    <div class="ui divider"></div>
-
-  <div class="ui segment basic" id='titulacao-opt'>
-    <div class="fields">
-      <div class="four wide field">
-        <div class="ui sub header">
-          Graduação
-        </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='titulacao-grad-pi'>
-        </div>
-      </div>
-      <div class="four wide field">
-        <div class="ui sub header">
-          Especialização
-        </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='titulacao-esp-pi'>
-        </div>
-      </div>
-      <div class="four wide field">
-        <div class="ui sub header">
-          Mestrado
-        </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='titulacao-mest-pi'>
-        </div>
-      </div>
-      <div class="four wide field">
-        <div class="ui sub header">
-          Doutorado
-        </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='titulacao-doc-pi'>
-        </div>
-      </div>
-      <div class="ui divider"></div>
-    </div>
-    <div class="field">
-      <div class="ui segment basic right aligned">
-        <button class='ui button blue right labeled icon' onclick='salvarTitulacao(<?= $edital->idEdital ?>)'>
-          <i class='save icon'></i>
-          Salvar
-        </button>
-        <button class='ui button black right labeled icon' onclick='cancelRegra("titulacao")'>
-          <i class='remove icon'></i>
-          Cancelar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ARTIGO -->
-<div class="ui segment mHidden" id='artigo'>
-  <div class="ui header">
-    <h4>Artigo publicado em periódico</h4>
-  </div>
-  <div class="ui divider"></div>
-  <div class="ui form">
-    <div class="ui grid">
-
-      <div class="twelve wide column">
-        <div class="field">
-          <div class="ui checkbox" id='artigo-ano-opt'>
-            <input type="checkbox" onclick='toggleCnt("artigo-ano-cnt")'>
-            <label>Condicionar ano de publicação</label>
-          </div>
-        </div>
-        <div class="ui segment basic mHidden" id='artigo-ano-cnt'>
-          <div class="ui divider horizontal">
-            CONDIÇÃO
-          </div>
-          <div class="field">
-            <label>Pontuar a partir de</label>
-            <input type="text" id='artigo-ano'>
-          </div>
-          <div class="ui divider"></div>
-        </div>
-      </div>
-
-      <div class="four wide column">
-        <div class="field">
-          <label>Pont. Individual</label>
-          <div class="ui input">
-            <input type="text" id='artigo-pi'>
-          </div>
-        </div>
-        <div class="field">
-          <label>Pont. Máximo</label>
-          <div class="ui input">
-            <input type="text" id='artigo-pm'>
-          </div>
-        </div>
-        <div class="field">
-          <button class='ui button blue right labeled fluid icon' onclick='salvarRegra(<?= $edital->idEdital ?>, "artigo")'>
-            <i class='save icon'></i>
-            Salvar
-          </button>
-        </div>
-        <div class="field">
-          <button class='ui button black right labeled fluid icon' onclick='cancelRegra("artigo")'>
-            <i class='remove icon'></i>
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- BANCA -->
-<div class="ui segment mHidden" id='banca'>
-  <div class="ui header">
-    <h4>Participação em Banca</h4>
-  </div>
-  <div class="ui divider"></div>
-  <div class="ui form">
-    <div class="ui grid">
-
-      <div class="twelve wide column">
-        <div class="field">
-          <div class="ui checkbox" id='banca-ano-opt'>
-            <input type="checkbox" onclick='toggleCnt("banca-ano-cnt")'>
-            <label>Condicionar ano de publicação</label>
-          </div>
-        </div>
-        <div class="ui segment basic mHidden" id='banca-ano-cnt'>
-          <div class="ui divider horizontal">
-            CONDIÇÃO
-          </div>
-          <div class="field">
-            <label>Pontuar a partir de</label>
-            <input type="text" id='banca-ano'>
-          </div>
-          <div class="ui divider"></div>
-        </div>
-      </div>
-
-      <div class="four wide column">
-        <div class="field">
-          <label>Pont. Individual</label>
-          <div class="ui input">
-            <input type="text" id='banca-pi'>
-          </div>
-        </div>
-        <div class="field">
-          <label>Pont. Máximo</label>
-          <div class="ui input">
-            <input type="text" id='banca-pm'>
-          </div>
-        </div>
-        <div class="field">
-          <button class='ui button blue right labeled fluid icon' onclick='salvarRegra(<?= $edital->idEdital ?>, "banca")'>
-            <i class='save icon'></i>
-            Salvar
-          </button>
-        </div>
-        <div class="field">
-          <button class='ui button black right labeled fluid icon' onclick='cancelRegra("banca")'>
-            <i class='remove icon'></i>
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="ui segment basic mHidden" id='tableCtn'>
   <table class='ui table celled padded' id='table'>

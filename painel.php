@@ -10,7 +10,7 @@
   $usuario = Usuario::selectByEmail($conn, $email);
   $nome = $usuario->getNome();
   $id = Curriculo::getIDByEmail($conn, $email);
-  if(!$email): {header("Location: 502.html"); die();} ?>
+  if(!$email) {header("Location: 502.html"); die();} ?>
 
 <!DOCTYPE html>
 <html>
@@ -75,10 +75,10 @@
       </div>
       <div class="ui segment curriculo">
       <?php
-      if($id)
-          require 'incl/curriculo_display.php';
-      else
-        echo 'Este usuário ainda não enviou um currículo. <br>Use a barre lateral para enviar o seu Currículo Lattes.';
+        if($id)
+            require 'incl/curriculo_display.php';
+        else
+          echo 'Este usuário ainda não enviou um currículo. <br>Use a barre lateral para enviar o seu Currículo Lattes.';
       ?>
       </div>
 

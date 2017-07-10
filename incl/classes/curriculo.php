@@ -118,7 +118,7 @@
       $prop = get_object_vars(new Curriculo);
       // Removendo todos os ICs que não possuem comprovante
       foreach ($prop as $ic => $v) {
-        if($ic != 'curriculoId' )
+        if($ic != 'curriculoId' && $ic != "nomeCompleto")
         $clAtual->{$ic} = array_filter($clAtual->{$ic}, function ($x){
           return $x->comprovante != NULL;
         });
@@ -129,7 +129,7 @@
 
       // Tirando a diferença entre o curriculo submetido e o atual
       foreach ($prop as $ic => $v) {
-        if($ic != 'curriculoId')
+        if($ic != 'curriculoId' && $ic != "nomeCompleto")
         $curriculo->{$ic} = array_udiff($clNovo->{$ic}, $clAtual->{$ic},
           function ($obj_a, $obj_b) {
             return strcmp(json_encode($obj_a, JSON_NUMERIC_CHECK), json_encode($obj_b, JSON_NUMERIC_CHECK));
