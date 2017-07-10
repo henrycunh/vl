@@ -26,6 +26,13 @@
           <input type="date" value='<?= $edital->dataCriacao ?>'>
         </div>
       </div>
+      <div class="ui segment secondary right aligned">
+        <form action="exportPDF.php" method="post" target='_blank'>
+          <input type="hidden" name="doc" value="regras">
+          <input type="hidden" name="idEdital" value="<?= $edital->idEdital ?>">
+          <input type="submit" class='ui button blue' value='Exportar PDF'>
+        </form>
+      </div>
       <div class="field">
         <label>Descrição</label>
         <textarea name="descricao" id='descricaoEdital' rows="8"><?= $edital->descricao ?></textarea>

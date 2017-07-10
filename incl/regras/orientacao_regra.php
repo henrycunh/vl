@@ -25,56 +25,127 @@
     </div>
     <div class="ui divider"></div>
 
+    <div class="field">
+      <div class="ui checkbox" id='orientacao-lim-opt' onchange='toggleLimOrientacao()'>
+        <input type="checkbox">
+        <label>Não limitar a pontuação</label>
+      </div>
+    </div>
+
   <div class="ui segment basic" id='orientacao-opt'>
-    <div class="fields">
-      <div class="two wide field">
+    <div class="ui grid">
+
+      <div class="three wide column">
         <div class="ui sub header">
           Iniciação Científica
         </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='orientacao-ic-pi'>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-inic-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-inic-pm'>
+          </div>
         </div>
       </div>
-      <div class="two wide field">
+
+      <div class="two wide column">
         <div class="ui sub header">
           Graduação
         </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='orientacao-grad-pi'>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-grad-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-grad-pm'>
+          </div>
         </div>
       </div>
-      <div class="two wide field">
+
+      <div class="two wide column">
         <div class="ui sub header">
           Especialização
         </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='orientacao-esp-pi'>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-esp-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-esp-pm'>
+          </div>
         </div>
       </div>
-      <div class="two wide field">
+
+      <div class="two wide column">
         <div class="ui sub header">
           Mestrado
         </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='orientacao-mest-pi'>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-mest-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-mest-pm'>
+          </div>
         </div>
       </div>
-      <div class="two wide field">
+
+      <div class="two wide column">
         <div class="ui sub header">
           Doutorado
         </div>
-        <label>Pont. Individual</label>
-        <div class='ui input'>
-          <input type="input" class='ui input' id='orientacao-doc-pi'>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-doc-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-doc-pm'>
+          </div>
         </div>
       </div>
-      <div class="ui divider"></div>
+
+      <div class="two wide column">
+        <div class="ui sub header">
+          Pós-Doutorado
+        </div>
+        <div class="field">
+          <label>Pont. Individual</label>
+          <div class='ui input'>
+            <input type="input" class='ui input' id='orientacao-posdoc-pi'>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pont. Máxima</label>
+          <div class='ui input max'>
+            <input type="input" class='ui input' id='orientacao-posdoc-pm'>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="field">
+
       <div class="ui segment basic right aligned">
         <button class='ui button blue right labeled icon' onclick='salvarOrientacao(<?= $edital->idEdital ?>)'>
           <i class='save icon'></i>

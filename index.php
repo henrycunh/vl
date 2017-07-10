@@ -118,7 +118,7 @@ Nulla varius dapibus massa, vitae lobortis nibh faucibus id. Duis tempus massa u
         <div class="content" style='float: right; width: 35%'>
           <div class="ui segment basic">
             <h3 class='ui header center aligned'>Crie uma conta</h3>
-            
+
           </div>
         </div>
     </section>
@@ -134,7 +134,7 @@ Nulla varius dapibus massa, vitae lobortis nibh faucibus id. Duis tempus massa u
               <div class="column">
                 <div class="ui segment">
                   <div class="ui header">
-                    <a href="">
+                    <a href="edital.php?numero=<?=$edital->numero?>">
                       <?= $edital->nome ?>
                     </a>
                   </div>
@@ -146,15 +146,12 @@ Nulla varius dapibus massa, vitae lobortis nibh faucibus id. Duis tempus massa u
                   <div class="ui label ribbon">
                       <?= date('d/m/Y', strtotime($edital->vigencia)) ?>
                   </div>
-                  <a href="" class="ui button">
+                  <a href="" class="ui button mini">
                     Baixar Edital
                   </a>
-                  <?php if(isset($_SESSION['privilegios']['pesquisador'])): ?>
-                    
-                  <?php endif; ?>
                 </div>
-              </div>   
-            <?php endforeach; ?> 
+              </div>
+            <?php endforeach; ?>
           </div>
         </div>
       </div>

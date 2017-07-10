@@ -51,6 +51,8 @@
   require 'regras/software_regra.php';
   require 'regras/organizacaoEvento_regra.php';
   require 'regras/coordProj_regra.php';
+  require 'regras/orientacao_regra.php';
+  require 'regras/trabEvento_regra.php';
 ?>
 
 
@@ -61,4 +63,7 @@
     <th width='10%'>Pontuação Máxima</th>
     <th width='10%'>Ação</th>
   </table>
+  <div class="ui segment right aligned" style="padding-right: 12em" id='tablefoot'>
+
+  </div>
 </div>

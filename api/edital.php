@@ -5,6 +5,10 @@
   session_start();
   // Requiring User Class
   require '../incl/classes/usuario.php';
+  require '../incl/classes/curriculo.php';
+  require '../incl/classes/edital.php';
+  require '../incl/classes/regra.php';
+  require '../incl/classes/sumario.php';
   // Requiring DB
   require_once '../incl/database.php';
 
@@ -60,7 +64,7 @@
       $ic = $data['ic'];
       $SQL = "INSERT INTO regra(idEdital, ptInd, ptMax, content, ic) VALUES ($id, $ptInd, $ptMax, '$content', '$ic')";
       $query = $conn->query($SQL);
-      
+
       if($query){
         echo json_encode(['success' => true, 'id' => $conn->lastInsertId()]);
       } else {
@@ -75,6 +79,24 @@
         echo json_encode(['success' => true]);
       } else {
         echo json_encode(['success' => false, 'error'=>$conn->errorInfo()]);
+      }
+    }
+
+    if($data['op'] == 'sumario/criar'){
+      $cId = Curriculo::getIDByEmail($conn, $_SESSION["email"]);
+      $numero = $data['numero'];
+      $edId = $conn->query("SELECT idEdital FROM edital WHERE numero = $numero")->fetch(PDO::FETCH_ASSOC)["idEdital"];
+      $found = Sumario::checkSumario($cId, $edId, $conn);
+      if(!$found){
+        $sumario = Sumario::generateSumario($cId, $edId, $conn);
+        $status = $sumario->insertIntoDB($conn);
+        if($status){
+          echo json_encode(["success" => true]);
+        } else {
+          echo json_encode(["success" => false, "error" => "INSERT_ERROR"]);
+        }
+      } else {
+        echo json_encode(["success" => false, "error"=>"SUMARIO_FOUND"]);
       }
     }
   }

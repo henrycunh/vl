@@ -24,6 +24,12 @@
           </div>
           <div class="ui divider"></div>
         </div>
+        <div class="field">
+          <div class="ui checkbox lim" id='patente-lim-opt'>
+            <input type="checkbox" ic='patente'>
+            <label>Não limitar a pontuação</label>
+          </div>
+        </div>
       </div>
 
       <div class="four wide column">
@@ -35,7 +41,7 @@
         </div>
         <div class="field">
           <label>Pont. Máximo</label>
-          <div class="ui input">
+          <div class="ui input max">
             <input type="text" id='patente-pm'>
           </div>
         </div>

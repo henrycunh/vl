@@ -97,7 +97,7 @@
           $orientPosDoc1_ = new Orientacao();
 
           $orientPosDoc1_->natureza = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['NATUREZA'];
-          // $orientPosDoc1_->tipo = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['TIPO'];
+          $orientPosDoc1_->tipo = 6;
           $orientPosDoc1_->titulo = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['TITULO'];
           $orientPosDoc1_->ano = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['ANO'];
           $orientPosDoc1_->idioma = attr($orientPosDoc1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])['IDIOMA'];
@@ -117,7 +117,7 @@
           $orientMest1_ = new Orientacao();
 
           $orientMest1_->natureza = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['NATUREZA'];
-          $orientMest1_->tipo = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['TIPO'];
+          $orientMest1_->tipo = 4;
           $orientMest1_->titulo = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['TITULO'];
           $orientMest1_->ano = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['ANO'];
           $orientMest1_->idioma = attr($orientMest1['DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'])['IDIOMA'];
@@ -135,11 +135,20 @@
         }
 
         if(isset($outrasOrient)){
+          $tipos = array(
+            "INICIACAO_CIENTIFICA" => 1,
+            "TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO" => 2,
+            "MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E_ESPECIALIZACAO" => 3,
+            "ORIENTACAO-DE-OUTRA-NATUREZA" => -1
+          );
           foreach ($outrasOrient as $outrasOrient1) {
           $outrasOrient1_ = new Orientacao();
-
           $outrasOrient1_->natureza = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['NATUREZA'];
-          $outrasOrient1_->tipo = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['TIPO'];
+          try {
+            $outrasOrient1_->tipo = $tipos[$outrasOrient1_->natureza];
+          } catch (Exception $e) {
+
+          }
           $outrasOrient1_->titulo = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['TITULO'];
           $outrasOrient1_->ano = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['ANO'];
           $outrasOrient1_->idioma = attr($outrasOrient1['DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS'])['IDIOMA'];

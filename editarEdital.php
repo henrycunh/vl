@@ -41,7 +41,14 @@
   <script src="js/api/edital.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/editarEdital.js" charset="utf-8"></script>
-  <script src="js/editarEditalRegras.js" charset="utf-8"></script>
+  <script src="js/regras/utils.js" charset="utf-8"></script>
+  <script src="js/regras/banca.js" charset="utf-8"></script>
+  <script src="js/regras/coordProj.js" charset="utf-8"></script>
+  <script src="js/regras/genericas.js" charset="utf-8"></script>
+  <script src="js/regras/orientacao.js" charset="utf-8"></script>
+  <script src="js/regras/titulacao.js" charset="utf-8"></script>
+  <script src="js/regras/trabEvento.js" charset="utf-8"></script>
+  <script src="js/regras/main.js" charset="utf-8"></script>
   <script type="text/javascript">
     CKEDITOR.replace('descricao')
   </script>

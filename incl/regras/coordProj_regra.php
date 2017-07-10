@@ -38,6 +38,13 @@
           </div>
         </div>
         <!-- CONDIÇÃO DE ESTADO END -->
+        <div class="field">
+          <div class="ui checkbox" id='coordProj-lim-opt' onchange='toggleLimCoordProj()'>
+            <input type="checkbox">
+            <label>Não limitar a pontuação</label>
+          </div>
+        </div>
+
       </div>
 
       <div class="four wide column">

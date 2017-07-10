@@ -17,6 +17,7 @@
     public $orientacoes;
     public $curriculoId;
     public $nomeCompleto;
+    public $email;
     
     // Construtor
     public function __construct(){
@@ -204,7 +205,7 @@
       foreach ($keysIC as $ic)
         $queries[$ic] = $conn->query("DELETE FROM ic_$ic WHERE curriculoId=$this->curriculoId AND comprovante IS NULL");
     }
-    
+
     /**
      * Verifica se existem items na lista de ICs que possuem comprovante mas não foram validados
      *

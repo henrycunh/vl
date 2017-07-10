@@ -49,7 +49,7 @@
           Doutorado
         </div>
         <label>Pont. Individual</label>
-        <div class='ui input'>
+        <div class='ui input max'>
           <input type="input" class='ui input' id='titulacao-doc-pi'>
         </div>
       </div>

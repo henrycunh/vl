@@ -307,7 +307,14 @@ LIVROS START -->
   88   88"Yb   dP__Yb  88""Yb .o.     88""     YbdP   88""   88 Y88   88   Yb   dP
   88   88  Yb dP""""Yb 88oodP `"'     888888    YP    888888 88  Y8   88    YbodP
  TRABALHO EM EVENTO START -->
-<?php if ($curriculo->trabEventos): ?>
+<?php if ($curriculo->trabEventos):
+  $tiposTrab = array(
+    "1" => "Resumo Expandido Nacional",
+    "2" => "Resumo Expandido Internacional",
+    "3" => "Trabalho Completo Nacional",
+    "4" => "Trabalho Completo Internacional",
+  );
+  ?>
 <div class='title'><h2><i class='dropdown icon'></i>Trabalhos em Eventos</h2></div>
   <div class="ui segment padded content att" id='trabEvento'>
     <div class="ui grid">
@@ -355,7 +362,9 @@ LIVROS START -->
           <!-- Titulo Anais -->
           <?= "<b>Título nos Anais</b>: $trabEvento->titulosAnais" ?><br>
           <!-- Páginas -->
-          <?= "<b>Páginas</b>: " . $trabEvento->pagInicial . "-" . $trabEvento->pagFinal ?>
+          <?= "<b>Páginas</b>: " . $trabEvento->pagInicial . "-" . $trabEvento->pagFinal ?><br>
+          <!-- Tipo  -->
+          <?= "<b>Tipo (Classificação / País)</b>: ". $tiposTrab[$trabEvento->tipoClass]." / ".$tiposTrab[$trabEvento->tipoPais]?><br>
           </div>
         </div>
           <!-- Área de Validação -->

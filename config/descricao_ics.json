@@ -1,0 +1,37 @@
+{
+  "titulacao"         : {
+              "grad"        : "Graduação",
+              "esp"         : "Especialização",
+              "mest"        : "Mestrado",
+              "doc"         : "Doutorado"
+  },
+  "artigo"            : "Artigo publicado em periódico científico com Qualis",
+  "livro"             : "Autoria de livro publicado em editora do Brasil (com ISBN) ou do exterior",
+  "capLivro"          : "Capítulo de livro publicado em editora do Brasil (com ISBN) ou do exterior",
+  "trabEvento"        : {
+              "res_nac"     : "Resumo expandido de trabalho apresentado em evento científico realizado no Brasil e publicado no livro de resumos ou nos anais",
+              "res_inter"   : "Resumo expandido de trabalho apresentado em evento científico realizado no exterior e publicado no livro de resumos ou nos anais",
+              "trab_nac"    : "Trabalho completo apresentado em evento científico realizado no Brasil e publicado nos anais",
+              "trab_inter"  : "Trabalho completo apresentado em evento científico realizado no exterior e publicado nos anais"
+  },
+  "coordProj"         : {
+              "and"         : "Orientação ou co-orientação de projetos de pesquisa e/ou extensão em andamento",
+              "concl"       : "Orientação ou co-orientação de projetos de pesquisa e/ou extensão concluído"
+  },
+  "organizacaoEvento" : "Coordenação e/ou organização de eventos e cursos ministrados de cunho científico, de extensão e/ou cultural",
+  "banca"             : {
+              "grad"        : "Participação em bancas de trabalhos de conclusão de curso",
+              "mest"        : "Participação em bancas de defesa de Mestrado",
+              "doc"         : "Participação em bancas de defesa de Doutorado"
+  },
+  "orientacao"        : {
+              "grad"        : "Orientação ou co-orientação concluída de monografia ou trabalho de conclusão de curso",
+              "esp"         : "Orientação ou co-orientação concluída de monografia de pós graduação lato sensu",
+              "mest"        : "Orientação ou co-orientação concluída ou em andamento de mestrado",
+              "doc"         : "Orientação ou co-orientação concluída ou em andamento de doutorado"
+  },
+  "corpoEditorial"    : "Participação em conselho editorial e/ou científico de periódicos",
+  "patente"           : "Patente requerida e/ou obtida",
+  "marca"             : "Marca requerida e/ou registrada",
+  "software"          : "Registro de software requerido e/ou registrado"
+}

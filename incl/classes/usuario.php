@@ -242,7 +242,7 @@
       $prop = get_object_vars(new Curriculo);
       // Iterando pelas propriedades
       foreach ($prop as $ic => $v) {
-        if($ic != 'curriculoId' && $ic != 'nomeCompleto'){
+        if($ic != 'curriculoId' && $ic != 'nomeCompleto' && $ic != 'email'){
           $matches = array_filter($curriculo->{$ic}, function ($x){
             return $x->comprovante != NULL && $x->validado == -1;
           });
