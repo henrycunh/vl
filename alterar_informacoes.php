@@ -4,8 +4,12 @@
   require_once 'incl/database.php';
   // Requerindo Classe Usuário
   require 'incl/classes/usuario.php';
+
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
-  if(!$email) header("Location: 502.html"); die();
+  if(!$email){
+    header("Location: 502.html");
+    die();
+  }
 ?>
 <script type="text/javascript">
   var mEmail = <?= "'$email'" ?>;
@@ -18,7 +22,8 @@
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <link rel="stylesheet" href="css/alterarInfoStyle.css">
-    <title>Cadastro / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Alterar Informações / Plataforma Saga</title>
   </head>
   <body>
     <div class='wrapper'>
@@ -151,6 +156,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/api/usuario.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js" charset="utf-8"></script>
   <script src="js/validarCPF.js" charset="utf-8"></script>
   <script src="js/validarAlteracaoUsuario.js" charset="utf-8"></script>

@@ -150,7 +150,7 @@ function refreshMaxLabel(){
       item => {
         let itemLim = (item.content.lim != undefined ? !item.content.lim : true)
         if(item.ic != "titulacao" && item.ic != "coordProj" && itemLim && item.ptMax > 0){
-          console.log(item)
+        //  console.log(item)
           return item
         }
         else
@@ -160,7 +160,7 @@ function refreshMaxLabel(){
     // Pontuação dos itens
     let pontItens = itens.map(item => item.ptMax)
     let soma = pontItens.reduce((a, b) => {
-      console.log(parseFloat(a) + parseFloat(b))
+    //  console.log(parseFloat(a) + parseFloat(b))
       return parseFloat(a) + parseFloat(b)
     }, 0)
 

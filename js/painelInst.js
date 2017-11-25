@@ -27,11 +27,20 @@ function criarEdital(){
     success: data => {
       $("#criarEditalBtn").removeClass("loading")
       if(data.success){
+        // Gerando log
+        inserirLog({
+          "atividade" : "Criação de Edital",
+          "dados"     : data_
+        });
         let row = `
           <tr>
-            <td>${data_.num}</td>
+            <td><a href="editar_edital.php?num=${data_.num}">
+              <i class='edit icon'></i>
+              ${data_.num}</td>
+            </a></td>
             <td>${data_.nome}</td>
             <td>${formattedDate(new Date(data_.vig))}</td>
+            <td></td>
           </tr>
         `
         let msg = `
@@ -41,7 +50,7 @@ function criarEdital(){
         $("#editaisTable").parent().prepend(msg)
         setTimeout(()=>{
           $("#editalCriarMsg").remove()
-        }, 3000)
+        }, 1000)
       } else {
         console.log(data)
       }
@@ -49,6 +58,82 @@ function criarEdital(){
   })
 
 }
+
+function vincularPesquisador(){
+  var email = $("#emailVal").val()
+  var data_ = {
+    op    : "usuario/perfil",
+    email : email,
+    nivel : "validador"
+  }
+
+  $.ajax({
+    url: "api/usuario",
+    dataType: "JSON",
+    type: "POST",
+    data: data_,
+    success: data => {
+      function message(msg){
+        $("#confirmMessage").text(msg)
+        $("#confirmMessage").show(200)
+        return setTimeout(() => {
+          $("#confirmMessage").fadeOut(500)
+          location.reload()
+        }, 1000)
+      }
+      if(data.success){
+        // Gerando log
+        inserirLog({
+          "atividade" : "Vinculação de validador",
+          "dados"     : data_
+        });
+        message("Pesquisador vinculado com sucesso.")
+      } else {
+        message(`Erro:\n ${data.error}`)
+      }
+
+      $("#vincularValidador").modal("hide")
+    },
+    error: (e,x,s) => {
+      console.log(s)
+      console.log(e)
+      console.log(x)
+    }
+  })
+}
+
+function desvincularValidador(email){
+  var data_ = {
+    op    : "usuario/desvincular",
+    email : email
+  }
+
+  const bool = window.confirm("Tem certeza que deseja desvincular esse validador?")
+
+  if(bool){
+    $.ajax({
+      url       : "api/usuario",
+      dataType  : "JSON",
+      type      : "POST",
+      data      : data_,
+      success   : data => {
+        $(`tr[email='${email}']`).remove()
+      },
+      error     : (e,x,s) => {
+        console.log(s)
+        console.log(e)
+        console.log(x)
+      }
+    })
+  }
+
+
+}
+
+function showValModal(){
+  $("#vincularValidador").modal("show")
+}
+
 
 function formattedDate(d = new Date) {
   let month = String(d.getMonth() + 1);

@@ -72,7 +72,8 @@
     // Link do QRCode
     // Instanciando edital
     $sumario = Sumario::selectSumario($cId, $edId, $conn);
-    $QRCODE_LINK = "http://www.kanitech.com.br/verSumario.php?hashcode=$sumario->hashcode";
+    $edital = Edital::selectById($conn, $sumario->idEdital);
+    $QRCODE_LINK = "http://www.kanitech.com.br/ver_sumario.php?hashcode=$sumario->hashcode";
     // Instanciando curriculo
     $curriculo = Curriculo::getCurriculoByID($conn, $sumario->curriculoId);
     // Instanciando usuario

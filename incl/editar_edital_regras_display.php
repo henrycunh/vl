@@ -12,13 +12,40 @@
   "software" : "Software registrado",
   "titulacao" : "Titulação",
   "trabEvento" : "Trabalho realizado em Evento"
-}', true); ?>
+}', true);
+  $editais = Edital::selectEditais($conn);
+ ?>
 
 <script type="text/javascript">
   const idEdital = <?= $edital->idEdital ?>
 </script>
 
 <!-- ADIÇÃO DE REGRA -->
+<div class="ui segment secondary">
+  <div class="ui sub header">
+    Importar Regras
+  </div>
+  <div class="ui form">
+    <div class="fields">
+      <div class="twelve wide field">
+        <select id="importarEdital" class="ui dropdown">
+          <?php foreach ($editais as $edital_): if($edital_->nome == $edital->nome) continue; ?>
+            <option value="<?= $edital_->idEdital?> "><?= $edital_->nome ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="four wide field">
+        <button class='ui button teal fluid right labeled icon' onclick='importarRegras(<?= $edital->idEdital?>)'>
+          <i class='download icon'></i>
+          Importar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="ui message positive hidden" id='importMessage'>
+    
+  </div>
+</div>
 <div class="ui segment basic" id='addRegra'>
   <div class="ui form">
     <div class="fields">

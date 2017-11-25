@@ -19,27 +19,28 @@
     <link rel="stylesheet" href="css/curriculoStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Validação / <?= $usuario->nomeCompleto ?></title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Validação: <?= $usuario->nomeCompleto ?> / Plataforma Saga</title>
   </head>
   <body>
   <div style='border-radius:0; margin-bottom: 0' class='ui inverted segment'>
     <div class="ui inverted huge secondary menu">
       <div class="item">
         <div class="ui header inverted">
-          Validador Lattes / Validar Usuário
+          Plataforma Saga / Validar Usuário
         </div>
       </div>
     </div>
   </div>
 
     <main class='ui segment curriculo' id="curriculoCtn">
-    <a href="painelvalidador.php" class='ui button blue fluid'>Voltar para o Painel</a>
+    <a href="painel_validador.php" class='ui button blue fluid'>Voltar para o Painel</a>
     <div class="ui divider"></div>
     <?php
       // Preparando dados para carregar o currículo
       $email = $usuario->email;
       $curriculo = Curriculo::getCurriculoByEmail($conn, $email);
-      
+
       // Verificando se o pesquisador possuí um currículo
       if(!$curriculo):
     ?>
@@ -62,5 +63,6 @@
   <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/jquery.pseudo.js" charset="utf-8"></script>
   <script src="js/api/curriculo.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/api/validacao.js" charset="utf-8"></script>
 </html>

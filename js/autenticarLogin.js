@@ -43,6 +43,12 @@ function autenticar(){
         if(data.success){
           // Senha confere
           window.location.replace('index.php')
+          userdata.senha = '';
+          // Gerando log
+          inserirLog({
+            "atividade" : "Login",
+            "dados"     : userdata
+          });
         } else {
           // Senha não confere
           pwerro.html("Senha incorreta")
@@ -57,7 +63,10 @@ function autenticar(){
       }
 
     }
-})
+  })
+
+
+
 }
 
 function hitEnter(e){

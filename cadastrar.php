@@ -27,6 +27,20 @@
     );
     // Chamando o método de inserção
     $usuario->insert($conn);
+    // Gerando Log
+    $url = 'api/log.php';
+    $data = array(
+      "atividade" => "Cadstro",
+      "dados" => $usuario
+    );
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data)
+        )
+    );
+    $context  = stream_context_create($options);
   endif;
 ?>
 
@@ -37,7 +51,8 @@
     <link rel="stylesheet" href="css/cadastrarStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Cadastro / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Cadastro / Plataforma Saga</title>
   </head>
   <body>
 
@@ -103,6 +118,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js" charset="utf-8"></script>
   <script src="js/api/usuario.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/validarCPF.js" charset="utf-8"></script>
   <script src="js/validarCadastro.js" charset="utf-8"></script>
 </html>

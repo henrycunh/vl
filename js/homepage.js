@@ -8,6 +8,11 @@ $(()=>{
       dataType: 'json',
       data: {op:'usuario/desconectar'},
       success: data => {
+        // Gerando log
+        inserirLog({
+          "atividade" : "Desconexão",
+          "dados"     : {}
+        });
         window.location.replace('index.php')
       }
     })

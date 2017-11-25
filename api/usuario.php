@@ -44,7 +44,7 @@
         $user['coordenadoria'],
         $user['siape']
       );
-      
+
       $usuario->update($conn, $email);
       $_SESSION['email'] = $user['email'];
       $json = json_encode(['success' => 'true']);
@@ -71,6 +71,7 @@
         $hash = $usuario->senha;
         if(password_verify($candSenha, $hash)){
           $_SESSION['email'] = $data['email'];
+          $_SESSION['ip'] = getIP();
           $_SESSION['privilegios'] = $usuario->getPrivilegios($conn);
           echo json_encode(["success" => true, "emailFound" => true]);
         } else {
@@ -87,10 +88,70 @@
       session_destroy();
     }
 
+    if($data['op'] == 'usuario/perfil'){
+      $email = $data['email'];
+      $nivel = $data['nivel'];
+      // Checando pelo email
+      $emailExists = $conn->prepare("SELECT email FROM usuario WHERE email = :email");
+      $emailExists->execute([
+        ":email" => $email
+      ]);
+      if($emailExists->fetchObject()){
+        $perfil = $conn->prepare("INSERT INTO perfil(email, nivel) VALUES(:email, :nivel)");
+        $query = $perfil->execute([
+          ":email" => $email,
+          ":nivel" => $nivel
+        ]);
+        if($query){
+          echo json_encode([
+            "success" => true
+          ]);
+        } else {
+          echo json_encode([
+            "success" => false,
+            "error" => $perfil->errorInfo()
+          ]);
+        }
+      } else {
+        echo json_encode([
+          "success" => false,
+          "error" => "Email não existente."
+        ]);
+      }
+    }
+
+    if($data['op'] == 'usuario/desvincular'){
+      $email = $data['email'];
+      $stmt = $conn->prepare("DELETE FROM perfil WHERE email = :email AND nivel = :nivel");
+      $query = $stmt->execute([
+        ":email" => $email,
+        ":nivel" => "validador"
+      ]);
+
+      if($query){
+        echo json_encode([
+          "success" => true
+        ]);
+      } else {
+        echo json_encode([
+          "success" => false,
+          "error" => $perfil->errorInfo()
+        ]);
+      }
+    }
+
 
   }
 
 
-
+  function getIP(){
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+      return $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+      return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+      return $_SERVER['REMOTE_ADDR'];
+    }
+  }
 
  ?>

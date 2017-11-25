@@ -72,8 +72,16 @@ function mudarValidado(elem, state, emailVal){
       btn.removeClass('positive negative')
       btn.addClass(states[state])
       btn.text(state ? "Aceito" : "Não Aceito")
+
+      // Gerando log para alteração de estado
+      inserirLog({
+        "atividade": "Mudança em estado de validação",
+        "data"     : ic
+      });
+
     }
   })
+
 }
 
 /**
@@ -156,6 +164,14 @@ function enviarComprovante(elem){
             <a class="ui button teal" style='border-top-left-radius: 0; border-bottom-left-radius: 0;' href="#" class='enviarCurriculo' onclick='exibirEnvioComprovante(this)' filename='${ filename }'>Alterar Comprovante</a>
             `)
         }, 1000)
+
+        // Gerando Log
+        inserirLog({
+          "atividade": "Envio de comprovante",
+          "dados"    : {
+                          filename: filename
+                       }
+        });
       } else {
         msg.text(data.erro)
       }

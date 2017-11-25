@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="css/editarEdital.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <script src="https://cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
-    <title>Editar Edital / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Editar Edital / Plataforma Saga</title>
   </head>
   <body>
     <?php
@@ -39,6 +40,7 @@
   <script src="js/painelInst.js" charset="utf-8"></script>
   <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/api/edital.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>
   <script src="js/editarEdital.js" charset="utf-8"></script>
   <script src="js/regras/utils.js" charset="utf-8"></script>

@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="css/curriculoStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Painel / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Painel / Plataforma Saga</title>
   </head>
   <body>
     <aside>
@@ -34,8 +35,7 @@
       </div>
       <div class="ui segment inverted padded">
         <div class='ui fluid vertical labeled large icon buttons'>
-          <a class='ui button' href="alterar_informacoes.php"><i class='search icon'></i>Procurar Editais</a>
-          <a class='ui button' href="alterar_informacoes.php"><i class='list icon'></i>Meus Editais</a>
+          <a class='ui button' href="em_construcao.html"><i class='list icon'></i>Meus Sumários</a>
           <a class='ui button' href="alterar_informacoes.php"><i class='edit icon'></i>Alterar Informações</a>
           <a class='ui button' href='#' onclick='abrirModalCurr()'><i class='upload icon'></i>Enviar Currículo</a>
           <a class='ui button' href="#" id='deletarcurriculo'><i class='delete icon'></i>Deletar Currículo</a>
@@ -87,6 +87,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/semantic.js" charset="utf-8"></script>
   <script src="js/fileupload.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/painel.js" charset="utf-8"></script>
   <script src="js/curriculo.js" charset="utf-8"></script>
   <script src="js/jquery.pseudo.js" charset="utf-8"></script>

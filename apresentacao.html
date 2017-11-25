@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Apresentação TCC</title>
+    <link rel="stylesheet" href="css/semantic.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet">
+    <style media="screen">
+      body{
+        background: #eee;
+        padding: 0;
+        margin: 0;
+      }
+
+      #tree{
+        background: #e1e1e1;
+        padding: 1em 2em;
+        height: 100vh;
+        width: 20vw;
+        box-sizing: border-box;
+        text-align: center;
+        font-family: "Montserrat", sans-serif;
+        position: absolute;
+        text-transform: uppercase;
+        color: #888;
+        z-index: 3;
+      }
+
+      #tree h1{
+        margin: 0;
+        cursor: pointer;
+        font-weight: 200;
+        padding-bottom: 1em;
+      }
+
+      #tree ul{
+        padding: 0;
+        list-style: none;
+      }
+
+      #tree ul li{
+        padding: 0.2em 0;
+        color: #40a4cc;
+        cursor: pointer;
+      }
+
+      #tree ul li:hover{
+        color: #5ecaf5;
+      }
+
+      #opendrawer{
+        display: none;
+        position: absolute;
+        background: #ccc;
+        color: #999;
+        cursor: pointer;
+        z-index: 5;
+        padding: 40px 15px;
+        left: -55px;
+        top: 43.5vh;
+        padding-left: 60px;
+        border-radius: 50%;
+        opacity: 0;
+        font-size: 3em;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      #cpf{
+        position: absolute;
+        right: 0.5em;
+        top: 0.51em;
+        font-size: 2.5em;
+        cursor: pointer !important;
+        height: 75px;
+        width: 75px;
+        line-height: 75px;
+        text-align: center;
+        border-radius: 50%;
+        color: #ccc;
+        background: #e7e7e7;
+        z-index: 6;
+        transition: 0.4s;
+      }
+
+      #cpfcontent{
+        position: absolute;
+        right: 3.2em;
+        padding-right: 20px;
+        top: 1.25em;
+        font-size: 1.5em;
+        height: 60px;
+        display: none;
+        border-radius: 10px;
+        width: 220px;
+        line-height: 60px;
+        text-align: center;
+        color: #333;
+        background: #cecece;
+        z-index: 2;
+        transition: 0.4s;
+      }
+
+      #cpf:hover{
+        color: #999;
+        background: #e2e2e2;
+      }
+
+      .contentback{
+        width: 100vw;
+        height: 100vh;
+        display: table;
+        box-sizing: border-box;
+      }
+
+      .content{
+        text-align: center;
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      #maintext, #subtext{
+        font-family: "Montserrat", sans-serif;
+        text-shadow: 0 1px 2px #aaa;
+      }
+      #maintext{
+        color: #333;
+        display: block;
+        font-size: 6em;
+        margin-bottom: 0.5em;
+      }
+      #subtext{
+        font-size: 2em;
+        color: #777;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="tree">
+      <ul>
+        <h1>Tópicos</h1>
+        <li view="1">Introdução</li>
+        <li view="2">Problemática</li>
+        <li view="3">Resolução</li>
+        <li view="4">Segurança</li>
+        <li view="5">Pesquisador</li>
+        <li view="6">Validador</li>
+        <li view="7">Instituição</li>
+        <li view="8">Aplicação</li>
+        <li view="9">Futuro</li>
+        <li view="10">Agradecimentos</li>
+      </ul>
+    </div>
+    <div id="opendrawer">
+      >
+    </div>
+    <div id="cpf">
+      <i class='newspaper icon'></i>
+    </div>
+    <div id="cpfcontent">
+      963.171.915-49
+    </div>
+    <div class="contentback">
+        <div class="content">
+          <span id='maintext'>Olá</span>
+          <span id='subtext'></span>
+        </div>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    const cpfData = ["119.067.506-45", "624.838.955-14", "461.775.530-60", "872.222.646-04", "866.731.255-00"]
+    var views_data = [
+      {
+        "main": "Olá",
+        "sub": ""
+      },
+      {
+        "main": "Plataforma Saga",
+        "sub" : "Armazenamento, Validação e Pontuação de Currículos Lattes"
+      },
+      {
+        "main": "Por que?",
+        "sub" : "Problemáticas envolvidas no atual processo"
+      },
+      {
+        "main": "Como?",
+        "sub" : "Envolvimento e adequação dos novos procedimentos"
+      },
+      {
+        "main": "Segurança",
+        "sub" : "Medidas tomadas para previnir furto de informações"
+      },
+      {
+        "main": "Pesquisador",
+        "sub" : "Funcionalidades e responsabilidades do usuário"
+      },
+      {
+        "main": "Validador",
+        "sub" : "Processo de verificação e validação de comprovantes"
+      },
+      {
+        "main": "Instituição",
+        "sub" : "Criação e regragem de Editais/Baremas"
+      },
+      {
+        "main": "Aplicação",
+        "sub" : "A instrumentação da plataforma na Pró-reitoria de Pesquisa, Extensão e Inovação"
+      },
+      {
+        "main": "O que o futuro aguarda",
+        "sub" : "Modificações posteriores, e novas funcionalidades"
+      },
+      {
+        "main": "Agradecimentos",
+        "sub" : "Pessoas sem as quais esse projeto não seria possível"
+      }
+    ]
+
+    const tree = $("#tree")
+    const tree_title = $("#tree h1")
+    const tree_content = $("#tree ul")
+    const drawer_opener = $("#opendrawer")
+    const topics = $("#tree ul li")
+    var currView = 0;
+
+    function change_view(main, sub){
+      $("#maintext").fadeOut(400)
+      $("#subtext").fadeOut(400)
+      setTimeout(()=>{
+        $("#maintext").html(main)
+        $("#subtext").html(sub)
+      }, 400)
+      $("#maintext").fadeIn(400)
+      $("#subtext").fadeIn(400)
+    }
+
+    function close_drawer(){
+      tree_content.animate({"opacity":"0"}, 100)
+      tree.animate({"width": "1vw", "opacity": "0"}, 500)
+      drawer_opener.show()
+      drawer_opener.animate({"opacity":"1"}, 500)
+    }
+
+    function open_drawer(){
+      drawer_opener.animate({"opacity":"0"}, 300)
+      drawer_opener.hide()
+      tree.animate({"width": "20vw", "opacity": "1"}, 500)
+      tree_content.animate({"opacity": "1"}, 200)
+    }
+    // JQuery Initializing
+    $(()=>{
+      // Drawer Closening
+      tree_title.click(e => {
+        close_drawer()
+      })
+      // Drawer Opening
+      drawer_opener.click(e => {
+        open_drawer()
+      })
+      // Topics Go-to
+      topics.click(e => {
+        let view = $(e.target).attr("view")
+        currView = view
+        view_data = views_data[view]
+        change_view(view_data.main, view_data.sub)
+        close_drawer()
+      })
+      // CPF
+      $("#cpf").click(e => {
+        var cpfbar = $("#cpfcontent")
+        cpfbar.html(cpfData[Math.floor(Math.random() * 4)])
+        cpfbar.css({"opacity":"0", "display":"block"})
+        cpfbar.animate({"opacity": "1"}, 200)
+        setTimeout(()=>{
+          cpfbar.animate({"opacity": "0"}, 200)
+          cpfbar.hide()
+        }, 8000)
+      })
+      tree_title.click()
+
+      $(document).on("keydown", e => {
+          if(e.key == "ArrowRight"){
+            if(currView < views_data.length-1){
+              // Próximo Slide
+              currView++;
+              let view = views_data[currView]
+              change_view(view.main, view.sub)
+            }
+          } else if (e.key == "ArrowLeft"){
+            if(currView > 0){
+              // Slide Anterior
+              currView--;
+              let view = views_data[currView]
+              change_view(view.main, view.sub)
+            }
+          }
+      })
+    })
+  </script>
+</html>

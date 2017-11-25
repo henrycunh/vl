@@ -21,7 +21,7 @@
        doc  : { ptInd: docPtInd, ptMax: docPtMax },
      }
 
-   let tipos = ["grad", "esp", "mest", "doc"]
+   let tipos = ["grad", "mest", "doc"]
    // Adicionando as regras ao banco de dados
    for (tipo of tipos) {
      let mRegra = {
@@ -79,7 +79,7 @@ function formatBanca(){
           </div>
         </td>
         <td class='ui center aligned' rowspan='4'>
-          <button onclick='deleteTrabEvento()' class='ui button circular icon negative'>
+          <button onclick='deleteBanca()' class='ui button circular icon negative'>
             <i class='remove icon'></i>
           </button>
         </td>

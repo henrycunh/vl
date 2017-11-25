@@ -1,7 +1,7 @@
 
 function aplicarEdital(numero){
 
-  var data = {
+  var data_ = {
     op: "sumario/criar",
     numero: numero
   }
@@ -10,10 +10,15 @@ function aplicarEdital(numero){
     url: "api/edital.php",
     dataType: "json",
     type: "POST",
-    data: data,
+    data: data_,
     success: data => {
       console.log(data)
       location.reload(true)
+      // Gerando log
+      inserirLog({
+        "atividade" : "Criação de Sumário",
+        "dados"     : data_
+      });
     },
     error: (e,x,s) => {
       console.log(s)

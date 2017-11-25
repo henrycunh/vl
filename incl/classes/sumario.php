@@ -8,10 +8,8 @@
     public $curriculoId;  # ID do Currículo
     public $content;      # Conteúdo de pontuação do sumário
     public $dataPont;     # Data em que foi efetuada a pontuação
-    /**
-     * Função construtora da classe
-     *
-     */
+
+    /* Função construtora da classe */
     public function __construct(){
       $this->idSumario = '';
       $this->idEdital = '';
@@ -21,6 +19,7 @@
       $this->content = '';
       $this->dataPont = '';
     }
+
 
     public static function selectSumario($cId, $edId, $conn){
       // Comando SQL
@@ -98,18 +97,13 @@
         print_r($stmt->errorInfo());
         return false;
       }
-
     }
-    /**
-     * Função construtora da classe
-     *
-     */
+
     public static function checkSumario($cId, $edId, $conn){
       $SQL = "SELECT * FROM sumario WHERE curriculoId = $cId AND idEdital = $edId";
       $found = $conn->query($SQL)->fetch(PDO::FETCH_ASSOC);
       return $found;
     }
-
 
 
     /**
@@ -372,7 +366,7 @@ function pontGeneric($ics, $regras, $name){
       $total = $lim || $itens <= $max ? $itens * $pt : $max * $pt;
       return array("pt" => $total, "itens" => $itens, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
     } else {
-      return 0;
+      return array("pt" => 0, "itens" => 0, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
     }
   }
 }

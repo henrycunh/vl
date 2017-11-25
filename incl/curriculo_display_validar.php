@@ -3,7 +3,7 @@
   $prop = get_object_vars($curriculo);
   $valIC = array();
   foreach ($prop as $ic => $v) {
-    if($ic != "curriculoId" && $ic != "nomeCompleto"){
+    if($ic != "curriculoId" && $ic != "nomeCompleto" && $ic != "email"){
       $valIC[$ic] = checkForNonValidated($ic, $curriculo);
     }
   }
@@ -906,6 +906,7 @@ SOFTWARE START -->
     </div>
   </div>
 </div>
+
 <?php
   // Funções de Utilidade
   function areaVal($comprovante, $flag, $ic, $curriculoId, $icId){

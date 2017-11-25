@@ -1,5 +1,5 @@
 <div style='margin: 2em' class="ui segment secondary loading" id='mainbody'>
-  <a href='painelinst.php' class='ui button fluid blue'>
+  <a href='painel_instituicao.php' class='ui button fluid blue'>
     Voltar para o painel
   </a>
   <div class="ui segment">
@@ -9,7 +9,7 @@
     <div class="ui divider"></div>
     <div class="ui form">
       <div class="fields">
-        <div class="two wide field">
+        <div class="four wide field">
           <label>Número do Edital</label>
           <input type="text" id='numEdital' value='<?= $edital->numero ?>'>
         </div>
@@ -17,11 +17,15 @@
           <label>Nome do Edital</label>
           <input type="text" id='nomeEdital' value='<?= $edital->nome ?>'>
         </div>
-        <div class="four wide field">
+        <div class="three wide field">
           <label>Data de Vigência</label>
           <input type="date" id='vigenciaEdital' value='<?= $edital->vigencia ?>'>
         </div>
-        <div class="four wide disabled field">
+        <div class="two wide field">
+          <label>Pontuação Máxima</label>
+          <input type="number" id="pontMaxEdital" value='<?= $edital->pontMax ?>'>
+        </div>
+        <div class="three wide disabled field">
           <label>Data de Criação</label>
           <input type="date" value='<?= $edital->dataCriacao ?>'>
         </div>
@@ -35,12 +39,12 @@
       </div>
       <div class="field">
         <label>Descrição</label>
-        <textarea name="descricao" id='descricaoEdital' rows="8"><?= $edital->descricao ?></textarea>
+        <textarea name="descricao" id='descricaoEdital' rows="4"><?= $edital->descricao ?></textarea>
       </div>
       <div class="ui segment right aligned basic">
         <div class="ui large left labeled button">
           <?php if($edital->link): ?>
-            <a target="_blank" href='<?= $edital->link ?>' class="ui label blue basic right pointing link">
+            <a target="_blank" href='<?= $edital->link ?>' id='pdflink' class="ui label blue basic right pointing link">
               Ver Edital
             </a>
           <?php else: ?>
@@ -54,7 +58,7 @@
           </button>
         </div>
 
-        <button onclick='salvarAlteracoes(<?= $edital->numero ?>)' id='saveBtn' class="ui positive button large right labeled icon">
+        <button onclick='salvarAlteracoes("<?= $edital->numero ?>")' id='saveBtn' class="ui positive button large right labeled icon">
           <i class='save icon'></i>
           Salvar
         </button>

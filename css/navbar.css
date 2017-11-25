@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto:300');
+
+nav{
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  padding: 1.5em 1em;
+  right: 0.1px;
+  background: #1c1c1c;
+}
+
+nav.relative{
+  position: relative;
+}
+
+nav a{
+  font-size: 1.25em;
+  color: #d6d6d6;
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  padding: 0.4em 1em;
+  margin: 0 0.2em;
+  border-bottom: 2px solid transparent;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+nav a:hover{
+  border-bottom: 2px solid #ffffff;
+  color: #ffffff;
+}

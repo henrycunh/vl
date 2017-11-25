@@ -16,7 +16,7 @@ function abrirModalCurr(){
 function enviarArquivo(){
     if(file.size < 5000000){
       $("#label").html('Enviando...')
-      $("#fileCurriculo").upload("processar_curriculo.php", success=>{
+      $("#fileCurriculo").upload("processar_curriculo.php", success => {
           console.log(success)
           let d = success
           let relatorio = `
@@ -77,7 +77,11 @@ function enviarArquivo(){
             </table>
           `
           $("#modalIn").html(relatorio)
-
+          // Gerando logs
+          inserirLog({
+            "atividade" : "Enviando currículo",
+            "dados"     : {}
+          });
         setTimeout(()=>{
           window.location.replace('painel.php')
         }, 4000)
@@ -104,6 +108,11 @@ $(()=>{
       dataType: 'json',
       data: {op:'usuario/desconectar'},
       success: data => {
+        // Gerando log
+        inserirLog({
+          "atividade" : "Desconexão",
+          "dados"     : {}
+        });
         window.location.replace('index.php')
       }
     })
@@ -131,6 +140,11 @@ $(()=>{
       url: 'api/curriculo.php',
       data: {op:'curriculo/deletar'},
       success: data => {
+        // Gerando log
+        inserirLog({
+          "atividade" : "Deleção de currículo",
+          "dados"     : {}
+        });
         console.log(data)
         window.location.replace('painel.php')
       },

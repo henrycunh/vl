@@ -68,12 +68,24 @@ function atualizarUsuario(){
 
   updateUsuario(mEmail, user, data => {
     $("#msg").html("Usuário atualizado.").delay(2000).fadeOut(300)
+    
+    // Gerando log para alteração de dados
+    inserirLog({
+      "atividade": "Alteração de Dados",
+      "data"     : user
+    });
   }, ()=>{
     $("#msg").html("Atualizando...")
   })
   mEmail = user.email
+
   if($("#pw").val() != '' && checkPW()){
     changePassword(mEmail, $("#pw").val(), ()=>{});
+    // Gerando log para alteração de senha
+    inserirLog({
+      "atividade": "Alteração de Senha",
+      "data"     : {}
+    });
   }
 }
 

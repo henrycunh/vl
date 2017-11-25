@@ -16,6 +16,8 @@
   $sumario = Sumario::selectSumarioByHash($hashcode, $conn);
   $curriculo = Curriculo::getCurriculoByID($conn, $sumario->curriculoId);
   $usuario = Usuario::selectByEmail($conn, $email);
+  $navbar_relative = true;
+  $edital = Edital::selectById($conn, $sumario->idEdital);
   $QRCODE_LINK = "http://validadorlattes.com/verSumario.php?hashcode=$sumario->hashcode";
 ?>
 <!DOCTYPE html>
@@ -23,35 +25,14 @@
   <head>
     <link rel="stylesheet" href="css/homeStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Validador Lattes</title>
+    <title>Sumário / Plataforma Saga</title>
   </head>
   <body>
 
   <!-- Barra de navegação -->
-  <div style='border-radius:0; margin-bottom: 0' class='ui inverted segment'>
-    <div class="ui inverted huge secondary menu">
-      <a class='item active'><img src='imgs/logo.svg' height='32'></a>
-      <div class="right menu">
-      <?php if(!$email): ?>
-      <a class='ui item' href="login.php">
-        <i class='sign in icon'></i>
-        Login
-      </a>
-      <a class='ui item' href="cadastrar.php">
-        <i class='add user icon'></i>
-        Cadastrar-se
-      </a>
-      <?php else: ?>
-        <?= (isset($_SESSION['privilegios']['pesquisador']) ? '<a class="ui item" href="painel.php">Painel do Pesquisador</a>' : '') ?>
-        <?= (isset($_SESSION['privilegios']['validador']) ? '<a class="ui item" href="painelvalidador.php">Painel do Validador</a>' : '') ?>
-        <?= (isset($_SESSION['privilegios']['gerenciador']) ? '<a class="ui item" href="painelinst.php">Painel do Instituto</a>' : '') ?>
-        <a class='ui item' href="#">Editais</a>
-        <a class='ui item' href="#" id='desconectar'>Desconectar</a>
-      <?php endif; ?>
-      </div>
-    </div>
-  </div>
+  <?php require 'incl/views/navbar.php' ?>
   <!-- Barra de navegação END -->
 
   <!-- GRID START -->
@@ -66,6 +47,7 @@
         </div>
         <div class="eight wide column">
           <b>Data de criação do Sumário:</b> <?= date("d/m/Y", strtotime($sumario->dataPont)) ?><br>
+          <b>Número do Edital:</b> <?= $edital->numero ?>
         </div>
       </div>
       <div class="ui divider"></div>
@@ -86,8 +68,8 @@
         <?php foreach ($sumario->getFormatedContent() as $ic): ?>
           <tr>
             <td> <?=$ic["label"]?> </td>
-            <td style='text-align: center'> <?=$ic["pt"]?> </td>
-            <td style='text-align: center'> <?=$ic["ptMax"]?> </td>
+            <td style='text-align: center'> <?= empty($ic["pt"]) ? "0" : $ic["pt"] ?> </td>
+            <td style='text-align: center'> <?= empty($ic["ptMax"]) ? "0" : ($ic["ptMax"] == "-1" ? "<b style='color:#777'>S.L</b>" : $ic["ptMax"]) ?> </td>
           </tr>
         <?php endforeach; ?>
       </table>
@@ -97,7 +79,7 @@
 
           <div class="eight wide column">
             <div class="ui segment center aligned basic">
-              <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=<?= $QRCODE_LINK?>&choe=UTF-8" alt="">
+              <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=<?= $QRCODE_LINK?>&choe=UTF-8" alt="">
             </div>
           </div>
 

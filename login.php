@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <link rel="stylesheet" href="css/loginStyle.css">
-    <title>Login / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Login / Plataforma Saga</title>
   </head>
   <body>
 <div class="ui middle aligned center aligned grid">
@@ -56,5 +57,6 @@
 
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/autenticarLogin.js" charset="utf-8"></script>
 </html>

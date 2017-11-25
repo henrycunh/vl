@@ -7,11 +7,10 @@
   // Definindo $email
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
-  $validador = $_SESSION['privilegios']['validador'];
-  if(!$validador){header("Location: 502.html"); die();}
+  $inst_val = $_SESSION['privilegios']['gerenciador'];
+  if(!$inst_val) die("Acesso não autorizado.");
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
-  $nome = $usuario->getNome();
   if(!$email){header("Location: 502.html"); die();} ?>
 
 <!DOCTYPE html>
@@ -21,20 +20,25 @@
     <link rel="stylesheet" href="css/painelValidadorStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Painel / Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Painel / Plataforma Saga</title>
   </head>
   <body>
     <aside>
       <div class="ui segment inverted basic">
         <h4 class='ui header inverted'>
-          Painel do Validador
+          Painel da Instituição
           <div class="ui sub header">
-            <?= $nome ?>
+            Propex - IFS
           </div>
         </h4>
       </div>
       <div class="ui padded inverted segment">
       <div class="ui fluid vertical labeled large icon buttons">
+          <a class='ui button' href='controle_validadores.php'>
+            <i class='user icon'></i>
+            Validadores
+          </a>
           <a class='ui button' href='#' id='desconectar'>
             <i class='sign out right icon'></i>
             Desconectar
@@ -57,47 +61,47 @@
 
     <main>
       <div style='border-radius: 0' class="ui segment">
-        <h1 class='ui header'>Currículo
+        <h1 class='ui header'>Editais
           <div class="ui sub header">
-            Suas Informações
+            Controle e revisão dos Editais
           </div>
         </h1>
 
       </div>
       <div class='ui segment' style='margin: 0.6em'>
-      <table class='ui table celled padded'>
-        <tr>
-          <th class='collapsing'>Nome</th>
-          <th>Email</th>
-          <th class='collapsing'>CPF</th>
-          <th></th>
-        </tr>
-      <?php
-        $pesquisadores = $conn->query("SELECT email FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($pesquisadores as $row): 
-          $usuario = Usuario::selectByEmail($conn, $row['email']); 
-          $hasNonValidated = $usuario->hasCurriculo($conn) && $usuario->hasNonValidated($conn); ?>
-        <tr>
-          <td class='<?= ($hasNonValidated ? 'warning' : '') ?>'>
-            <?= ($hasNonValidated ? "<i class='attention icon'></i>" : '') ?>
-            <?= $usuario->nomeCompleto ?>
-          </td>
-          <td><?= $usuario->email ?></td>
-          <td class='collapsing'><?= $usuario->cpf ?></td>
-          <td class='right aligned collapsing'>
-              <a href='validarPesquisador.php?cpf=<?= $usuario->cpf ?>'>
-                <i class='large eye icon'></i>
-              </a>
-          </td>
-        </tr>
-      <?php
-        endforeach;
-       ?>
-      </table>
+        <?php require 'incl/edital_display.php'; ?>
       </div>
-
     </main>
+
+
+    <!-- Modal de Vinculação de Validador -->
+    <div class="ui modal" id='vincularValidador'>
+      <div class="header">
+        Vincular Validador
+      </div>
+      <div class="ui segment basic padded center aligned">
+        <div class="ui form">
+          <div class="fields">
+            <div class="twelve wide field">
+              <label>E-mail do Validador</label>
+              <input type="text" id='emailVal'>
+            </div>
+            <div class="six wide field">
+              <label style='color: transparent'>Button</label>
+              <div class="ui button fluid green" onclick="vincularPesquisador()">
+                Vincular
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
-  <script src="js/painelValidador.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
+  <script src="js/semantic.js" charset="utf-8"></script>
+  <script src="js/painelInst.js" charset="utf-8"></script>
 </html>

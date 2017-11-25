@@ -1,43 +1,142 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto:300');
 
 body{
-  margin: 0;
   padding: 0;
+  margin: 0;
+  background: #101010;
 }
 
-#header{
-  padding: 1em;
-  min-height: 400px;
+header{
+  min-height: 450px;
   width: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.77) 100%), url(../imgs/stock.jpg);
-  background-position: top;
+  display: table;
+  background: url('../imgs/background.png');
   background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  margin: 0;
 }
 
-#header .content{
-  background: #ffffff;
-  color: #000;
-  width: 60%;
-  float: left;
+header .text{
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+header h1{
+  font-family: "Oswald", sans-serif;
+  color: #fff;
+  text-shadow: 0 2px 10px #000;
+  font-size: 12em;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+header h2{
+  font-family: "Oswald", sans-serif;
+  color: #fff;
+  text-shadow: 0 2px 10px #000;
+  font-size: 2em;
+  margin-top: -0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+}
+
+.info{
+  background: #0a0a0a;
+  color: #ccc;
+  font-family: "Roboto", sans-serif;
+  padding-bottom: 1em;
+}
+
+.info .symbol{
+  width: 20%;
+  display: inline-block;
+  background: #333;
+  height: 250px;
+  margin: 1em;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.info .symbol img{
+  height: 230px;
+}
+
+.info .descricao{
+  display: inline-block;
+  width: 75%;
+  vertical-align: top;
+  padding-left: 1em;
+  margin: 1em 0;
+}
+
+.info .descricao p{
+  text-align: justify;
+}
+
+/* Section Headers */
+.editais h1, .info h1{
+  background: hsla(0, 0%, 11%, 1);
+  padding: 0.5em;
+  font-family: "Roboto", sans-serif;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 24pt;
+}
+
+.editais{
+  margin-top: 0em;
+  background: hsl(0, 0%, 6%);
+  padding-bottom: 3.5em;
+}
+
+
+.editais.wrapper{
+  padding: 0.5em 1em;
+}
+
+.edital.item{
   padding: 1em;
-  border: 1px solid rgba(60, 60, 60, 0.25);
-  border-radius: 4px;
-  height: 375px;
+  background: hsl(0, 0%, 98%);
 }
 
-#editais{
-  padding: 1em;
+.edital.header{
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
-.descricao{
-  font-size: 0.95em !important;
-  color: #666 !important;
-}
-
-.limit-lines {
-  display: block;
-  text-overflow: ellipsis;
+.edital.desc{
+  font-family: "Roboto", sans-serif;
+  text-align: justify;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  height: 75px;
   overflow: hidden;
-  line-height: 1.8em;
-  height: 14.4em;
+  text-overflow: clip ellipsis;
+  box-sizing: border-box;
+}
+
+.edital.data{
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+footer{
+  height: 100px;
+  background: #0a0a0a;
+  text-align: center;
+  line-height: 100px;
+  font-size: 12pt;
+  color: #666;
 }

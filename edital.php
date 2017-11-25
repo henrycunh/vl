@@ -14,10 +14,16 @@
   }
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   $edital = Edital::selectByNumero($conn, $numero);
-  $cId = Curriculo::getIDByEmail($conn, $_SESSION["email"]);
-  $edId = $conn->query("SELECT idEdital FROM edital WHERE numero = $numero")->fetch(PDO::FETCH_ASSOC)["idEdital"];
-  $applied = Sumario::checkSumario($cId, $edId, $conn);
-  $sumario = $applied ? Sumario::selectSumario($cId, $edId, $conn) : new Sumario();
+  $applied = false;
+  $navbar_relative = true;
+  $edId = $conn->query("SELECT idEdital FROM edital WHERE numero = '$numero'")->fetch(PDO::FETCH_ASSOC)["idEdital"];
+  if($email){
+    $cId = Curriculo::getIDByEmail($conn, $_SESSION["email"]);
+    if($cId){
+      $applied = Sumario::checkSumario($cId, $edId, $conn);
+      $sumario = $applied ? Sumario::selectSumario($cId, $edId, $conn) : new Sumario();
+    }
+  }
 
 ?>
 <!DOCTYPE html>
@@ -26,34 +32,13 @@
     <link rel="stylesheet" href="css/homeStyle.css">
     <link rel="stylesheet" href="css/semantic.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
-    <title>Validador Lattes</title>
+    <link rel="icon" type="image/png" href="imgs/sagalogo.png" />
+    <title>Edital / Plataforma Saga</title>
   </head>
   <body>
 
   <!-- Barra de navegação -->
-  <div style='border-radius:0; margin-bottom: 0' class='ui inverted segment'>
-    <div class="ui inverted huge secondary menu">
-      <a class='item active'><img src='imgs/logo.svg' height='32'></a>
-      <div class="right menu">
-      <?php if(!$email): ?>
-      <a class='ui item' href="login.php">
-        <i class='sign in icon'></i>
-        Login
-      </a>
-      <a class='ui item' href="cadastrar.php">
-        <i class='add user icon'></i>
-        Cadastrar-se
-      </a>
-      <?php else: ?>
-        <?= (isset($_SESSION['privilegios']['pesquisador']) ? '<a class="ui item" href="painel.php">Painel do Pesquisador</a>' : '') ?>
-        <?= (isset($_SESSION['privilegios']['validador']) ? '<a class="ui item" href="painelvalidador.php">Painel do Validador</a>' : '') ?>
-        <?= (isset($_SESSION['privilegios']['gerenciador']) ? '<a class="ui item" href="painelinst.php">Painel do Instituto</a>' : '') ?>
-        <a class='ui item' href="#">Editais</a>
-        <a class='ui item' href="#" id='desconectar'>Desconectar</a>
-      <?php endif; ?>
-      </div>
-    </div>
-  </div>
+  <?php require 'incl/views/navbar.php' ?>
   <!-- Barra de navegação END -->
 
   <!-- GRID START -->
@@ -64,7 +49,7 @@
         <div class="ui header">
           <?= $edital->nome ?>
           <div class="ui sub header">
-            #<?= $edital->numero ?> | Vigência: <?= date("d/m/Y",strtotime($edital->vigencia)) ?>
+            <?= $edital->numero ?> | Vigência: <?= date("d/m/Y",strtotime($edital->vigencia)) ?>
           </div>
         </div>
         <div class="ui segment basic">
@@ -75,12 +60,12 @@
           <div class="ui segment center aligned basic">
             <div onclick="aplicarEdital('<?= $numero ?>')" class="ui button large green right labeled icon">
               <i class='checkmark icon'></i>
-              Aplicar ao Edital
+              Gerar Sumário
             </div>
           </div>
         <?php elseif($applied): ?>
           <div class="ui segment center aligned basic">
-            <a href='verSumario.php?hashcode=<?= $sumario->hashcode ?>' class="ui button large blue right labeled icon">
+            <a href='ver_sumario.php?hashcode=<?= $sumario->hashcode ?>' class="ui button large blue right labeled icon">
               <i class='eye icon'></i>
               Ver sumário
             </a>
@@ -119,6 +104,7 @@
 <!-- GRID END -->
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
+  <script src="js/api/log.js" charset="utf-8"></script>
   <script src="js/homepage.js" charset="utf-8"></script>
   <script src="js/edital.js" charset="utf-8"></script>
 </html>

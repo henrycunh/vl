@@ -29,6 +29,8 @@ table{
 
 <div class="cnt">
   <b>Nome Completo:</b> <?= $usuario->nomeCompleto ?>
+  <hr>
+  <b>Número do Edital:</b> <?= $edital->numero ?>
 </div>
 <div class="cnt">
   <b>Data de Pontuação:</b> <?= date("d/m/Y", strtotime($sumario->dataPont)) ?>
@@ -44,8 +46,8 @@ table{
   <?php foreach ($data as $ic): ?>
     <tr>
       <td style='text-align: left'> <?=$ic["label"]?> </td>
-      <td> <?=$ic["pt"]?> </td>
-      <td> <?=$ic["ptMax"]?> </td>
+      <td> <?=empty($ic["pt"]) ? "0" : $ic["pt"]?> </td>
+      <td> <?=empty($ic["ptMax"]) ? "0" : ($ic["ptMax"] == "-1" ? "<b style='color:#777'>S.L</b>" : $ic["ptMax"])?> </td>
     </tr>
   <?php endforeach; ?>
 </table>
