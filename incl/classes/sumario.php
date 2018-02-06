@@ -105,6 +105,9 @@
       return $found;
     }
 
+    public function getEdital($conn, $idEdital){
+      return $conn->query("SELECT * FROM edital WHERE idEdital = ".$idEdital)->fecth(PDO::FETCH_ASSOC);
+    }
 
     /**
     * Retorna um sumário baseado nas regras do edital vinculado,
@@ -132,14 +135,12 @@
         $curriculo = Curriculo::getCurriculoByID($conn,$cId);
         // Lista com os ICs genéricos, que só condicionam o ano
         $genericICs = array(
-          "artigo" => $curriculo->artigos,
-          "capLivro" => $curriculo->capLivros,
-          "corpoEditorial" => $curriculo->corposEditoriais,
-          "livro" => $curriculo->livros,
-          "marca" => $curriculo->marcas,
+          "capLivro"          => $curriculo->capLivros,
+          "corpoEditorial"    => $curriculo->corposEditoriais,
+          "livro"             => $curriculo->livros,
           "organizacaoEvento" => $curriculo->organizacaoEventos,
-          "patente" => $curriculo->patentes,
-          "software" => $curriculo->softwares,
+          "patente"           => $curriculo->patentes,
+          "partPos"           => $curriculo->partPos
         );
 
 
@@ -155,11 +156,14 @@
         $content["titulacao"] = array("detail" => $ptTitulacao, "generico" => false);
         $pontuacao += $ptTitulacao["pont"];
 
+        $ptArtigo = pontArtigo( $curriculo->artigos, $regras['artigo'] );
+        $content["artigo"] = array("detail" => $ptArtigo, "generico" => false);
+        $pontuacao += $ptArtigo['pont'];
+
         // Pontuando Banca
         $ptBanca = pontBanca($curriculo->bancas, $regras['banca']);
         $content["banca"] = array("detail" => $ptBanca, "generico" => false);
         $pontuacao += $ptBanca["pt"];
-
         // Pontuando Coordenação de Projetos
         $ptCoordProj = pontCoordProj($curriculo->coordProjs, $regras['coordProj']);
         $content["coordProj"] = array("detail" => $ptCoordProj, "generico" => false);
@@ -283,6 +287,7 @@
 
 }
 
+
 function pontTitulacao($ics, $regras){
   if(count($regras) > 0){
     $titulacoes = getValidated($ics);
@@ -343,31 +348,118 @@ function pontTitulacao($ics, $regras){
 }
 
 
-
-
-
+function pontArtigo($ics, $regras){ 
+  // Checa se existem regras
+  if(!count($regras)) return;
+  // Seleciona apenas os ICs validados
+  $ics = getValidated($ics);
+  // Como esse tipo de IC só pode ter uma regra, a seleciona
+  $regra = $regras[0];
+  // Checa se existem ICs validados
+  if(count($ics) > 0){
+    // Define um dicionário de extratos e seus valores númericos
+    $extrato_dict = [
+      "a1"  => 0,
+      "a2"  => 1,
+      "b1"  => 2,
+      "b2"  => 3,
+      "b3"  => 4,
+      "b4"  => 5,
+      "b5"  => 6,
+      "c"   => 7,
+    ];
+    // Seleciona a condição de ano da regra
+    $ano = $regra->content->ano;
+    // Seleciona condição de extrato da regra
+    $extrato = $regra->content->extrato;
+    // Seleciona os ICs que cumprirem com o requisito de ano
+    $itens = array_filter($ics, function($item) use($ano){
+      return $item->ano >= $ano;
+    });
+    // Seleciona ICs que cumprirem com o requisito de Extrato
+    $itens = array_filter($itens, function($item) use($extrato, $extrato_dict){
+      return $extrato_dict[$item->extrato] <= $extrato_dict[$extrato];
+    });
+    $itens = count($itens);
+    $lim = $regra->content->lim;
+    $max = $lim ? false : $regra->ptMax / $regra->ptInd;
+    $pt =  $regra->ptInd;
+    $total = $lim || $itens <= $max ? $itens * $pt : $max * $pt;
+    return array("pont" => $total, "itens" => $itens, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
+  } else {
+    return array("pt" => 0, "itens" => 0, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
+  }
+}
 
 
 function pontGeneric($ics, $regras, $name){
-  if(count($regras) > 0){
+    // Checa se existem regras 
+    if(!count($regras)) return;
+    // Pega apenas os ICs validados
     $ics = getValidated($ics);
+    // Adota a primeira regra como geral (ou seja, em todo caso existiria apenas uma regra)
     $regra = $regras[0];
+    // Checa se existem ICs validados
     if(count($ics) > 0){
+      // Pega a condição de ano da regra
       $ano = $regra->content->ano;
+      // Verifica os ICs, averiguando se cumprem a condição de ano
       $itens = array_filter($ics, function($item) use($ano, $name){
-        if($name == 'corpoEditorial')
+        if($name == 'corpoEditorial') // Caso o tipo do IC seja CorpoEditorial
           return substr($item->dataFim, 3) >= $ano || empty($item->dataFim) || $item->dataFim == '/';
+        else if($name == 'partPos') // Caso o tipo do IC seja PartPos
+          return $item->ingresso >= $ano;
         return $item->ano >= $ano;
       });
+      // Conta a quantidade de ICs que cumpriram com o requerimento
       $itens = count($itens);
+      // Verifica a regra de limite
       $lim = $regra->content->lim;
+      // Caso a regra de limite esteja em uso, não define um máximo de, caso contrário, define um máximo
       $max = $lim ? false : $regra->ptMax / $regra->ptInd;
+      // Define a pontuação por item
       $pt =  $regra->ptInd;
+      // Calcula a pontuação total
       $total = $lim || $itens <= $max ? $itens * $pt : $max * $pt;
+      // Retorna a pontuação total, os itens, e o contexto da regra
       return array("pt" => $total, "itens" => $itens, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
     } else {
+      // Caso em que não existem ICs válidos
       return array("pt" => 0, "itens" => 0, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
     }
+}
+
+
+function pontMarca($ics_marcas, $ics_software, $regras){
+  // Checa se existem regras 
+  if(!count($regras)) return;
+  // Pega apenas os ICs validados
+  $ics = array_merge(getValidated($ics_marcas), getValidated($ics_software));
+  // Adota a primeira regra como geral (ou seja, em todo caso existiria apenas uma regra)
+  $regra = $regras[0];
+  // Checa se existem ICs validados
+  if(count($ics) > 0){
+    // Pega a condição de ano da regra
+    $ano = $regra->content->ano;
+    // Verifica os ICs, averiguando se cumprem a condição de ano
+    $itens = array_filter($ics, function($item) use($ano, $name){
+      return $item->ano >= $ano;
+    });
+    // Conta a quantidade de ICs que cumpriram com o requerimento
+    $itens = count($itens);
+    // Verifica a regra de limite
+    $lim = $regra->content->lim;
+    // Caso a regra de limite esteja em uso, não define um máximo de, caso contrário, define um máximo
+    $max = $lim ? false : $regra->ptMax / $regra->ptInd;
+    // Define a pontuação por item
+    $pt =  $regra->ptInd;
+    // Calcula a pontuação total
+    $total = $lim || $itens <= $max ? $itens * $pt : $max * $pt;
+    // Retorna a pontuação total, os itens, e o contexto da regra
+    return array("pt" => $total, "itens" => $itens, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
+  } else {
+    // Caso em que não existem ICs válidos
+    return array("pt" => 0, "itens" => 0, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
   }
 }
 
@@ -377,8 +469,10 @@ function pontGeneric($ics, $regras, $name){
 
 
 
+
+
 function pontBanca($ics, $regras){
-  if(count($regras) > 0){
+    if(!count($regras)) return;
     $tipos = array("1" => "grad", "3" => "mest", "4" => "doc");
     $ics = getValidated($ics);
     $itens = array("grad" => array(), "mest" => array(), "doc" => array());
@@ -425,7 +519,6 @@ function pontBanca($ics, $regras){
       )
     );
     return $result;
-  }
 }
 
 
@@ -436,39 +529,53 @@ function pontBanca($ics, $regras){
 
 
 function pontCoordProj($ics, $regras){
-  if(count($regras) > 0){
+    // Checa se existem regras
+    if(!count($regras)) return;
+    // Pega o ICs validados
     $coords = getValidated($ics);
     $regra = $regras[0];
     $state = $regra->content->estado;
     $ano = $regra->content->ano;
     $lim = $regra->ptMax == -1 && $regra->content->pontMaxAnd == -1;
 
-    // Separando por tipos
-    $concl = achar($coords, function($item) use($ano){
-      return $item->situacao == 'CONCLUIDO' && ($ano ? $item->anoInicio >= $ano || $item->anoInicio == '' : true);
-    });
-    $and = achar($coords, function($item) use($ano){
-      return $item->situacao  == 'EM_ANDAMENTO' && ($ano ? $item->anoInicio >= $ano || $item->anoInicio == '' : true);
-    });
+    if($state){
+      // Separando por tipos
+      $concl = achar($coords, function($item) use($ano){
+        return $item->situacao == 'CONCLUIDO' && ($ano ? $item->anoInicio >= $ano || $item->anoInicio == '' : true);
+      });
+      $and = achar($coords, function($item) use($ano){
+        return $item->situacao  == 'EM_ANDAMENTO' && ($ano ? $item->anoInicio >= $ano || $item->anoInicio == '' : true);
+      });
+      // Pontuando
+      $maxConcl = $regra->ptMax / $regra->ptInd;
+      $maxAnd = $regra->content->pontMaxAnd / $regra->content->pontIndAnd;
+      $iConcl = count($concl);
+      $iAnd = count($and);
+      $pontConcl = $lim || $iConcl <= $maxConcl ? $iConcl * $regra->ptInd : $maxConcl * $regra->ptInd;
+      $pontAnd = $lim || $iAnd <= $maxAnd ? $iAnd * $regra->content->pontIndAnd : $maxAnd * $regra->content->pontIndAnd;
+  
+      $result = array(
+        "ptAnd" => $pontAnd,
+        "ptConcl" => $pontConcl,
+        "itensAnd" => $iAnd,
+        "itensConcl" => $iConcl,
+        "ptMaxAnd" => $regra->content->pontMaxAnd,
+        "ptMaxConcl" => $regra->ptMax
+      );
+      return $result;
+    }
+     // Conta a quantidade de ICs que cumpriram com o requerimento
+     $itens = count($coords);
+     // Caso a regra de limite esteja em uso, não define um máximo de, caso contrário, define um máximo
+     $max = $lim ? false : $regra->ptMax / $regra->ptInd;
+     // Define a pontuação por item
+     $pt =  $regra->ptInd;
+     // Calcula a pontuação total
+     $total = $lim || $itens <= $max ? $itens * $pt : $max * $pt;
+     // Retorna a pontuação total, os itens, e o contexto da regra
+     return array("ptConcl" => 0, "ptAnd" => $total, "itens" => $itens, "ptInd" => $regra->ptInd, "ptMax" => $regra->ptMax);
+    
 
-    // Pontuando
-    $maxConcl = $regra->ptMax / $regra->ptInd;
-    $maxAnd = $regra->content->pontMaxAnd / $regra->content->pontIndAnd;
-    $iConcl = count($concl);
-    $iAnd = count($and);
-    $pontConcl = $lim || $iConcl <= $maxConcl ? $iConcl * $regra->ptInd : $maxConcl * $regra->ptInd;
-    $pontAnd = $lim || $iAnd <= $maxAnd ? $iAnd * $regra->content->pontIndAnd : $maxAnd * $regra->content->pontIndAnd;
-
-    $result = array(
-      "ptAnd" => $pontAnd,
-      "ptConcl" => $pontConcl,
-      "itensAnd" => $iAnd,
-      "itensConcl" => $iConcl,
-      "ptMaxAnd" => $regra->content->pontMaxAnd,
-      "ptMaxConcl" => $regra->ptMax
-    );
-    return $result;
-  }
 }
 
 
@@ -479,6 +586,7 @@ function pontCoordProj($ics, $regras){
 
 
 function pontOrientacao($ics, $regras){
+  if(!count($regras)) return;
   $orientacoes = getValidated($ics);
   $ano = $regras[0]->content->ano;
   $result = array();
@@ -534,11 +642,15 @@ function pontOrientacao($ics, $regras){
 
 
 function pontTrabEvento($ics, $regras){
+  // Checa se existem regras
+  if(!count($regras)) return;
+  // Pega ICs validados
   $trabEventos = getValidated($ics);
+  // Pega as condições das regras
   $ano = $regras[0]->content->ano;
-  $class = $regras[0]->content->class;
   $lim = $regras[0]->content->lim;
-  $class = $class == "class" ? "tipoClass" : "tipoPais";
+  $class = $regras[0]->content->class == "class" ? "tipoClass" : "tipoPais";
+  // Define array de resultados
   $result = array();
   // Definindo as regras
   $regra = array();
@@ -549,9 +661,9 @@ function pontTrabEvento($ics, $regras){
       "tipo" => $mRegra->content->tipo,
     );
 
-  // Definindo os itens
+  // Definindo os itens que cumprem com as condições
   $trabs = array();
-  for ($i=1; $i <= 4; $i++)
+  for ($i=1; $i <= 2; $i++)
     $trabs[$i] = achar($trabEventos, function($item) use($i, $class){
         return $item->{$class} == $i;
     });
@@ -559,7 +671,8 @@ function pontTrabEvento($ics, $regras){
 
   // Pontuando itens
   $total = 0;
-  for ($i=1; $i <= 4; $i++) {
+  
+  for ($i=1; $i <= 2; $i++) {
     $mRegra = $regra[$i];
     $mTrab = $trabs[$i];
     $max = $mRegra["ptMax"] / $mRegra["ptInd"];
@@ -581,16 +694,18 @@ function pontTrabEvento($ics, $regras){
 
 function classify($regras){
   $result = array();
-  $ics = array(
+  $ic_types = array(
     'artigo', 'banca', 'capLivro', 'coordProj', 'corpoEditorial', 'livro',
     'marca', 'organizacaoEvento', 'orientacao', 'patente', 'software',
-    'titulacao', 'trabEvento'
+    'titulacao', 'trabEvento', 'partPos'
   );
-  foreach ($ics as $ic){
-    $ic_ = $ic;
-    $result[$ic] = array_filter($regras, function($value) use($ic){ return $value->ic == $ic; });
+  foreach ($ic_types as $type){
+    // Pega as regras de cada tipo de IC
+    $result[$type] = array_filter($regras, function($value) use($type){ return $value->ic == $type; });
+    // Itera por elas
     foreach ($result as $k => $v) {
       $array = array();
+      // Desmembra as regras
       foreach ($v as $k_ => $v_) {
         array_push($array, $v_);
       }

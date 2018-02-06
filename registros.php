@@ -1,19 +1,25 @@
 <?php
-  // Definindo sessão
+  // requirements
   session_start();
-  // Importando componentes
   require_once 'incl/database.php';
   require 'incl/classes/usuario.php';
   require 'incl/classes/curriculo.php';
-  // Definindo email
-  $email = ( isset($_SESSION['email']) ? $_SESSION['email'] : 0 );
+  require 'incl/classes/log.php';
+  // Definindo $email
+  $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
   $inst_val = $_SESSION['privilegios']['gerenciador'];
   if(!$inst_val) die("Acesso não autorizado.");
+  if(!$email){
+    header("Location: 502.html"); die();
+  }
   // Definindo usuário
   $usuario = Usuario::selectByEmail($conn, $email);
-  if(!$email){header("Location: 502.html"); die();} 
-?>
+  // Paginação
+  $logs = Log::getAll();
+  $page = isset($_GET['page']) ? $_GET['page'] : 1;
+  $page_limit = 10;
+  ?>
 
 <!DOCTYPE html>
 <html>
@@ -41,10 +47,6 @@
             <i class='user icon'></i>
             Validadores
           </a>
-          <a class='ui button' href='registros.php'>
-            <i class='list icon'></i>
-            Registros
-          </a>
           <a class='ui button' href='#' id='desconectar'>
             <i class='sign out right icon'></i>
             Desconectar
@@ -67,17 +69,64 @@
 
     <main>
       <div style='border-radius: 0' class="ui segment">
-        <h1 class='ui header'>Editais
+        <h1 class='ui header'>Registros
           <div class="ui sub header">
-            Controle e revisão dos Editais
+            Controle e revisão dos Registros do Sistema
           </div>
         </h1>
 
       </div>
       <div class='ui segment' style='margin: 0.6em'>
-        <?php require 'incl/edital_display.php'; ?>
+        <table class="ui table celled">
+          <thead>
+            <tr>
+              <th style="width:20%">Atividade</th>
+              <th style="width:30%">Conteúdo</th>
+              <th>Tempo</th>
+              <th style="width:30%">Dados da Sessão</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php for($i = ($page-1) * $page_limit; $i < $page * 10 && $i < count($logs); $i++): $log = $logs[$i]; ?>
+              <tr>
+                <td><?= $log->atividade ?></td>
+                <td class='<?= $log->dados ? '' : 'warning' ?>'>
+                  <?php if($log->dados): ?>
+                  <a href="#" onclick='$("#data-<?= $i ?>").toggle(500)' class="ui button icon line">
+                    <i class="info icon"></i>
+                  </a>
+                  <div class="ui segment basic inverted content hidden" id="data-<?= $i ?>">
+                    <?= $log->dadosFormatted() ?>
+                  </div>
+                  <?php endif; ?>
+                </td>
+                <td><?= $log->tempo->format('h:m:s \d\e d/m/Y') ?></td>
+                <td>
+                  <a href="#" onclick='$("#sessiondata-<?= $i ?>").toggle(500)' class="ui button icon line">
+                    <i class="info icon"></i>
+                  </a>
+                  <div class="ui segment basic inverted content hidden" id="sessiondata-<?= $i ?>">
+                    <?= $log->dadosSessaoFormatted() ?>
+                  </div>
+                </td>
+              </tr>
+            <?php endfor; ?>
+          </tbody>
+        </table>
+
+        <div class="ui pagination menu">
+          <?php for($i = 1; $i <= (count($logs) / $page_limit) + 1; $i++): ?>
+            <a href="registros.php?page=<?= $i ?>" class="<?= $i == $page ? "active" : '' ?> item">
+              <?= $i ?>
+            </a>
+          <?php endfor; ?>
+        </div>
+
       </div>
     </main>
+
+
+
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
   <script src="js/api/log.js" charset="utf-8"></script>

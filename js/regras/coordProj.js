@@ -81,7 +81,7 @@ function formatCoordProj(){
           </div>
           </div>
         </td>
-        <td class='ui center aligned' rowspan='3'>
+        <td class='ui center aligned' rowspan='${ regra.content.estado ? 3 : 2 }'>
           <button onclick='deleteIC(${regra.idRegra}, "coordProj")' class='ui button circular icon negative'>
             <i class='remove icon'></i>
           </button>
@@ -100,7 +100,7 @@ function formatCoordProj(){
       markup +=
         `
         <tr ic='coordProj'>
-          <td>Participação em Projetos Concluidos</td>
+          <td>Participação em Projetos${regra.content.estado?" Concluidos":""}</td>
           <td>${regra.ptInd}</td>
           <td>${regra.ptMax == -1 ? "<i style='color: #BBB'>S.L</i>": regra.ptMax}</td>
         </tr>

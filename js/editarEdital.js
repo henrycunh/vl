@@ -60,10 +60,10 @@ function fileVerify(elem){
 }
 
 function enviarArquivo(elem){
-  const num = $(elem).attr('num')
+  const idEdital = $(elem).attr('idEdital')
     if(file.size < 7000000){
       $("#label").html('Enviando...')
-      filenameSession(num, data => { console.log(data) })
+      filenameSession(idEdital, data => { console.log(data) })
       $("#filePDF").upload("processar_edital.php", success=>{
           console.log(success)
           let html = $("#modalIn").html()
@@ -76,13 +76,14 @@ function enviarArquivo(elem){
         setTimeout(()=>{
           $("#enviarPDFModal").modal("hide")
           $("#modalIn").html(html)
+          location.reload();
         }, 4000)
-        $("#pdflink").attr("href", num.replace("/", "__"))
+        $("#pdflink").attr("href", idEdital)
         // Gerando log
         inserirLog({
           "atividade" : "Enviando arquivo de edital",
           "dados"     : {
-                            "filename": num
+                            "filename": idEdital + "-edital.pdf"
                         }
         });
 

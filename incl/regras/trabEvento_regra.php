@@ -42,74 +42,38 @@
   <div class="ui segment basic" id='trabEvento-opt'>
     <div class="ui grid">
 
-      <div class="four wide column">
+      <div class="six wide column">
         <div class="ui sub header">
-          Resumo Expandido Nacional
+          Trabalho Nacional
         </div>
         <div class="field">
           <label>Pont. Individual</label>
           <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-rn-pi'>
+            <input type="input" class='ui input' id='trabEvento-nac-pi'>
           </div>
         </div>
         <div class="field">
           <label>Pont. Máxima</label>
           <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-rn-pm'>
+            <input type="input" class='ui input' id='trabEvento-nac-pm'>
           </div>
         </div>
       </div>
 
-      <div class="four wide column">
+      <div class="six wide column">
         <div class="ui sub header">
-          Resumo Expandido Internacional
+          Trabalho Internacional
         </div>
         <div class="field">
           <label>Pont. Individual</label>
           <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-ri-pi'>
+            <input type="input" class='ui input' id='trabEvento-inter-pi'>
           </div>
         </div>
         <div class="field">
           <label>Pont. Máxima</label>
           <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-ri-pm'>
-          </div>
-        </div>
-      </div>
-
-      <div class="four wide column">
-        <div class="ui sub header">
-          Trabalho Completo Nacional
-        </div>
-        <div class="field">
-          <label>Pont. Individual</label>
-          <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-tn-pi'>
-          </div>
-        </div>
-        <div class="field">
-          <label>Pont. Máxima</label>
-          <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-tn-pm'>
-          </div>
-        </div>
-      </div>
-
-      <div class="four wide column">
-        <div class="ui sub header">
-          Trabalho Completo Internacional
-        </div>
-        <div class="field">
-          <label>Pont. Individual</label>
-          <div class='ui input'>
-            <input type="input" class='ui input' id='trabEvento-ti-pi'>
-          </div>
-        </div>
-        <div class="field">
-          <label>Pont. Máxima</label>
-          <div class='ui input max'>
-            <input type="input" class='ui input' id='trabEvento-ti-pm'>
+            <input type="input" class='ui input' id='trabEvento-inter-pm'>
           </div>
         </div>
       </div>

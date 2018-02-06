@@ -7,7 +7,7 @@ body{
 }
 
 header{
-  min-height: 450px;
+  min-height: 60vh;
   width: 100%;
   display: table;
   background: url('../imgs/background.png');

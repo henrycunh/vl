@@ -23,10 +23,36 @@
       $SQL = "INSERT INTO edital(numero, nome, vigencia, dataCriacao) VALUES('$num', '$nome', '$vig', '$dataCriacao')";
       $query = $conn->query($SQL);
       if($query){
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'idEdital' => $conn->lastInsertId()]);
       } else {
         echo json_encode(['success' => false, 'erro' => $conn->errorInfo()]);
       }
+    }
+
+    if($data['op'] == 'edital/excluir'){
+      $idEdital = $data['idEdital'];
+      $result = array();
+      // Deletando Regras
+      $regra_stmt = $conn->prepare("DELETE FROM regra where idEdital = :idEdital");
+      $regra_query = $regra_stmt->execute([":idEdital" => $idEdital]);
+      if($regra_query){
+        $result['rules'] = ['success' => true];
+        // Deletando Edital
+        $edital_stmt = $conn->prepare("DELETE FROM edital WHERE idEdital = :idEdital");
+        $edital_query = $edital_stmt->execute([ ":idEdital" => $idEdital ]);
+        if($edital_query){
+          $result['success'] = true;
+          $result['edital'] = ['success' => true];
+          // Apaga o arquivo do edital
+          deleteFiles($idEdital);
+        } else {
+          $result['success'] = false;
+          $result['edital'] = ['success' => false, 'erro' => $edital_stmt->errorInfo()];
+        }
+      } else {
+        $result['success'] = false;
+      }
+      echo json_encode($result);
     }
 
     if($data['op'] == 'edital/alterar'){
@@ -46,11 +72,11 @@
     }
 
     if($data['op'] == 'edital/pdf/session'){
-      $num = $data['num'];
-      $_SESSION['pdfnum'] = $num;
+      $idEdital = $data['idEdital'];
+      $_SESSION['idEdital'] = $idEdital;
       echo json_encode([
         "success" => true,
-        "num" => $num
+        "idEdital" => $idEdital
       ]);
     }
 
@@ -120,6 +146,12 @@
     }
   }
 
+  function deleteFiles($idEdital){
+    $files = array_diff(scandir('../uploads/editais/'), array('.', '..'));
+    $matches = preg_grep("/$idEdital.{0,}/", $files);
+    $matches = preg_filter('/^/', '../uploads/editais/', $matches);
+    array_map('unlink', $matches);
+  }
 
 
 

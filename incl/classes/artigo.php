@@ -12,6 +12,7 @@
     public $volume;
     public $autores;
     public $idArtigo;
+    public $extrato;
 
     // Construtor vazio da classe
     public function __construct(){
@@ -26,6 +27,7 @@
       $this->volume = '';
       $this->pais = '';
       $this->idArtigo = '';
+      $this->extrato = '';
       $this->autores = array();
     }
 
@@ -49,6 +51,7 @@
         $artigo_->idioma = $artigo['idioma'];
         $artigo_->autores = json_decode($artigo['autores'], true);
         $artigo_->idArtigo = $artigo['idArtigo'];
+        $artigo_->extrato = $artigo['extrato'];
         array_push($artigos, $artigo_);
       }
       return $artigos;
@@ -95,12 +98,12 @@
       $SQL =
         "INSERT INTO ic_artigo(
           titulo, ano, tituloPeriodico, issn, paginaInicial, paginaFinal,
-          pais, idioma, volume, autores, curriculoId
+          pais, idioma, volume, autores, curriculoId, extrato
         ) VALUES (
           :titulo, :ano, :tituloPeriodico,
           :issn, :paginaInicial, :paginaFinal,
           :pais, :idioma, :volume, :autores,
-          :curriculoId
+          :curriculoId, :extrato
         )";
       // Criando statement
       $stmt = $conn->prepare($SQL);
@@ -114,6 +117,7 @@
       $stmt->bindParam(':pais',$this->pais);
       $stmt->bindParam(':idioma',$this->idioma);
       $stmt->bindParam(':volume',$this->volume);
+      $stmt->bindParam(':extrato',$this->extrato);
       $stmt->bindParam(':autores',$autores);
       $stmt->bindParam(':curriculoId',$curriculoId);
       // Executando

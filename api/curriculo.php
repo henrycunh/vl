@@ -65,6 +65,50 @@ if(!empty($_POST)):
     }
   }
 
+  if($data['op'] == 'curriculo/ic/extrato'){
+      $idArtigo = $data['idArtigo'];
+      $extrato = $data['extrato'];
+      $stmt = $conn->prepare("UPDATE ic_artigo SET extrato = :extrato WHERE idArtigo = :idArtigo");
+      $query = $stmt->execute([
+        ":extrato"  => $extrato,
+        ":idArtigo" => $idArtigo
+      ]);
+      if($query){
+        echo json_encode(["success"=>true]);
+      } else {
+        echo json_encode(["success"=>false, "error"=>$conn->errorInfo()]);
+      }
+  }
+
+  if($data['op'] == 'curriculo/ic/partpos'){
+    $atuacao = $data['atuacao'];
+    $ingresso = $data['ingresso'];
+    $programa = $data['programa'];
+    $currId = $data['currId'];
+    $stmt = $conn->prepare("INSERT INTO ic_partpos(curriculoId,atuacao,ingresso,programa) VALUES(:curriculoId,:atuacao, :ingresso, :programa)");
+    $query = $stmt->execute([
+      ":curriculoId"   => $currId,
+      ":atuacao"  => $atuacao,
+      ":ingresso" => $ingresso,
+      ":programa" => $programa
+    ]);
+    if($query){
+      echo json_encode(["success"=>true]);
+    } else {
+      echo json_encode(["success"=>false, "error"=>$stmt->errorInfo()]);
+    }
+  }
+
+  if($data['op'] == 'curriculo/ic/partpos/deletar'){
+    $id = $data['id'];
+    $stmt = $conn->prepare("DELETE FROM ic_partPos WHERE idPartPos = :id");
+    $query = $stmt->execute([ ":id" => $id ]);
+    if($query){
+      echo json_encode(["success"=>true]);
+    } else {
+      echo json_encode(["success"=>false, "error"=>$stmt->errorInfo()]);
+    }
+  }
 
 
 

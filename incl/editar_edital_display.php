@@ -80,7 +80,7 @@
     <label class='ui teal labeled icon fluid link button' for="filePDF" id='filebtn'><i class="upload icon"></i> Escolha um Arquivo</label>
     <br>
     <input type='file' id='filePDF' style='display:none' accept="application/pdf" onchange='fileVerify(this)' name='editalpdf'>
-    <button class='ui blue button fluid' onclick="enviarArquivo(this)" num='<?= $edital->numero ?>' id='curriculoSubmit'>Enviar</button>
+    <button class='ui blue button fluid' onclick="enviarArquivo(this)" idEdital='<?= $edital->idEdital ?>' id='curriculoSubmit'>Enviar</button>
     <br>
     <div class="ui indicating progress" id='progress'>
       <div class="bar"></div>

@@ -69,7 +69,7 @@ function mudarValidado(elem, state, emailVal){
     if(data.success){
       let btn = $($(elem).parent().parent().children()[0])
       let states = {"-1": 'primary', "0": 'negative', "1":'positive'}
-      btn.removeClass('positive negative')
+      btn.removeClass('positive negative disabled')
       btn.addClass(states[state])
       btn.text(state ? "Aceito" : "Não Aceito")
 
@@ -124,6 +124,28 @@ function exibirEnvioComprovante(elem){
   let filename = el.attr('filename')
   $('#enviarComprovante').modal('show')
   $('#submitComp').attr('filename', filename)
+}
+
+function mudarCategoria ( idArtigo ) {
+  var select  = $(`select[id-artigo="${ idArtigo }"]`); 
+  var extrato = select.val();
+
+
+  const _data = {
+    op        : 'curriculo/ic/extrato',
+    extrato   : extrato,
+    idArtigo  : idArtigo
+  }
+
+  $.ajax({
+    data        : _data,
+    dataType    : "JSON",
+    type        : "POST",
+    url         : 'api/curriculo.php',
+    beforeSend  : ()        => select.parent().addClass("disabled"),
+    success     : ()        => select.parent().removeClass("disabled"),
+    error       : (s, e, x) => console.log(s,e,x)
+  });
 }
 
 /**
@@ -183,6 +205,45 @@ function enviarComprovante(elem){
   } else {
     msg.text("O arquivo ultrapassa 3MB.")
   }
+}
+
+function adicionarPartPos( currId ){
+  var data = {
+    op: "curriculo/ic/partpos",
+    atuacao: $("#partpos-atuacao").val(),
+    ingresso: $("#partpos-ingresso").val(),
+    programa: $("#partpos-programa").val(),
+    currId: currId
+  }
+
+  $.ajax({
+    url       : "api/curriculo.php",
+    data      : data,
+    dataType  : "JSON",
+    type      : "POST",
+    success   : (data)  => window.location.reload(),
+    error     : (s,e,x) => console.log(s,e,x)
+  });
+}
+
+function deletarPartPos( id ){
+  var _data = {
+    op: "curriculo/ic/partpos/deletar",
+    id: id
+  };
+
+  $.ajax({
+    data      : _data,
+    type      : "POST",
+    dataType  : "JSON",
+    url       : "api/curriculo.php",
+    success   : (data) => console.table(data),
+    error     : (s,e,x)  => console.log(s,e,x)
+  });
+
+  // Remove o elemento do IC
+  $("#partpos-" + id).remove() 
+  
 }
 
 function search(elem){

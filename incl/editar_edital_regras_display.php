@@ -1,17 +1,18 @@
 <?php $options = json_decode('{
-  "artigo" : "Artigo em periódico",
-  "banca" : "Participação em Banca",
-  "capLivro" : "Capítulo de Livro publicado",
-  "coordProj" : "Coordenação de Projeto",
-  "corpoEditorial" : "Participação em Corpo Editorial",
-  "livro" : "Livro publicado",
-  "marca" : "Marca registrada",
-  "organizacaoEvento" : "Organização de Evento",
-  "orientacao" : "Orientação",
-  "patente" : "Patente registrada",
-  "software" : "Software registrado",
-  "titulacao" : "Titulação",
-  "trabEvento" : "Trabalho realizado em Evento"
+  "artigo"              : "Artigo em periódico",
+  "banca"               : "Participação em Banca",
+  "capLivro"            : "Capítulo de Livro publicado",
+  "coordProj"           : "Coordenação de Projeto",
+  "corpoEditorial"      : "Participação em Corpo Editorial",
+  "livro"               : "Livro publicado",
+  "marca"               : "Marca ou Software registrado",
+  "organizacaoEvento"   : "Organização de Evento",
+  "orientacao"          : "Orientação",
+  "patente"             : "Patente registrada",
+  "software"            : "Software registrado",
+  "titulacao"           : "Titulação",
+  "trabEvento"          : "Trabalho realizado em Evento",
+  "partPos"             : "Participação em Projeto de Pós-Graduação"
 }', true);
   $editais = Edital::selectEditais($conn);
  ?>
@@ -67,6 +68,7 @@
 </div>
 
 <?php
+  // Importando visualização de adição de regras
   require 'regras/titulacao_regra.php';
   require 'regras/artigo_regra.php';
   require 'regras/banca_regra.php';
@@ -75,11 +77,11 @@
   require 'regras/corpoEditorial_regra.php';
   require 'regras/patente_regra.php';
   require 'regras/marca_regra.php';
-  require 'regras/software_regra.php';
   require 'regras/organizacaoEvento_regra.php';
   require 'regras/coordProj_regra.php';
   require 'regras/orientacao_regra.php';
   require 'regras/trabEvento_regra.php';
+  require 'regras/partPos_regra.php';
 ?>
 
 

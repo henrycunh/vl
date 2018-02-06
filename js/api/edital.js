@@ -1,9 +1,9 @@
-function filenameSession(num, callback){
+function filenameSession(idEdital, callback){
   $.ajax({
     url: 'api/edital.php',
     dataType: 'JSON',
     type: 'POST',
-    data: {op: 'edital/pdf/session', num: num},
+    data: {op: 'edital/pdf/session', idEdital: idEdital},
     error: (e,x,s)=>{
       console.log(s)
       console.log(e)

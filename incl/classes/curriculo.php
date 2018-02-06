@@ -14,6 +14,7 @@
     public $softwares;
     public $marcas;
     public $coordProjs;
+    public $partPos;
     public $orientacoes;
     public $curriculoId;
     public $nomeCompleto;
@@ -33,6 +34,7 @@
       $this->marcas = '';
       $this->corposEditoriais = '';
       $this->coordProjs = '';
+      $this->partPos = '';
       $this->orientacoes = '';
       $this->curriculoId = '';
     }
@@ -54,6 +56,7 @@
       $curriculo->corposEditoriais = CorpoEditorial::getCorposEditoriais($data);
       $curriculo->coordProjs = CoordProjeto::getCoordProjs($data);
       $curriculo->orientacoes = Orientacao::getOrientacoes($data);
+      $curriculo->partPos = array();
       $curriculo->nomeCompleto = $data['DADOS-GERAIS']['@attributes']['NOME-COMPLETO'];
       $curriculo->curriculoId = $curriculoId;
       return $curriculo;
@@ -102,6 +105,7 @@
       $curriculo->softwares = Software::selectFromDB($conn, $id);
       $curriculo->titulacoes = Titulacao::selectFromDB($conn,$id);
       $curriculo->trabEventos = TrabEvento::selectFromDB($conn,$id);
+      $curriculo->partPos = PartPos::selectFromDB( $id );
       return $curriculo;
     }
 
@@ -161,7 +165,8 @@
         $this->artigos, $this->bancas, $this->capLivros, $this->coordProjs,
         $this->corposEditoriais, $this->livros, $this->marcas,
         $this->organizacaoEventos, $this->orientacoes, $this->patentes,
-        $this->softwares, $this->titulacoes, $this->trabEventos
+        $this->softwares, $this->titulacoes, $this->trabEventos,
+        $this->partPos
       );
       // Array que vai armazenar os resultados dos queries
       $queries = array();
@@ -184,7 +189,7 @@
       $keysIC = array(
         "artigo", "banca", "capLivro", "coordProj", "corpoEditorial", "livro",
         "marca", "organizacaoEvento", "orientacao", "patente", "software", "titulacao",
-        "trabEvento"
+        "trabEvento", "partPos"
       );
       // array que armazena resultados dos queries
       $queries = array();
@@ -197,7 +202,7 @@
       $keysIC = array(
         "artigo", "banca", "capLivro", "coordProj", "corpoEditorial", "livro",
         "marca", "organizacaoEvento", "orientacao", "patente", "software", "titulacao",
-        "trabEvento"
+        "trabEvento", "partPos"
       );
       // array que armazena resultados dos queries
       $queries = array();
@@ -283,6 +288,11 @@
         $this->trabEventos[$i]->idTrabEventos = '';
         $this->trabEventos[$i]->cleanVal();
       }
+      // partPos
+      foreach ($this->partPos as $i=>$v){
+        $this->partPos[$i]->idPartPos = '';
+        $this->partPos[$i]->cleanVal();
+      }
     }
   }
 
@@ -302,5 +312,6 @@
   require 'corpoEditorial.php';
   require 'coordProj.php';
   require 'orientacao.php';
+  require 'partPos.php';
 
  ?>

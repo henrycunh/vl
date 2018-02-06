@@ -114,3 +114,4 @@ function deleteIC(id, ic){
   if(regras.length - 1 == 0)
     $("#tableCtn").addClass("mHidden")
 }
+

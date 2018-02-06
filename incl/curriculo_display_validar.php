@@ -893,6 +893,45 @@ SOFTWARE START -->
 </div>
 <?php endif; ?>
 <!-- SOFTWARE END -->
+<!-- PARTPOS START -->
+<div class='title'><h2><i class='dropdown icon'></i>Participação em Pós-Graduação no IFS</h2></div>
+    <div class="ui segment padded content att" id='software'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='partPos' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='partPos' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
+    <?php foreach ($curriculo->partPos as $i => $partpos): ?>
+        <div class='item' id='partpos-<?= $partpos->idPartPos ?>'>
+          <div class="ui segment secondary">
+            <div class="ui description smll">
+              <!-- Número -->
+              <div class='ui label mini ribbon'><?= $i+1 ?></div>
+              <!-- Nome do Programa e Data de Ingresso -->
+              <?= $partpos->programa . " (<b>$partpos->ingresso</b>)"?>.<br>
+              <!-- Tipo de Atuação -->
+              <b>Tipo de Atuação:</b> <?= ucfirst($partpos->atuacao) ?>
+              <!-- Área de Validação -->
+              <?= areaVal($partpos->comprovante, $partpos->validado, 'partPos', $id, $partpos->idPartPos) ?>
+              <!-- <?php var_dump($partpos) ?> -->
+            </div>
+          </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 </div>
 
@@ -913,9 +952,9 @@ SOFTWARE START -->
     $filename = str_pad($curriculoId, 5, "0", STR_PAD_LEFT) . "-$ic-$icId";
      ?>
      <div class="ui buttons small fluid val-area">
-    <?php if($flag == -1): ?>
+    <?php if($flag == -1 || $flag == null): ?>
       <!-- NÃO VALIDADO -->
-      <div class="ui button">Não Validado</div>
+      <div class="ui button disabled">Não Validado</div>
     <?php elseif ($flag == 0): ?>
       <div class="ui button negative">Não Aceito</div>
     <?php else: ?>
@@ -943,7 +982,7 @@ SOFTWARE START -->
       </button>
       </div>
     <?php else: ?>
-      <div class="ui button">Não Comprovado</div>
+      <div class="ui button disabled secondary">Não Comprovado</div>
       </div>
     <?php endif; ?>
     </div>

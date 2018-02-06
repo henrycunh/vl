@@ -1,5 +1,5 @@
 <?php
-  class OrganizacaoEvento extends IC{
+  class OrganizacaoEvento extends IC {
     // Atributo
     public $tipo;
     public $natureza;
@@ -42,7 +42,6 @@
         $organizacaoEvento_->tipo = $organizacaoEvento['tipo'];
         $organizacaoEvento_->natureza = $organizacaoEvento['natureza'];
         $organizacaoEvento_->titulo = $organizacaoEvento['titulo'];
-        $organizacaoEvento_->setVal($organizacaoEvento);
         $organizacaoEvento_->ano = $organizacaoEvento['ano'];
         $organizacaoEvento_->idioma = $organizacaoEvento['idioma'];
         $organizacaoEvento_->pais = $organizacaoEvento['pais'];
@@ -52,6 +51,7 @@
         $organizacaoEvento_->cidade = $organizacaoEvento['cidade'];
         $organizacaoEvento_->autores = json_decode($organizacaoEvento['autores'], true);
         $organizacaoEvento_->idOrganizacaoEvento = $organizacaoEvento['idOrganizacaoEvento'];
+        $organizacaoEvento_->setVal($organizacaoEvento);
         array_push($organizacaoEventos, $organizacaoEvento_);
       }
       return $organizacaoEventos;

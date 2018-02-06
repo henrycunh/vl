@@ -2,19 +2,20 @@ var regras = []
 const tB = $("#table tbody")
 const icDrop = $("#icDrop")
 const options = {
-  "artigo" : "Artigo em periódico",
-  "banca" : "Participação em Banca",
-  "capLivro" : "Capítulo de Livro publicado",
-  "coordProj" : "Coordenação de Projeto",
-  "corpoEditorial" : "Participação em Corpo Editorial",
-  "livro" : "Livro publicado",
-  "marca" : "Marca registrada",
-  "organizacaoEvento" : "Organização de Evento",
-  "orientacao" : "Orientação",
-  "patente" : "Patente registrada",
-  "software" : "Software registrado",
-  "titulacao" : "Titulação",
-  "trabEvento" : "Trabalho realizado em Evento"
+  "artigo"              : "Artigo em periódico",
+  "banca"               : "Participação em Banca",
+  "capLivro"            : "Capítulo de Livro publicado",
+  "coordProj"           : "Coordenação de Projeto",
+  "corpoEditorial"      : "Participação em Corpo Editorial",
+  "livro"               : "Livro publicado",
+  "marca"               : "Marca ou Software registrado",
+  "organizacaoEvento"   : "Organização de Evento",
+  "orientacao"          : "Orientação",
+  "patente"             : "Patente registrada",
+  "software"            : "Software registrado",
+  "titulacao"           : "Titulação",
+  "trabEvento"          : "Trabalho realizado em Evento",
+  "partPos"             : "Participação em Projeto de Pós-Graduação"
 }
 var ptMaxTotal = 0
 var ptLimTotal = 0
@@ -51,8 +52,11 @@ $(()=>{
     formatOrientacao()
     // Trabalho em Evento
     formatTrabEvento()
+    // Artigos
+    formatArtigo()
+    $("#extrato-range button").click(   adjustRange );
     // ICs Genéricos
-    formatIC('artigo')
+    formatIC('partPos')
     formatIC('capLivro')
     formatIC('corpoEditorial')
     formatIC('livro')

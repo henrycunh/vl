@@ -7,6 +7,7 @@
 body{
   margin: 0;
   padding: 0;
+  background-color: #e3e3e3 !important;
 }
 
 main{
@@ -16,7 +17,6 @@ main{
   position: absolute;
   right: 0;
   top: 0;
-  background-color: #e3e3e3;
 }
 
 aside{
@@ -24,7 +24,7 @@ aside{
   width: 25%;
   background-color: #303040;
   bottom: 0;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
 }
@@ -143,10 +143,18 @@ aside .info a .icon{
     color: hsla(195, 77%, 63%, 1);
 }
 
+#editaisTable td{
+  font-size: 12px;
+}
+
 .limit-lines {
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 1.8em;
   max-height: 8em;
+}
+
+.hidden{
+  display: none;
 }

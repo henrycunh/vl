@@ -40,7 +40,8 @@ function criarEdital(){
             </a></td>
             <td>${data_.nome}</td>
             <td>${formattedDate(new Date(data_.vig))}</td>
-            <td></td>
+            <td>-</td>
+            <td><a href="#" onclick="excluirEdital(${data_.idEdital})" class="ui button negative">Excluir</a></td>
           </tr>
         `
         let msg = `
@@ -50,6 +51,7 @@ function criarEdital(){
         $("#editaisTable").parent().prepend(msg)
         setTimeout(()=>{
           $("#editalCriarMsg").remove()
+          location.reload();
         }, 1000)
       } else {
         console.log(data)
@@ -57,6 +59,31 @@ function criarEdital(){
     }
   })
 
+}
+
+function excluirEdital(idEdital){
+  // Confire se é realmente desejado excluir o Edital
+  const action = window.confirm("Você realmente deseja excluir esse Edital?");
+  if(action){
+    // Dados a serem enviados com o request
+    const data_ = {
+        op        : 'edital/excluir',
+        idEdital  : idEdital
+    };
+
+    // AJAX Request
+    $.ajax({
+      url       : 'api/edital.php',
+      type      : 'POST',
+      dataType  : 'JSON',
+      data      : data_,
+      error     : ajaxError,
+      success   : data => {
+        console.log(data);
+        location.reload();
+      }
+    });
+  }
 }
 
 function vincularPesquisador(){
@@ -134,7 +161,6 @@ function showValModal(){
   $("#vincularValidador").modal("show")
 }
 
-
 function formattedDate(d = new Date) {
   let month = String(d.getMonth() + 1);
   let day = String(d.getDate());
@@ -144,4 +170,10 @@ function formattedDate(d = new Date) {
   if (day.length < 2) day = '0' + day;
 
   return `${month}/${day}/${year}`;
+}
+
+function ajaxError(s, e, x){
+  console.log(s);
+  console.log(e);
+  console.log(x);
 }

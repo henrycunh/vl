@@ -1,0 +1,6 @@
+# RewriteEngine on
+
+# RewriteRule ^()$ index.php [L]
+# RewriteRule ^ver_sumario/(.*)$ ver_sumario.php?hashcode=$1
+# RewriteRule editar_edital/(.*) index.php?id=$1 [L]
+# RewriteRule ^([.*].php)$ $1.php [L]

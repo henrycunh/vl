@@ -29,10 +29,11 @@
 <div class="ui segment">
   <table class='ui table celled padded' id='editaisTable'>
     <tr>
-      <th style='width: 30%'>Número do Edital</th>
+      <th style='width: 20%'>Número do Edital</th>
       <th style='width: 30%'>Nome do Edital</th>
       <th style='width: 10%'>Data de Vigência</th>
       <th style='width: 30%'>Descrição</th>
+      <th style='width: 10%'>Ação</th>
     </tr>
     <?php
       $editais = $conn->query("SELECT * FROM edital")->fetchAll(PDO::FETCH_ASSOC);
@@ -40,13 +41,14 @@
     ?>
       <tr>
         <td style='max-width: 60px'>
-          <a href="editar_edital.php?num=<?= $edital['numero'] ?>">
+          <a href="editar_edital.php?id=<?= $edital['idEdital'] ?>">
             <i class='edit icon'></i>
             <?= $edital['numero'] ?></td>
           </a>
         <td><?= $edital['nome'] ?></td>
         <td><?= date("d/m/Y", strtotime($edital['vigencia'])) ?></td>
         <td class='limit-lines'><?= ($edital['descricao'] ? $edital['descricao'] : "-") ?></td>
+        <td><a href="#" onclick="excluirEdital(<?= $edital['idEdital'] ?>)" class="ui button negative">Excluir</a></td>
       </tr>
     <?php
       endforeach;

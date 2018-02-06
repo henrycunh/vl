@@ -102,6 +102,18 @@ ARTIGOS START -->
             <?= "<b>Titulo</b>: " . $artigo->titulo  ?>.<br>
             <!-- Nomes de Citação -->
             <?= autoresToString($artigo->autores, $nome) . " (<b>$artigo->ano</b>)" ?><br>
+            <!-- Categoria -->
+            <select class='ui dropdown categoria' onchange='mudarCategoria(<?= $artigo->idArtigo ?>)' id-artigo='<?= $artigo->idArtigo ?>'>
+              <option value="">Selecione uma categoria...</option>
+              <option value="a1" <?= $artigo->extrato == 'a1' ? 'selected' : '' ?>>A1</option>
+              <option value="a2" <?= $artigo->extrato == 'a2' ? 'selected' : '' ?>>A2</option>
+              <option value="b1" <?= $artigo->extrato == 'b1' ? 'selected' : '' ?>>B1</option>
+              <option value="b2" <?= $artigo->extrato == 'b2' ? 'selected' : '' ?>>B2</option>
+              <option value="b3" <?= $artigo->extrato == 'b3' ? 'selected' : '' ?>>B3</option>
+              <option value="b4" <?= $artigo->extrato == 'b4' ? 'selected' : '' ?>>B4</option>
+              <option value="b5" <?= $artigo->extrato == 'b5' ? 'selected' : '' ?>>B5</option>
+              <option value="c" <?= $artigo->extrato == 'c' ? 'selected' : '' ?>>C</option>
+            </select>
             <div class="dados">
             <!-- Períodico -->
             <?= "<b>Titulo do Periódico:</b> $artigo->tituloPeriodico" ?>.<br>
@@ -826,6 +838,98 @@ SOFTWARE START -->
 </div>
 <?php endif; ?>
 <!-- SOFTWARE END -->
+
+<!-- PARTPOS START -->
+  <div class='title'><h2><i class='dropdown icon'></i>Participação em Pós-Graduação no IFS</h2></div>
+    <div class="ui segment padded content att" id='software'>
+      <div class="ui grid">
+        <div class="six wide column"></div>
+        <div class="five wide column">
+          <select ic='partPos' class='ui fluid dropdown' onchange='showOnly(this)'>
+            <option value='showAll'>Mostrar todos</option>
+            <option value='showComp'>Mostrar comprovados</option>
+            <option value='showNonComp'>Mostrar não comprovados</option>
+          </select>
+        </div>
+        <div class="five wide column">
+          <div class="ui icon fluid input">
+            <input type="text" class='ui input' ic='partPos' oninput='search(this)' placeholder='Pesquisar...'>
+            <i class='search icon'></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui divider"></div>
+      <div class='ui relaxed list'>
+    <?php foreach ($curriculo->partPos as $i => $partpos): ?>
+        <div class='item' id='partpos-<?= $partpos->idPartPos ?>'>
+          <div class="ui segment secondary">
+          <button 
+            class="ui button small negative"
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+            "
+            onclick="deletarPartPos(<?= $partpos->idPartPos ?>)">
+            Deletar
+            </button>
+            <div class="ui description smll">
+          <!-- Número -->
+          <div class='ui label mini ribbon'><?= $i+1 ?></div>
+          <!-- Nome do Programa e Data de Ingresso -->
+          <?= $partpos->programa . " (<b>$partpos->ingresso</b>)"?>.<br>
+          <!-- Tipo de Atuação -->
+          <b>Tipo de Atuação:</b> <?= ucfirst($partpos->atuacao) ?>
+          <!-- Área de Validação -->
+          <?= areaVal($partpos->comprovante, $partpos->validado, 'partPos', $id, $partpos->idPartPos) ?>
+          <!-- <?php var_dump($partpos) ?> -->
+        </div>
+      </div>
+        </div>
+    <?php endforeach; ?>
+    <!-- Adição de Participações em Pós -->
+    <div class='ui segment secondary'>
+      <div class='ui form'>
+        <div class="fields">
+          <!-- Data de Ingresso -->
+          <div class="six wide field">
+            <div class="label">
+              <b>Data de Ingresso</b>
+            </div>
+            <div class="ui input">
+              <input type="date" id='partpos-ingresso'>
+            </div>
+          </div>
+          <!-- Tipo de Atuação -->
+          <div class="six wide field">
+            <div class="label">
+              <b>Tipo de Atuação</b>
+            </div>
+            <select class ='ui dropdown' id="partpos-atuacao">
+              <option value="permanente">Permanente</option>
+              <option value="colaborador">Colaborador</option>
+            </select>
+          </div>
+          <!-- Nome do Programa -->
+          <div class="six wide field">
+            <div class="label">
+              <b>Nome do Programa</b>
+            </div>
+            <div class="ui input">
+              <input type="text" id='partpos-programa'>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <button class="ui button primary" onclick='adicionarPartPos(<?= $id ?>)'>+ Adicionar</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!-- PARTPOS END -->
 </div>
 </div>
 
@@ -855,7 +959,7 @@ SOFTWARE START -->
   {
       $filename = str_pad($curriculoId, 5, "0", STR_PAD_LEFT) . "-$ic-$icId"; ?>
     <div class="ui buttons small fluid val-area">
-      <?php if ($flag == -1): ?>
+      <?php if ($flag == -1 || $flag == null): ?>
         <!-- NÃO VALIDADO -->
         <div class="ui button">Não Validado</div>
       <?php elseif ($flag == 0): ?>

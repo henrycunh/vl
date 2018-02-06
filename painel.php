@@ -35,7 +35,7 @@
       </div>
       <div class="ui segment inverted padded">
         <div class='ui fluid vertical labeled large icon buttons'>
-          <a class='ui button' href="em_construcao.html"><i class='list icon'></i>Meus Sumários</a>
+          <a class='ui button' href="meus_sumarios.php"><i class='list icon'></i>Meus Sumários</a>
           <a class='ui button' href="alterar_informacoes.php"><i class='edit icon'></i>Alterar Informações</a>
           <a class='ui button' href='#' onclick='abrirModalCurr()'><i class='upload icon'></i>Enviar Currículo</a>
           <a class='ui button' href="#" id='deletarcurriculo'><i class='delete icon'></i>Deletar Currículo</a>

@@ -6,26 +6,20 @@
    const lim = $("#trabEvento-lim-opt").checkbox("is checked")
 
    // Valores
-   const pt_ind_res_nac = $("#trabEvento-rn-pi").val()
-   const pt_max_res_nac = lim ? -1 : $("#trabEvento-rn-pm").val()
-   const pt_ind_res_inter = $("#trabEvento-ri-pi").val()
-   const pt_max_res_inter = lim ? -1 : $("#trabEvento-ri-pm").val()
-   const pt_ind_trab_nac = $("#trabEvento-tn-pi").val()
-   const pt_max_trab_nac = lim ? -1 : $("#trabEvento-tn-pm").val()
-   const pt_ind_trab_inter = $("#trabEvento-ti-pi").val()
-   const pt_max_trab_inter = lim ? -1 : $("#trabEvento-ti-pm").val()
+   const pt_ind_inter = $("#trabEvento-inter-pi").val();
+   const pt_max_inter = lim ? -1 : $("#trabEvento-inter-pm").val();
+   const pt_ind_nac = $("#trabEvento-nac-pi").val();
+   const pt_max_nac = lim ? -1 : $("#trabEvento-nac-pm").val();
 
    // Armazenando regra de forma geral
    let regra = {
        ic: "trabEvento",
        ano: ano,
-       res_nac: { ptInd: pt_ind_res_nac, ptMax: pt_max_res_nac },
-       res_inter: { ptInd: pt_ind_res_inter, ptMax: pt_max_res_inter },
-       trab_nac: { ptInd: pt_ind_trab_nac, ptMax: pt_max_trab_nac },
-       trab_inter: { ptInd: pt_ind_trab_inter, ptMax: pt_max_trab_inter },
+       nac : { ptInd: pt_ind_nac, ptMax: pt_max_nac },
+       inter : { ptInd: pt_ind_inter, ptMax: pt_max_inter }
      }
 
-   let tipos = ["res_nac", "res_inter", "trab_nac", "trab_inter"]
+   let tipos = ["inter", "nac"]
    // Adicionando as regras ao banco de dados
    for (tipo of tipos) {
      let mRegra = {
@@ -70,13 +64,11 @@ function formatTrabEvento(){
 
     // Tipos de titulação
     const tipos = {
-      "res_nac":"Resumo Expandido Nacional",
-      "res_inter":"Resumo Expandido Internacional",
-      "trab_nac": "Trabalho Completo Nacional",
-      "trab_inter": "Trabalho Completo Internacional"
+      "nac"   : "Resumo Expandido ou Trabalho Completo Nacional",
+      "inter" : "Resumo Expandido ou Trabalho Completo Internacional"
     }
-    let markup;
-    markup =
+
+    let markup =
       `<tr ic='trabEvento'>
         <td colspan='3'>
           <div class='ui header center aligned'>
@@ -84,7 +76,7 @@ function formatTrabEvento(){
             <div class='ui sub header center aligned'>${anoLabel}</div>
           </div>
         </td>
-        <td class='ui center aligned' rowspan='5'>
+        <td class='ui center aligned' rowspan='3'>
           <button onclick='deleteTrabEvento()' class='ui button circular icon negative'>
             <i class='remove icon'></i>
           </button>
@@ -122,8 +114,6 @@ function deleteTrabEvento(){
 
 function toggleLimTrabEvento(){
   const state = $("#trabEvento-lim-opt").checkbox("is checked")
-  $("#trabEvento-rn-pm").prop("disabled", state)
-  $("#trabEvento-ri-pm").prop("disabled", state)
-  $("#trabEvento-tn-pm").prop("disabled", state)
-  $("#trabEvento-ti-pm").prop("disabled", state)
+  $("#trabEvento-inter-pm").prop("disabled", state)
+  $("#trabEvento-nac-pm").prop("disabled", state)
 }

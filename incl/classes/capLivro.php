@@ -81,26 +81,32 @@
     public static function selectFromDB($conn, $curriculoId){
       $capLivros = array();
       // Pegando do DB
-      $capLivrosRaw = $conn->query("SELECT * FROM ic_capLivro WHERE curriculoId=$curriculoId ORDER BY ano DESC")->fetchAll(PDO::FETCH_ASSOC);
-      // Iterando
-      foreach ($capLivrosRaw as $capLivro) {
-        $capLivro_ = new self();
-        $capLivro_->tipo = $capLivro['tipo'];
-        $capLivro_->tituloCap = $capLivro['tituloCap'];
-        $capLivro_->setVal($capLivro);
-        $capLivro_->ano = $capLivro['ano'];
-        $capLivro_->homepage = $capLivro['homepage'];
-        $capLivro_->doi = $capLivro['doi'];
-        $capLivro_->tituloLivro = $capLivro['tituloLivro'];
-        $capLivro_->pagInicial = $capLivro['pagInicial'];
-        $capLivro_->pagFinal = $capLivro['pagFinal'];
-        $capLivro_->isbn = $capLivro['isbn'];
-        $capLivro_->organizadores = $capLivro['organizadores'];
-        $capLivro_->autores = json_decode($capLivro['autores'], true);
-        $capLivro_->idCapLivro = $capLivro['idCapLivro'];
-        array_push($capLivros, $capLivro_);
+      $query = $conn->query("SELECT * FROM ic_capLivro WHERE curriculoId=$curriculoId ORDER BY ano DESC");
+      if($query){
+        $capLivrosRaw = $query->fetchAll(PDO::FETCH_ASSOC);
+        // Iterando
+        foreach ($capLivrosRaw as $capLivro) {
+          $capLivro_ = new self();
+          $capLivro_->tipo = $capLivro['tipo'];
+          $capLivro_->tituloCap = $capLivro['tituloCap'];
+          $capLivro_->setVal($capLivro);
+          $capLivro_->ano = $capLivro['ano'];
+          $capLivro_->homepage = $capLivro['homepage'];
+          $capLivro_->doi = $capLivro['doi'];
+          $capLivro_->tituloLivro = $capLivro['tituloLivro'];
+          $capLivro_->pagInicial = $capLivro['pagInicial'];
+          $capLivro_->pagFinal = $capLivro['pagFinal'];
+          $capLivro_->isbn = $capLivro['isbn'];
+          $capLivro_->organizadores = $capLivro['organizadores'];
+          $capLivro_->autores = json_decode($capLivro['autores'], true);
+          $capLivro_->idCapLivro = $capLivro['idCapLivro'];
+          array_push($capLivros, $capLivro_);
+        }
+      } else {
+        echo $conn->errorInfo();
       }
       return $capLivros;
+
     }
 
     // Função que insere o capitulo de livro no DB

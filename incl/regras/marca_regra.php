@@ -1,7 +1,7 @@
 <!-- MARCA -->
 <div class="ui segment mHidden" id='marca'>
   <div class="ui header">
-    <h4>Marca registrada</h4>
+    <h4>Marca ou Software registrado</h4>
   </div>
   <div class="ui divider"></div>
   <div class="ui form">

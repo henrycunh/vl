@@ -5,3 +5,16 @@
 .coordProjLabel{
   display: none;
 }
+
+
+#extrato-range{
+  background-color: #eee;
+  border-radius: 4px;
+  text-align:center;
+}
+
+#extrato-range button{
+  margin: -2px;
+  box-sizing: border-box;
+  border-radius: 0;
+}

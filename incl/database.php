@@ -4,12 +4,12 @@
   // $pw = '096lSwiSLAnw';
   // $host = 'localhost';
   // $db = 'kanit563_vl';
-
+  //
   $user = 'root';
   $pw = '';
   $host = 'localhost';
   $db = 'validadorlattes';
-  
+
   // Tentar conectar
   try {
     $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8;", $user, $pw);

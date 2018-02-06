@@ -142,7 +142,7 @@ function refreshMaxLabel(){
     // Contabilizando ambos os casos de coordenação de projeto
     if(regraCoordProj.length > 0){
       let regraCP = regraCoordProj[0]
-      pontuacao += parseFloat(regraCP.ptMax) + parseFloat(regraCP.content.pontMaxAnd)
+      pontuacao += parseFloat(regraCP.ptMax) + parseFloat(regraCP.content.pontMaxAnd || 0)
     }
 
     // Todos os itens que não são titulação e que não possuem pontuação ilimitada

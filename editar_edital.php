@@ -6,6 +6,7 @@
   require 'incl/classes/edital.php';
   require 'incl/classes/regra.php';
 
+
   // Definindo $email
   $email = (isset($_SESSION['email']) ? $_SESSION['email'] : 0);
   // Checando privilégios
@@ -33,7 +34,7 @@
   </head>
   <body>
     <?php
-      $edital = Edital::selectByNumero($conn, $_GET['num']);
+      $edital = Edital::selectById($conn, $_GET['id']);
       require 'incl/editar_edital_display.php'; ?>
   </body>
   <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
@@ -45,6 +46,7 @@
   <script src="js/editarEdital.js" charset="utf-8"></script>
   <script src="js/regras/utils.js" charset="utf-8"></script>
   <script src="js/regras/banca.js" charset="utf-8"></script>
+  <script src="js/regras/artigo.js" charset="utf-8"></script>
   <script src="js/regras/coordProj.js" charset="utf-8"></script>
   <script src="js/regras/genericas.js" charset="utf-8"></script>
   <script src="js/regras/orientacao.js" charset="utf-8"></script>
